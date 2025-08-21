@@ -1,0 +1,25 @@
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import laravel from 'laravel-vite-plugin';
+import ViteNotifier from 'vite-plugin-notifier';
+
+export default defineConfig({
+  resolve: {
+    alias: {
+      'vue': 'vue/dist/vue.esm-bundler.js',
+    },
+  },
+  plugins: [
+    laravel({
+      input: ['resources/js/app.js'],
+      refresh: true,
+    }),
+    vue(),
+    ViteNotifier({
+      title: 'Vite Build 🔔',
+      alwaysNotify: true,
+      contentImage: null,
+      sound: false,
+    }),
+  ],
+});

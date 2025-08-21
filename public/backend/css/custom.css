@@ -1,0 +1,75 @@
+.card-body.data-table {
+    min-height: 76vh;
+}
+
+.perPage {
+    border: 0;
+    padding: 0;
+    color: rgb(255 255 255);
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.page_top_text {
+    font-size: 13px;
+    text-transform: uppercase;
+    border: 0;
+    padding-left: 10px;
+}
+
+.setting_button {
+    padding: 5px 10px;
+}
+
+.btn.action {
+    padding: 0 0 0 5px;
+    margin-right: 2px;
+}
+
+.page-content {
+    min-height: 89vh !important;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+input.form-control {
+    padding: 5px 15px;
+}
+.btn {
+    padding: 5px 14px;
+}
+.modal-header{
+    text-transform: uppercase;
+    padding: 7px 15px;
+    /*background: #303030;*/
+}
+.modal-footer{
+    padding: 5px;
+    /*background: #303030;*/
+}
+
+#theme16 {
+    background-image: url(../images/bg-themes/16.jpg);
+    background-size: 100% 100%;
+    background-position: center;
+    transition: background .3s;
+}
+.bg-default .switcher-btn {
+    background: #d1d2d4;
+    color: #000;
+}
+.bg-default table thead th{
+    background: #ddd;
+    text-transform: uppercase;
+}
+
+.bg-default input::placeholder {
+    color: gray;   /* your desired color */
+    opacity: 1;    /* make sure it's fully visible */
+}
+
+.bg-default textarea::placeholder {
+    color: #999;
+}

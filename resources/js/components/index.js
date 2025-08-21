@@ -1,0 +1,6 @@
+export { default as dataTable } from '@/components/table/dataTable.vue'
+export { default as tableTop } from '@/components/table/tableTop.vue'
+export { default as pageTopLeft } from '@/components/pageTopLeft.vue'
+export { default as Setting } from '@/components/Setting.vue'
+// export { default as fromModal } from '@/components/fromModal.vue'
+export { default as fromModal } from '@/components/fromModal.vue'

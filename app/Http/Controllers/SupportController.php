@@ -1,0 +1,78 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\RBAC\Module;
+use App\Models\RBAC\Permission;
+use App\Models\User;
+use Illuminate\Http\Request;
+
+class SupportController extends Controller
+{
+    public function profileUpdate(Request $request){
+        $reqFor = $request->input('request');
+
+        $user = User::where('id', auth()->user()->id)->first();
+        if ($user){
+            if ($reqFor && $reqFor == 'theme'){
+                $user->theme = $request->input('theme');
+                $user->save();
+
+                return returnData(2000, $user, 'Successfully Theme Updated');
+            }
+
+            $user->name = $request->input('name');
+            $user->email = $request->input('email');
+            $user->phone = $request->input('phone');
+            $user->theme = $request->input('theme');
+            $user->save();
+
+            return returnData(2000, $user, 'Successfully Updated');
+        }
+        return returnData(5000, null, 'User Not Found');
+    }
+    public function appConfigurations(){
+        $role_id = auth()->user()->role_id;
+        $user_id = auth()->user()->id;
+
+        $data['user'] = User::where('id', $user_id)->first();
+//        $data['config'] = configs(['logo', 'app_name', 'loan_capability']);
+
+        $permissions = Permission::whereHas('role_permissions', function ($query) use ($role_id) {
+            $query->where('role_id', $role_id);
+        })->get();
+
+        $permittedModules = collect($permissions)->pluck('module_id');
+        $data['permissions'] = collect($permissions)->pluck('name');
+
+        $data['menus'] = Module::where('parent_id', 0)
+            ->whereIn('id', $permittedModules)
+            ->with(['submenus' => function ($query) use ($permittedModules) {
+                $query->with('submenus');
+                $query->whereIn('id', $permittedModules);
+            }])->get();
+
+        return returnData(2000, $data);
+    }
+
+    public function getGeneralData(){
+        $input = request()->all();
+        $data = [];
+
+        if (isset($input['permissions']) || in_array('permissions', $input)){
+            $key = isset($input['permissions']['key']) ?  isset($input['permissions']['key']) : 'permissions';
+            $permissions = ['index', 'create', 'store', 'show', 'edit', 'update', 'destroy', 'status'];
+
+            $data[$key] = array_map(function ($item, $index) {
+                return [
+                    'checked' => 0,
+                    'actual' => $item,
+                    'name' => $item,
+                    'display_name' => ucfirst($item),
+                ];
+            }, $permissions, array_keys($permissions));
+        }
+
+        return returnData(2000, $data);
+    }
+}
