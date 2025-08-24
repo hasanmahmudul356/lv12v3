@@ -23,7 +23,7 @@ class Module extends Model
 
     protected $appends = ['checked'];
 
-    protected $fillable = ['id', 'name', 'display_name', 'parent_id', 'link'];
+    protected $fillable = ['id', 'name','icon', 'display_name', 'parent_id', 'link'];
 
     public function validate($input){
 

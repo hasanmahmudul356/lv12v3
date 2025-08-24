@@ -17,11 +17,10 @@ class ModuleController extends Controller
 
     public function __construct()
     {
-        if (!can(request()->route()->action['as'])){
+        if (!can(request()->route()->action['as'])) {
             return returnData(5001, null, 'You are not authorized to access this page');
         }
-        $this->model=new Module();
-        $this->childModel = new Permission();
+        $this->model = new Module();
     }
 
     public function index()
@@ -34,14 +33,14 @@ class ModuleController extends Controller
                 $query->orWhere('display_name', 'Like', "%$keyword%");
             })
             ->with('permissions')
-            ->with(['submenus'=>function($query) use ($keyword){
+            ->with(['submenus' => function ($query) use ($keyword) {
                 $query->when($keyword, function ($query) use ($keyword) {
                     $query->where('name', 'Like', "%$keyword%");
                     $query->orWhere('display_name', 'Like', "%$keyword%");
                 });
                 $query->with('permissions');
 
-                $query->with(['submenus'=>function($query) use ($keyword){
+                $query->with(['submenus' => function ($query) use ($keyword) {
                     $query->when($keyword, function ($query) use ($keyword) {
                         $query->where('name', 'Like', "%$keyword%");
                         $query->orWhere('display_name', 'Like', "%$keyword%");
@@ -50,7 +49,7 @@ class ModuleController extends Controller
                 }]);
             }])
             ->orderBy('id', 'DESC')
-            ->paginate(input('perPage'));
+            ->paginate(input('per_page'));
 
         return returnData(2000, $data);
     }
@@ -78,11 +77,11 @@ class ModuleController extends Controller
             $this->model->save();
 
             $name = $this->model->name;
-            foreach ($permissions as $permission){
-                $perName = $permission['name'];
+            $uniquePermissions = collect($permissions)->unique()->toArray();
+            foreach ($uniquePermissions as $perName) {
                 $permissionData = new Permission();
                 $permissionData->module_id = $this->model->id;
-                $permissionData->name = $name.".".$perName;
+                $permissionData->name = "$name.$perName";
                 $permissionData->display_name = ucfirst("$name $perName");
                 $permissionData->save();
             }
@@ -90,7 +89,7 @@ class ModuleController extends Controller
             DB::commit();
 
             return returnData(2000, null, 'Successfully Inserted');
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             DB::rollBack();
             return returnData(5000, $exception->getMessage(), 'Something Wrong');
         }
@@ -103,81 +102,83 @@ class ModuleController extends Controller
 
     public function edit($id)
     {
-        //
+        $module = Module::where('id', $id)->first();
+        if ($module) {
+            $permissions = Permission::where('module_id', $module->id)->get();
+            $allPermission = [];
+            foreach ($permissions as $permission) {
+                $perExp = explode('.', $permission->name);
+                $allPermission[] = end($perExp);
+            }
+
+            $module->{'permissions'} = $allPermission;
+
+            return returnData(2000, $module);
+        }
+
+        return returnData(5000, null, 'Module Not Found');
     }
 
     public function update(Request $request, $id)
     {
         $input = $request->all();
+        $permissions = $request->input('permissions');
 
         $validate = $this->model->validate($input);
         if ($validate->fails()) {
             return returnData(2000, $validate->errors());
         }
 
-        $old_module = $this->model->where('id', $request->id)->first();
         $module = $this->model->where('id', $request->id)->first();
 
         if ($module) {
             $module->fill($input);
             $module->save();
-        }
 
-        return returnData(2000, null, 'Successfully Inserted');
-    }
+            $permissionIds = [];
+            $uniquePermissions = collect($permissions)->unique()->toArray();
+            foreach ($uniquePermissions as $perName) {
+                $permissionData = Permission::where('name', $perName)->first();
+                if (!$permissionData) {
+                    $permissionData = new Permission();
+                }
 
-    public function status()
-    {
-        try {
-            $data = $this->model->where('id', request()->input('id'))->first();
+                $permissionData->module_id = $module->id;
+                $permissionData->name = $module->name . "." . $perName;
+                $permissionData->display_name = ucfirst("$module->name $perName");
+                $permissionData->save();
 
-            if (!$data) {
-                return returnData(2000, null, 'Data Not found');
+                $permissionIds[] = $permissionData->id;
             }
 
-            if ($data->status == 1) {
-                $data->status = 0;
-                $data->save();
-
-                $this->model->where('parent_id', $data->id)->update([
-                    'status' => 0
-                ]);
-
-                return returnData(2000, 'warning', "Successfully InActivated");
-            } else {
-                $data->status = 1;
-                $data->save();
-
-                return returnData(2000, 'success', "Successfully Activated");
-            }
-
-        } catch (\Exception $exception) {
-            return returnData(5000, $exception->getMessage(), 'Not Updated');
+            Permission::whereNotIn('id', $permissionIds)->where('module_id', $this->model->id)->delete();
         }
-    }
 
+        return returnData(2000, null, "$module->name Successfully Updated");
+    }
 
     public function destroy($id)
     {
+        $data = $this->model->find($id);
 
-        $user = $this->model->where('id', $id)->first();
-
-        if ($user) {
-
-            $subModules = $this->childModel->where('module_id', $user->id)->count();
-
-            if ($subModules > 0){
-                return returnData(5000, 'warning', "You can't Delete Module");
-            }
-
-            $user->delete();
-
-            $this->childModel->where('module_id', $user->id)->delete();
-            RoleModules::where('module_id', $user->id)->delete();
-
-            return returnData(2000, $user, 'Successfully Deleted');
+        if (!$data) {
+            return returnData(5000, null, 'Data Not Found');
         }
 
-        return returnData(5000, null, 'Data Not found');
+        $subModules = RoleModules::where('module_id', $data->id)->count();
+
+        if ($subModules > 0) {
+            return returnData(5000, null, "You can't Delete Module");
+        }
+
+        // Delete related records first
+        Permission::where('module_id', $data->id)->delete();
+        RoleModules::where('module_id', $data->id)->delete();
+
+        // Then delete the main record
+        $data->delete();
+
+        return returnData(2000, $data, "$data->name Successfully Deleted");
     }
 }
+

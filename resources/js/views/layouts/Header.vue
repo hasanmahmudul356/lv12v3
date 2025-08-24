@@ -3,14 +3,10 @@
     import { useBase } from '@/lib/base';
     import { useHttp } from '@/lib/http';
 
-    const { getImage, getUser, formatDate } = useBase();
+    const { getImage, formatDate } = useBase();
     const { urlGenerate } = useHttp();
 
     const user = ref(null);
-
-    onMounted(async () => {
-        user.value = await getUser();
-    });
 </script>
 <template>
     <header>

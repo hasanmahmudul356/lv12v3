@@ -61,16 +61,7 @@ class SupportController extends Controller
 
         if (isset($input['permissions']) || in_array('permissions', $input)){
             $key = isset($input['permissions']['key']) ?  isset($input['permissions']['key']) : 'permissions';
-            $permissions = ['index', 'create', 'store', 'show', 'edit', 'update', 'destroy', 'status'];
-
-            $data[$key] = array_map(function ($item, $index) {
-                return [
-                    'checked' => 0,
-                    'actual' => $item,
-                    'name' => $item,
-                    'display_name' => ucfirst($item),
-                ];
-            }, $permissions, array_keys($permissions));
+            $data[$key] =  ['index', 'create', 'store', 'show', 'edit', 'update', 'destroy', 'status'];
         }
 
         return returnData(2000, $data);

@@ -1,8 +1,7 @@
 <script setup>
     import dataTable from '@/components/table/dataTable.vue';
-    import Setting from '@/components/Setting.vue';
     import fromModal from '@/components/fromModal.vue';
-    import pageTopLeft from '@/components/pageTopLeft.vue';
+    import pageTop from '@/components/pageTop.vue';
 
     import {ref, onMounted, computed} from 'vue';
 
@@ -13,7 +12,7 @@
 
     const {formFilter, formObject, openModal, closeModal, useGetters, dataList, httpRequest} = {
         ...useBase(),
-        ...appStore(store),
+        ...appStore(),
         ...appStore().useGetters('dataList', 'httpRequest')
     };
     const tableHeaders = ref(["#", {
@@ -25,20 +24,14 @@
 
 
     onMounted(() => {
-        getDataList();
+        getDataList(store);
     });
 </script>
 
 <template>
     <dataTable :headings="tableHeaders" :setting="true">
         <template v-slot:tableTop>
-            <pageTopLeft></pageTopLeft>
-        </template>
-        <template v-slot:topRight>
-            <Setting title="Options">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Action</a>
-            </Setting>
+            <pageTop></pageTop>
         </template>
         <template v-slot:data>
             <tr v-for="(item, index) in dataList.data" :key="item.id">

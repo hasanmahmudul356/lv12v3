@@ -10,11 +10,22 @@
     text-transform: uppercase;
 }
 
+select.btn.perPage{
+    padding: 0 !important;
+}
+
 .page_top_text {
     font-size: 13px;
     text-transform: uppercase;
     border: 0;
     padding-left: 10px;
+}
+
+.bg-default .page_top_text{
+    color: rgba(255, 255, 255, 0.8);
+}
+.bg-theme .page_top_text{
+    color: rgba(255, 255, 255, 0.8);
 }
 
 .setting_button {
@@ -72,4 +83,92 @@ input.form-control {
 
 .bg-default textarea::placeholder {
     color: #999;
+}
+
+div.dataTables_paginate {
+    margin: 0;
+    white-space: nowrap;
+    text-align: right
+}
+
+h2#swal2-title {
+    color: #5c4d4d;
+}
+.swal2-icon {
+    width: 4em !important;
+    height: 4em !important;
+}
+
+.swal2-title {
+    font-size: 1.60em !important;
+}
+
+.swal2-container .swal2-styled {
+    padding: .425em 1em !important;
+}
+.modal-content {
+    position: relative;
+}
+.bg-default .modal_loader{
+    background: rgba(0, 0, 0, 0.3);
+}
+.bg-theme .modal_loader{
+    background: rgba(255, 255, 255, 0.2);
+}
+.modal_loader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;               /* center contents */
+    align-items: center;
+    justify-content: center;
+    z-index: 10;                 /* make sure it's above modal content */
+}
+.modal_loader i {
+    font-size: 2rem;             /* adjust size if needed */
+}
+
+.page-content {
+    position: relative;
+}
+.bg-default .page_loader{
+    background: rgba(0, 0, 0, 0.4);
+}
+.bg-theme .page_loader{
+    background: rgba(255, 255, 255, 0.2);
+}
+.page_loader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;               /* center contents */
+    align-items: center;
+    justify-content: center;
+    z-index: 10;                 /* make sure it's above modal content */
+}
+.page_loader i {
+    font-size: 2rem;             /* adjust size if needed */
+}
+
+th:first-child,
+td:first-child{
+    width: 50px;
+}
+
+th:nth-child(2),
+td:nth-child(2) {
+    width: 25px;
+}
+
+th:last-child,
+td:last-child {
+    width: 180px;
 }

@@ -1,204 +1,210 @@
-import {ref} from 'vue'
-import {useRouter} from 'vue-router'
-import axios from 'axios'
+import {ref} from 'vue';
+import {useRouter, useRoute} from 'vue-router';
+import axios from 'axios';
+import {useStore} from 'vuex';
 
 import {useBase, appStore} from "@/lib";
 
-const {can, assignValidationError, toaster, closeModal, openModal} = useBase();
-const {formObject, useGetters} = appStore();
-
-
-export function useHttp(store, routeInstance = false) {
+export function useHttp() {
+    const store = useStore();
     const router = useRouter();
-    const route = routeInstance ? routeInstance.currentRoute.value : router.currentRoute.value;
+    const route = useRoute();
 
+    const {can, toaster, closeModal, openModal, handelConfirm, useGetters} = {...useBase(), ...appStore()};
 
-    const {formFilter, formType, updateId} = useGetters(store, 'formFilter', 'formType', 'updateId');
-
+    const {formFilter} = useGetters('formFilter');
     const uploadProgress = ref(0);
 
-    const getRoute = (key = false) => {
-        if (key && route[key] !== undefined) {
-            return route[key];
+    const getRoute = (key = false) => key && route[key] !== undefined ? route[key] : route;
+    const routeMeta = (key = false) => route.meta ? (route.meta[key] !== undefined ? route.meta[key] : false) : false;
+
+    const getUrl = () => route.meta?.dataUrl || '';
+    const urlGenerate = (customUrl = false) => `${baseUrl}/${customUrl || getUrl()}`;
+
+    const httpReq = async (options = {}) => {
+        const {url = '', method = 'get', params = {}, data = {}, callback = false, loader = false, signature = ''} = options;
+
+        if (!url) {
+            toaster('error', 'No URL provided and no dataUrl in route meta');
+            return;
         }
-        return route;
-    };
-    const routeMeta = (key = false) => {
-        if (route.meta !== undefined) {
-            return route.meta[key] !== undefined ? route.meta[key] : false;
+
+        if (loader) store.commit('httpRequest', true);
+
+        const response = await axios({method, url, params, data});
+
+        if (loader) store.commit('httpRequest', false);
+
+        const status = parseInt(response.data.status);
+
+        if ([5000, 5001].includes(status)) {
+            toaster((response.data.type || 'error'), response.data.message);
+
+            if (status === 5001) router.push({path: '/dashboard'});
+            return false;
         }
+        if (status === 2000) {
+            toaster('success', response.data.message);
+            return response.data.result ?? true;
+        }
+
+        toaster('info', response.data.message);
         return false;
     };
 
-    const httpRequest = (status = true) => {
-        store.commit('httpRequest', status);
-    };
-    const getUrl = () => {
-        return (route.meta.dataUrl !== undefined) ? route.meta.dataUrl : '';
-    };
-    const urlGenerate = (customUrl = false) => {
-        return customUrl ? `${baseUrl}/${customUrl}` : `${baseUrl}/${getUrl()}`;
-    };
-
-    const httpReq = async (store, options = {}) => {
-        const {
-            url = '',
-            method = 'get',
-            params = {},
-            data = {},
-            callback = false,
-            loader = false,
-        } = options;
-
-        // try {
-            if (!url) {
-                toaster('error', 'No URL provided and no dataUrl in route meta');
-                return;
-            }
-
-            if (loader) store.commit('httpRequest', true);
-
-            const response = await axios({
-                method: method,
-                url: url,
-                params: params,
-                data: data,
-            });
-
-            if (loader) store.commit('httpRequest', false);
-
-            const status = parseInt(response.data.status);
-
-            if (status === 5001) {
-                toaster(response.data.type || 'error', response.data.message);
-                router.push({path: '/dashboard'});
-                return false;
-            }
-
-            if (status === 5000) {
-                toaster(response.data.type || 'error', response.data.message);
-                return false;
-            }
-
-            if (status === 2000) {
-                toaster('success', response.data.message);
-                return response.data.result ?? true;
-            }
-
-            toaster('info', response.data.message);
-            return false;
-
-        // } catch (error) {
-        //     if (loader) store.commit('httpRequest', false);
-        //     toaster('error', error.message || 'Whoops..!! something went wrong');
-        // }
-    };
-    const getDataList = async (store, options = {}) => {
-        const {
-            url = false,
-            method = 'get',
-            params = {},
-            callback = false,
-            page = 1,
-        } = options;
-
-        // try {
-            store.commit('currentPagination', page || 1);
-
-            const dataFilter = route.meta.dataUrl !== undefined ? route.meta.dataUrl : {};
-
-            store.commit('dataList', {});
-
-            const dateList = await httpReq(store,{
-                method: method,
-                url: urlGenerate(url),
-                params: Object.assign(formFilter.value, {page: 1}, params, dataFilter),
-                loader: true,
-            });
-
-            if (dateList){
-                store.commit('dataList', dateList);
-
-                if (typeof callback === 'function') {
-                    callback(dateList)
-                }
-            }
-        // } catch (error) {
-        //     toaster('error', error.message);
-        // }
-    };
-    const submitForm = async (store, options = {}) => {
-        // try {
+    const loadConfigurations = async (options = {}) => {
+        try {
             const {
-                data = {},
-                modal = false,
                 callback = false,
-                validation = false,
                 url = false,
-                params = {},
-                redirectTo = false,
-                refresh = true,
-                method = parseInt(updateId) ? 'put' : 'post',
             } = options;
 
-            const pageNumber = 1;
-            const valid = true;
+            const retData = await httpReq({
+                method: 'post',
+                url: url ? urlGenerate(url) : urlGenerate('api/configurations'),
+                loader: true,
+                signature: 'loadConfigurations'
+            });
 
-            if (valid || !validation) {
-                const retData = await httpReq(store,{
-                    method: method,
-                    url: parseInt(updateId) ? `${urlGenerate(url)}/${updateId}` : `${urlGenerate(url)}`,
-                    data: data,
-                    params: params,
-                    loader: true,
-                });
+            if (retData) {
+                store.commit('Config', retData);
+                store.commit('authUser', retData.user);
+                store.commit('allMenus', retData.menus);
 
-                if (retData){
-                    if (modal) {
-                        closeModal(modal);
-                    }
-                    if (typeof callback === "function") {
-                        callback(retData);
-                    }
+                if (typeof callback === 'function') {
+                    callback(retData)
                 }
             }
-        // } catch (error) {
-        //     toaster('error', error.message);
-        // }
-    };
 
-    const getDependency = async (store, options = {}) => {
+        } catch (error) {
+            store.commit('httpRequest', false);
+            toaster('error', error.message);
+        }
+    };
+    const getDependency = async (options = {}) => {
         const {
             dependency = [],
             callback = false
         } = options;
-        const retData = await httpReq(store, {
+        const retData = await httpReq({
             method: 'post',
             url: urlGenerate('api/general'),
             data: dependency,
             loader: false
         });
-        if (retData){
+        if (retData) {
             $.each(retData, function (key, value) {
-                store.commit("pageDependencies", { key: key, value })
+                store.commit("pageDependencies", {key: key, value})
             });
         }
     };
 
-    const editData = (data, modalId = false, formObject = null)=>{
-        if (!formObject) return {};
-        if (modalId){
-            openModal(modalId, function (retData) {
-                Object.assign(formObject, data);
+    const getDataList = async (options = {}) => {
+        const {url = false, method = 'get', params = {}, callback = false, page = 1} = options;
+
+        store.commit('currentPagination', page || 1);
+        const dataFilter = route.meta?.dataUrl ?? {};
+        store.commit('dataList', {});
+
+        const dataList = await httpReq({
+            method,
+            url: urlGenerate(url),
+            params: Object.assign(formFilter.value, {page}, params, dataFilter),
+            loader: true
+        });
+
+        if (dataList) {
+            store.commit('dataList', dataList);
+            if (typeof callback === 'function') callback(dataList);
+        }
+    };
+    const submitForm = async (options = {}) => {
+        let {data = {}, modal = false, callback = false, validation = false, url = false, params = {}, method = false, reset = true} = options;
+
+        const updateIdVal = store.getters.updateId;
+
+        if (!validation || true) {
+            const retData = await httpReq({
+                method: method || (parseInt(updateIdVal) ? 'put' : 'post'),
+                url: parseInt(updateIdVal) ? `${urlGenerate(url)}/${updateIdVal}` : urlGenerate(url),
+                data: data,
+                params: params,
+                loader: true,
             });
+            if (retData) {
+                store.commit('updateId', false);
+                if (reset) {
+                    data = {};
+                }
+                if (modal) closeModal(modal);
+                if (typeof callback === 'function') callback(retData);
+            }
+        }
+    };
+    const editData = async (options = {}) => {
+        let {data = {}, id = false, modal = false, formObj = null, primaryKey = 'id', url = false, method = 'get'} = options;
+
+        store.commit('updateId', id);
+
+        if (!formObj) return {};
+
+        if (Object.keys(data).length === 0) {
+            data = await httpReq({
+                method: method,
+                url: url ? urlGenerate(url) : `${urlGenerate()}/${id}/edit`,
+                loader: true
+            });
+            store.commit('updateId', data[primaryKey]);
+        }
+        if (modal) {
+            openModal(modal, () => Object.assign(formObj, data));
         } else {
-            Object.assign(formObject, data);
+            Object.assign(formObj, data);
         }
     };
+    const deleteRecord = async (options = {}) => {
+        const isConfirmed = await handelConfirm(
+            options.title ?? 'Confirm Delete',
+            options.message ?? 'Are you sure you want to delete this record?'
+        );
+        if (!isConfirmed) return;
 
+        const {
+            targetId = null,
+            url = null,
+            callback = null,
+            refresh = false,
+            method = 'delete',
+            listObject = null
+        } = options;
 
-    const changeStatus = async (obj = {}, permissionName = '', showMessage = true, columnName = false) => {
+        if (targetId == null) {
+            toaster('error', 'Target Id not found');
+            return;
+        }
+
+        const retData = await httpReq({
+            url: url ? `${urlGenerate(url)}` : `${urlGenerate(url)}/${targetId}`,
+            method,
+            loader: false
+        });
+
+        if (!retData) return;
+
+        if (refresh) getDataList(store, {page: 1});
+
+        if (listObject && !refresh) {
+            const index = listObject.findIndex(item => item.id === targetId);
+            if (index !== -1) listObject.splice(index, 1);
+        }
+
+        if (typeof callback === 'function') callback(retData);
+    };
+
+    const changeStatus = async (options = {}) => {
         try {
+            const {obj = {}, permissionName = '', showMessage = true, columnName = false} = options;
+
             if (permissionName !== '' && !can(permissionName)) {
                 toast.warning('Not permitted');
                 return false
@@ -211,84 +217,25 @@ export function useHttp(store, routeInstance = false) {
                 dataObject.column = columnName
             }
 
-            const response = await axios({
-                method: "post",
+            const retData = await httpReq({
+                data: dataObject,
                 url: `${urlGenerate()}/status`,
-                data: dataObject
+                method : 'post',
+                loader: false
             });
 
             store.commit('httpRequest', false);
-            getDataList(1);
 
-            if (showMessage) {
-                toast(response.data.message, {type: response.data.result})
+            if (retData){
+                getDataList({page: 1});
             }
         } catch (error) {
             store.commit('httpRequest', false);
-            if (showMessage) {
-                const retData = error.response.data;
-                toast.error(retData.message)
-            }
-        }
-    };
-    const deleteInformation = async (index, ID, url = false, callback = false, callDataList = true) => {
-        // You'll need to replace this with your preferred confirmation dialog
-        const confirmed = confirm('Are you sure..?? Data will be delete Permanently??');
-
-        if (confirmed) {
-            try {
-                const URL = !url ? `${urlGenerate()}/${ID}` : url;
-                const response = await axios.delete(URL);
-
-                const retData = response.data;
-                store.commit('httpRequest', false);
-
-                if (parseInt(retData.status) === 2000) {
-                    toast.success(retData.message);
-                    if (callDataList) {
-                        getDataList()
-                    }
-                    if (typeof callback === 'function') {
-                        callback(true)
-                    }
-                } else {
-                    toast.warning(retData.message)
-                }
-            } catch (error) {
-                store.commit('httpRequest', false);
-                toast.error('Something Wrong')
-            }
-        }
-    };
-    const loadConfigurations = async (store, options = {}) => {
-        try {
-            const {
-                callback = false,
-                url = false,
-            } = options;
-
-           const retData = await httpReq(store,{
-                method: 'post',
-                url: url ? urlGenerate(url) : urlGenerate('api/configurations'),
-                loader: true,
-            });
-
-           if (retData){
-               store.commit('Config', retData);
-               store.commit('authUser', retData.user);
-               store.commit('allMenus', retData.menus);
-
-               if (typeof callback === 'function') {
-                   callback(retData)
-               }
-           }
-
-        } catch (error) {
-            httpRequest(false);
             toaster('error', error.message);
         }
     };
-    const uploadFile = async (event, imageObject = {}, dataModel = null, callback = false, url = false, onlyUrl = false) => {
+    const uploadFile = async (options = {}) => {
+        const {event, imageObject = {}, dataModel = null, callback = false, url = false, onlyUrl = false} = options;
         try {
             const input = event.target.files[0];
             const formData = new FormData();
@@ -335,16 +282,15 @@ export function useHttp(store, routeInstance = false) {
         uploadProgress,
         httpReq,
         getDataList,
-        changeStatus,
         submitForm,
-        deleteInformation,
-        uploadFile,
-        getUrl,
-        urlGenerate,
-        loadConfigurations,
+        editData,
         getRoute,
         routeMeta,
-        editData,
-        getDependency
-    }
+        urlGenerate,
+        loadConfigurations,
+        getDependency,
+        deleteRecord,
+        changeStatus,
+        uploadFile,
+    };
 }

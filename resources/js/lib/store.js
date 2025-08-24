@@ -1,6 +1,8 @@
 import {computed} from "vue";
+import {useStore} from 'vuex';
 
-export function appStore(store) {
+export function appStore() {
+    const store = useStore();
 
     const formFilter = computed({
         get() {
@@ -34,32 +36,17 @@ export function appStore(store) {
             store.commit('formObject', value);
         }
     });
+
     const setState = (state, key, value) => {
         state.value = {
             ...state.value,
             [key]: value
         };
     };
-
-    const checkUncheckAll = ($event, state, objectName, checkValue, unCheckValue) => {
-        if ($event.target.checked) {
-            setState(state, objectName, checkValue);
-        } else {
-            setState(state, objectName, unCheckValue);
-        }
-    };
-
-    // const useGetters = (...names) => {
-    //     const result = {};
-    //     names.forEach(name => {
-    //         result[name] = computed(() => store.getters[name]);
-    //     });
-    //     return result;
-    // };
-    const useGetters = (storeInstance, ...names) => {
+    const useGetters = (...names) => {
         const result = {};
         names.forEach(name => {
-            result[name] = computed(() => storeInstance.getters[name]);
+            result[name] = computed(() => store.getters[name]);
         });
         return result;
     };

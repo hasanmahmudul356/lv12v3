@@ -5,9 +5,9 @@
     import {useBase, appStore, useHttp} from "@/lib";
     const {getImage, formObject, submitForm, authUser} = {
         ...useBase(),
-        ...appStore(store),
-        ...useHttp(store),
-        ...appStore(store).useGetters('authUser')
+        ...appStore(),
+        ...useHttp(),
+        ...appStore().useGetters('authUser')
     };
     store.commit('formObject', authUser);
 

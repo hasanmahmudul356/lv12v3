@@ -1,16 +1,16 @@
 <script setup>
-    import { ref } from 'vue'
+    import { ref, reactive } from 'vue'
     import {useStore} from 'vuex'
     const store  = useStore();
 
     import {appStore, useHttp} from "@/lib";
-    const {useGetters} = appStore(store);
+    const {useGetters} = appStore();
     const {submitForm} = useHttp();
 
     const {authUser} = useGetters('authUser');
 
     const activePanel = ref(false);
-    const themeGaussian = ref([
+    const themeGaussian = reactive([
         {name: 'theme1', value: 'bg-theme bg-theme1'},
         {name: 'theme2', value: 'bg-theme bg-theme2'},
         {name: 'theme3', value: 'bg-theme bg-theme3'},
@@ -20,7 +20,7 @@
         {name: 'theme16', value: 'bg-default bg-theme2'},
     ]);
 
-    const themeGradient = ref([
+    const themeGradient = reactive([
         {name: 'theme7', value: 'bg-theme bg-theme7'},
         {name: 'theme8', value: 'bg-theme bg-theme8'},
         {name: 'theme9', value: 'bg-theme bg-theme9'},
@@ -33,11 +33,11 @@
     ]);
 
     const toggleThemePanel = () => {
-        activePanel.value = !activePanel.value
+        activePanel.value = !activePanel.value;
     };
     const changeTheme = (theme) => {
         submitForm({
-            formData : {request:'theme',theme:theme.value},
+            data : {request:'theme',theme:theme.value},
             url : `api/profile`,
             callback : function(retData){
                 $('body').attr('class', theme.value);

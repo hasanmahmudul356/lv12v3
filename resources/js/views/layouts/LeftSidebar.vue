@@ -6,12 +6,12 @@
 
     const {getImage, allMenus, loadConfigurations} = {
         ...useBase(),
-        ...appStore(store),
-        ...useHttp(store)
+        ...appStore(),
+        ...useHttp()
     };
 
     onMounted(() => {
-        loadConfigurations(store, async (retData) => {
+        loadConfigurations(async (retData) => {
             await nextTick();
 
             $("#menu").metisMenu();

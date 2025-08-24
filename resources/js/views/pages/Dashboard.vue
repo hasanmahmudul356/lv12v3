@@ -57,5 +57,5 @@
 <script setup>
     import { useBase } from '@/lib/base';
 
-    const { getImage, getUser, formatDate } = useBase();
+    const { getImage, formatDate } = useBase();
 </script>

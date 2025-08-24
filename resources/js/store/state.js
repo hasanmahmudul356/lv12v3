@@ -12,7 +12,7 @@ export const state = {
     updateId: '',
     formObject : {},
     formFilter : {
-        per_page : 10,
+        per_page : 15,
         status : '',
     },
     modalTitle :'',

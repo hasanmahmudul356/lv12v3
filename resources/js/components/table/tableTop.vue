@@ -1,13 +1,16 @@
 <script setup>
     import {useHttp, useBase, appStore} from '@/lib';
-    import {useStore} from 'vuex';
-    const store = useStore();
 
-    const {openModal, formFilter, getDataList, httpRequest} = {...useBase(), ...appStore(store), ...useHttp(store), ...appStore(store).useGetters('httpRequest')};
+    const {openModal, formFilter, getDataList, httpRequest} = {
+        ...useBase(),
+        ...appStore(),
+        ...useHttp(),
+        ...appStore().useGetters('httpRequest')
+    };
 
 </script>
 <template>
-    <div class="align-items-center mb-4 gap-3">
+    <div class="align-items-center mb-3 gap-3">
         <div class="row">
             <div class="col-md-9 text-left">
                 <div class="row">
@@ -20,7 +23,7 @@
                             <i class='bx bx-loader bx-spin text-warning'></i>
                             <span class="text-warning">Loading..</span>
                         </button>
-                        <button v-else @click="getDataList(store)" type="button" class="btn btn-outline-primary radius-30">
+                        <button v-else @click="getDataList()" type="button" class="btn btn-outline-primary radius-30">
                             <i class='bx bx-search text-danger'></i>
                             <span>Search</span>
                         </button>
@@ -28,7 +31,7 @@
                 </div>
             </div>
             <div class="col-md-3 text-end">
-                <a @click="openModal()" class="btn btn-primary radius-30 mt-2 mt-lg-0"><i class="bx bxs-plus-square"></i>Add</a>
+                <a @click="openModal()" class="btn btn-primary radius-30 mt-2 mt-lg-0"><i class="bx bxs-plus-square"></i>Add New</a>
             </div>
         </div>
     </div>

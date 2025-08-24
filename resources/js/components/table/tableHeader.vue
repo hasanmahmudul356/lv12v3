@@ -1,4 +1,7 @@
 <script setup>
+    import {useBase} from "@/lib";
+    const {handleSelectAll} = useBase();
+
     const props = defineProps({
         headings: Array,
     });
@@ -8,11 +11,11 @@
 <template>
     <template v-if="headings.length > 0">
         <template v-for="hading in headings">
-            <template v-if="typeof hading === 'object'">
+            <template v-if="typeof hading === 'object' && hading.listObject !== undefined && hading.listObject.data !== undefined">
                <th>
                    <div class="d-flex align-items-center">
                        <div>
-                           <input class="form-check-input me-3" type="checkbox" value="" aria-label="...">
+                           <input @change="handleSelectAll($event, hading.listObject.data)" class="form-check-input me-3 pointer" type="checkbox">
                        </div>
                        <div class="ms-2">
                            <h6 class="mb-0 font-14">{{hading.name}}</h6>

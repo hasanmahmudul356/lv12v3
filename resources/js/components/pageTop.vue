@@ -1,17 +1,18 @@
 <script setup>
     import {ref, defineProps} from 'vue'
-    import { appStore, useHttp} from '@/lib';
+    import {appStore, useHttp} from '@/lib';
 
     import {useStore} from 'vuex';
+
     const store = useStore();
 
-    const { formFilter, useGetters, routeMeta} = {...appStore(store), ...useHttp()};
-    const { dataList } = useGetters(store, 'dataList', 'httpRequest');
-    const perPage = ref([10,20,50,100,200]);
+    const {formFilter, useGetters, routeMeta, getDataList} = {...appStore(), ...useHttp()};
+    const {dataList} = useGetters('dataList', 'httpRequest');
+    const perPage = ref([10, 20, 50, 100, 200]);
 
     const props = defineProps({
-        listPage : {type:Boolean, default:true},
-        title : {type:String, default:''}
+        listPage: {type: Boolean, default: true},
+        title: {type: String, default: ''},
     });
 
     const title = (props.title !== '') ? props.title : (routeMeta('title') ?? 'Data List');
@@ -27,7 +28,7 @@
                 </li>
                 <template v-if="listPage">
                     <li class="breadcrumb-item active" aria-current="page">
-                        <select class="btn btn-outline-secondary perPage" v-model="formFilter.per_page">
+                        <select @change="getDataList" class="btn btn-outline-secondary perPage" v-model="formFilter.per_page">
                             <option v-for="page in perPage" :value="page">{{title}} {{page}}</option>
                         </select>
                     </li>
@@ -40,6 +41,11 @@
                 </template>
             </ol>
         </nav>
+    </div>
+    <div class="ms-auto">
+        <div class="btn-group">
+            <slot></slot>
+        </div>
     </div>
 </template>
 
