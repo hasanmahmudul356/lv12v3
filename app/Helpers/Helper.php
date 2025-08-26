@@ -30,6 +30,7 @@ trait Helper
 {
     public $permission = [];
     public $model = '';
+    public $modelClass = '';
     public $childModel = '';
     public $perPage = 20;
     public $permissionMessage = 'Sorry, You do not have permission to perform this action..!!';

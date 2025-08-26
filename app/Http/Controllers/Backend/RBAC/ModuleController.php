@@ -21,6 +21,7 @@ class ModuleController extends Controller
             return returnData(5001, null, 'You are not authorized to access this page');
         }
         $this->model = new Module();
+        $this->modelClass = Module::class;
     }
 
     public function index()
@@ -178,7 +179,46 @@ class ModuleController extends Controller
         // Then delete the main record
         $data->delete();
 
-        return returnData(2000, $data, "$data->name Successfully Deleted");
+        return returnData(2000, $data, "Successfully Deleted");
     }
+
+    public function multiple(Request $request)
+    {
+        $selectedKeys = $request->input('selectedKeys', []);
+        $ids = is_array($selectedKeys) ? $selectedKeys : [];
+
+        if (empty($ids)) {
+            return returnData(4000, null, 'No IDs provided');
+        }
+
+        $deleted = [];
+        $errors = [];
+
+        foreach ($ids as $id) {
+            $data = Module::where('id', $id)->first();
+
+            if (!$data) {
+                $errors[] = "ID {$id} not found";
+                continue;
+            }
+
+            $subModules = RoleModules::where('module_id', $id)->count();
+            if ($subModules > 0) {
+                $errors[] = $id;
+                continue;
+            }
+
+            // Delete related records first
+            Permission::where('module_id', $id)->delete();
+            RoleModules::where('module_id', $id)->delete();
+
+            // Delete main record
+            $data->delete();
+            $deleted[] = $id;
+        }
+
+        return returnData(2000, null,count($deleted)." Item Deleted and ".json_encode($errors)." Item Not Deleted");
+    }
+
 }
 

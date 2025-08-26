@@ -50,15 +50,14 @@
                                         <div class="col-12">
                                             <label for="inputChoosePassword" class="form-label">Password</label>
                                             <div class="input-group" id="show_hide_password">
-                                                <input type="password" name="password" class="form-control border-end-0" id="inputChoosePassword"  placeholder="Enter Password">
-                                                    <a href="#" class="input-group-text bg-transparent"><i class='bx bx-hide'></i>
-                                                </a>
+                                                <input type="password" name="password" class="form-control border-end-0" id="password"  placeholder="Enter Password">
+                                                    <a onclick="togglePassword()" id="toggleBtn" class="input-group-text bg-transparent">Show</a>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-check form-switch">
                                                 <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked">
-                                                <label class="form-check-label" for="flexSwitchCheckChecked">Remember Me</label>
+                                                <label class="form-check-label pointer" for="flexSwitchCheckChecked">Remember Me</label>
                                             </div>
                                         </div>
                                         <div class="col-md-6 text-end">	<a href="auth-basic-forgot-password.html">Forgot Password ?</a>
@@ -76,16 +75,6 @@
                                         </div>
                                     </form>
                                 </div>
-                                <div class="login-separater text-center mb-5"> <span>OR SIGN IN WITH</span>
-                                    <hr/>
-                                </div>
-                                <div class="list-inline contacts-social text-center">
-                                    <a href="#" class="list-inline-item bg-light text-white border-0 rounded-3"><i class="bx bxl-facebook"></i></a>
-                                    <a href="#" class="list-inline-item bg-light text-white border-0 rounded-3"><i class="bx bxl-twitter"></i></a>
-                                    <a href="#" class="list-inline-item bg-light text-white border-0 rounded-3"><i class="bx bxl-google"></i></a>
-                                    <a href="#" class="list-inline-item bg-light text-white border-0 rounded-3"><i class="bx bxl-linkedin"></i></a>
-                                </div>
-
                             </div>
                         </div>
                     </div>
@@ -104,6 +93,20 @@
 <script src="{{assets('backend/plugins/datatable/js/jquery.dataTables.min.js')}}"></script>
 <script src="{{assets('backend/plugins/datatable/js/dataTables.bootstrap5.min.js')}}"></script>
 <script src="{{assets('backend/js/app.js')}}"></script>
+<script>
+    function togglePassword() {
+        const passwordField = document.getElementById("password");
+        const toggleBtn = document.getElementById("toggleBtn");
+
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+            toggleBtn.textContent = "Hide";
+        } else {
+            passwordField.type = "password";
+            toggleBtn.textContent = "Show";
+        }
+    }
+</script>
 </body>
 
 </html>

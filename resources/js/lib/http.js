@@ -12,7 +12,7 @@ export function useHttp() {
 
     const {can, toaster, closeModal, openModal, handelConfirm, useGetters} = {...useBase(), ...appStore()};
 
-    const {formFilter} = useGetters('formFilter');
+    const {formFilter, formObject} = useGetters('formFilter', 'formObject');
     const uploadProgress = ref(0);
 
     const getRoute = (key = false) => key && route[key] !== undefined ? route[key] : route;
@@ -121,6 +121,10 @@ export function useHttp() {
     const submitForm = async (options = {}) => {
         let {data = {}, modal = false, callback = false, validation = false, url = false, params = {}, method = false, reset = true} = options;
 
+        if (Object.keys(data).length === 0) {
+            data = formObject.value;
+        }
+
         const updateIdVal = store.getters.updateId;
 
         if (!validation || true) {
@@ -142,11 +146,9 @@ export function useHttp() {
         }
     };
     const editData = async (options = {}) => {
-        let {data = {}, id = false, modal = false, formObj = null, primaryKey = 'id', url = false, method = 'get'} = options;
+        let {data = {}, id = false, modal = false, primaryKey = 'id', url = false, method = 'get'} = options;
 
         store.commit('updateId', id);
-
-        if (!formObj) return {};
 
         if (Object.keys(data).length === 0) {
             data = await httpReq({
@@ -158,12 +160,12 @@ export function useHttp() {
         }
         if (modal) {
             openModal({
-                modalId : modal,
-                formObject : formObj,
-                defaultObj : Object.assign(formObj, data)
+                modalId: modal, callback: function (retData) {
+                    store.commit('formObject', data);
+                }
             });
         } else {
-            Object.assign(formObj, data);
+            store.commit('formObject', data);
         }
     };
     const deleteRecord = async (options = {}) => {
@@ -175,18 +177,22 @@ export function useHttp() {
             callback = null,
             refresh = false,
             method = 'delete',
-            listObject = null
+            listObject = null,
+            selectedKeys = false,
         } = options;
 
-        if (targetId == null) {
+        if (targetId == null && !selectedKeys) {
             toaster('error', 'Target Id not found');
             return;
         }
 
         const retData = await httpReq({
-            url: url ? `${urlGenerate(url)}` : `${urlGenerate(url)}/${targetId}`,
-            method,
-            loader: false
+            url: url ?? `${urlGenerate(url)}/${targetId}`,
+            method : method,
+            loader: false,
+            data : {
+                selectedKeys : !selectedKeys ? {} : selectedKeys
+            },
         });
 
         if (!retData) return;
@@ -201,39 +207,28 @@ export function useHttp() {
         if (typeof callback === 'function') callback(retData);
     };
     const deleteAllRecords = async (options = {}) => {
-        const isConfirmed = await handelConfirm();
-        if (!isConfirmed) return;
-
         const {
-            targetId = null,
-            url = null,
-            callback = null,
-            refresh = false,
-            method = 'delete',
-            listObject = null
+            dataObject = {},
+            primaryKey = 'id',
         } = options;
+        let deletableIds = [];
 
-        if (targetId == null) {
-            toaster('error', 'Target Id not found');
-            return;
-        }
-
-        const retData = await httpReq({
-            url: url ? `${urlGenerate(url)}` : `${urlGenerate(url)}/${targetId}`,
-            method,
-            loader: false
+        $.each(dataObject, (index, value) =>{
+            if (value.checked !== undefined && parseInt(value.checked)){
+                deletableIds.push(value[primaryKey]);
+            }
         });
 
-        if (!retData) return;
-
-        if (refresh) getDataList(store, {page: 1});
-
-        if (listObject && !refresh) {
-            const index = listObject.findIndex(item => item.id === targetId);
-            if (index !== -1) listObject.splice(index, 1);
+        if (deletableIds.length > 0){
+            deleteRecord({
+                url : `${urlGenerate()}/multiple`,
+                selectedKeys : deletableIds,
+                method : 'post',
+                callback: (retData) =>{
+                    getDataList();
+                }
+            })
         }
-
-        if (typeof callback === 'function') callback(retData);
     };
 
     const changeStatus = async (options = {}) => {
@@ -255,13 +250,13 @@ export function useHttp() {
             const retData = await httpReq({
                 data: dataObject,
                 url: `${urlGenerate()}/status`,
-                method : 'post',
+                method: 'post',
                 loader: false
             });
 
             store.commit('httpRequest', false);
 
-            if (retData){
+            if (retData) {
                 getDataList({page: 1});
             }
         } catch (error) {
@@ -327,5 +322,6 @@ export function useHttp() {
         deleteRecord,
         changeStatus,
         uploadFile,
+        deleteAllRecords
     };
 }

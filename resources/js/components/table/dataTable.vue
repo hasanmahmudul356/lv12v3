@@ -35,7 +35,7 @@
         </div>
         <div class="card">
             <div class="card-body data-table">
-                <tableTop :defaultObject="defaultObject"></tableTop>
+                <slot name="tableTop"></slot>
                 <div class="table-responsive mb-2">
                     <table class="table mb-0">
                         <thead class="table-light">

@@ -9,7 +9,7 @@
     const store  = useStore();
     const router  = useRouter();
 
-    const {useGetters, getDataList, submitForm, editData, deleteRecord, getDependency,changeStatus, openModal, handleSelectAll, statusBadge} = {
+    const {useGetters, getDataList, submitForm, editData, deleteRecord, getDependency,changeStatus, openModal, handleSelectAll, statusBadge, deleteAllRecords} = {
         ...appStore(),
         ...useHttp(),
         ...useBase()
@@ -19,10 +19,6 @@
     const tableHeaders = reactive(['#', {name: '', listObject: dataList}, 'Display Name', 'Name', 'Status', 'Action']);
     const permissions = reactive(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy', 'status']);
 
-    const formObject = reactive({
-        permissions: [],
-    });
-
     onMounted(()=>{
         getDataList();
         getDependency({dependency : ['permissions']});
@@ -30,9 +26,16 @@
 
 </script>
 <template>
-    <dataTable :headings="tableHeaders" :loader="false" :formObject="formObject" :defaultObject="{permissions:[]}">
+    <dataTable :headings="tableHeaders" :loader="false" :formObject="formObject">
+        <template v-slot:tableTop>
+            <tableTop :defaultObject="{permissions:[]}">
+                <div class="col-md-3">
+                    <input type="text" class="form-control radius-30" placeholder="Search Order">
+                </div>
+            </tableTop>
+        </template>
         <template v-slot:topRight v-if="dataList.data !== undefined">
-            <a class="btn btn-sm btn-outline-danger radius-30 text-uppercase" v-if="dataList.data.some(each => parseInt(each.checked) === 1)">Delete All</a>
+            <a class="btn btn-sm btn-outline-danger radius-30 text-uppercase" @click="deleteAllRecords({dataObject:dataList.data})" v-if="dataList.data.some(each => parseInt(each.checked) === 1)">Delete All</a>
         </template>
         <template v-slot:data>
             <template v-for="(item, index) in dataList.data" :key="item.id">
@@ -43,7 +46,7 @@
                     <td>{{ item.name }}</td>
                     <td><a @click="changeStatus({obj:item})" class="pointer" v-html="statusBadge(item.status)"></a></td>
                     <td>
-                        <a @click="editData({id:item.id, modal:'fromModal', formObj : formObject})" class="btn btn-outline-secondary action">
+                        <a @click="editData({id:item.id, modal:'fromModal'})" class="btn btn-outline-secondary action">
                             <i class='bx bxs-edit text-warning'></i>
                         </a>
                         <a @click="deleteRecord({targetId:item.id,listIndex:index, listObject:dataList.data})" class="btn btn-outline-secondary action">
@@ -72,7 +75,6 @@
         </template>
 
         <fromModal title="Module Form" modal-size="modal-xs" @submit="submitForm({
-            data: formObject,
             modal: 'fromModal',
             callback: function (retData) {
                 Object.assign(formObject, { permissions: [] });

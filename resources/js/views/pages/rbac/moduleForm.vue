@@ -54,7 +54,6 @@
         </div>
     </div>
     <hr>
-    {{formObject}}
     <div class="row mb-2">
         <label class="col-md-4 pointer" for="allPermissions">
             <strong>Permission : </strong>

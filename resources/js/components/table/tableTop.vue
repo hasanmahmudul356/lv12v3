@@ -21,6 +21,7 @@
                     <div class="col-md-3">
                         <input v-model="formFilter.keyword" type="text" class="form-control radius-30" placeholder="Search Order">
                     </div>
+                    <slot></slot>
                     <slot name="filter"></slot>
                     <div class="col-md-2">
                         <button v-if="httpRequest" type="button" class="btn btn-light radius-30">
