@@ -1,6 +1,7 @@
 export const state = {
     httpRequest: false,
-    dataList: [],
+    dataList: {},
+    formObject : {},
     detailsData: [],
     authUser: {},
     Config: [],
@@ -10,7 +11,6 @@ export const state = {
     pageDependencies: {},
     formType: 1,
     updateId: '',
-    formObject : {},
     formFilter : {
         per_page : 15,
         status : '',

@@ -157,16 +157,51 @@ export function useHttp() {
             store.commit('updateId', data[primaryKey]);
         }
         if (modal) {
-            openModal(modal, () => Object.assign(formObj, data));
+            openModal({
+                modalId : modal,
+                formObject : formObj,
+                defaultObj : Object.assign(formObj, data)
+            });
         } else {
             Object.assign(formObj, data);
         }
     };
     const deleteRecord = async (options = {}) => {
-        const isConfirmed = await handelConfirm(
-            options.title ?? 'Confirm Delete',
-            options.message ?? 'Are you sure you want to delete this record?'
-        );
+        const isConfirmed = await handelConfirm();
+        if (!isConfirmed) return;
+        const {
+            targetId = null,
+            url = null,
+            callback = null,
+            refresh = false,
+            method = 'delete',
+            listObject = null
+        } = options;
+
+        if (targetId == null) {
+            toaster('error', 'Target Id not found');
+            return;
+        }
+
+        const retData = await httpReq({
+            url: url ? `${urlGenerate(url)}` : `${urlGenerate(url)}/${targetId}`,
+            method,
+            loader: false
+        });
+
+        if (!retData) return;
+
+        if (refresh) getDataList(store, {page: 1});
+
+        if (listObject && !refresh) {
+            const index = listObject.findIndex(item => item.id === targetId);
+            if (index !== -1) listObject.splice(index, 1);
+        }
+
+        if (typeof callback === 'function') callback(retData);
+    };
+    const deleteAllRecords = async (options = {}) => {
+        const isConfirmed = await handelConfirm();
         if (!isConfirmed) return;
 
         const {

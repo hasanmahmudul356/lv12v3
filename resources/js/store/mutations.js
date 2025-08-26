@@ -3,7 +3,13 @@ export const mutations = {
         state.modalTitle = title;
     },
     formObject(state, object) {
-        state.formObject = object;
+        state.formObject = {...object};
+    },
+    resetForm(state, defaultObj = {}) {
+        state.formObject = { ...defaultObj };
+    },
+    formObjectField(state, { key, value }) {
+        state.formObject[key] = value;
     },
     formFilter(state, object) {
         state.formFilter = object;

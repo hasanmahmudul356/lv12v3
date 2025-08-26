@@ -28,14 +28,17 @@ export function appStore() {
             store.commit('allMenus', value);
         }
     });
+
     const formObject = computed({
-        get() {
-            return store.getters.formObject;
-        },
-        set(value) {
-            store.commit('formObject', value);
-        }
+        get: () => store.state.formObject,
+        set: (val) => store.commit('setForm', val)
     });
+    const assignStore = (stateName, resetObject = {}) => {
+        store.commit(stateName, resetObject);
+    };
+    const formObjectField = (key, value) => {
+        store.commit('formObjectField', { key, value: value });
+    };
 
     const setState = (state, key, value) => {
         state.value = {
@@ -57,6 +60,7 @@ export function appStore() {
         dataList,
         allMenus,
         useGetters,
-        setState
+        setState,
+        formObjectField
     }
 }

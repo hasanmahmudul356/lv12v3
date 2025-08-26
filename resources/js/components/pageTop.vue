@@ -8,7 +8,7 @@
 
     const {formFilter, useGetters, routeMeta, getDataList} = {...appStore(), ...useHttp()};
     const {dataList} = useGetters('dataList', 'httpRequest');
-    const perPage = ref([10, 20, 50, 100, 200]);
+    const perPage = ref([10,15, 20, 50, 100, 200]);
 
     const props = defineProps({
         listPage: {type: Boolean, default: true},

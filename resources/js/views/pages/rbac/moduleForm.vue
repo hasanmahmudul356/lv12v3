@@ -1,22 +1,27 @@
 <script setup>
+    import {appStore} from "@/lib";
+    const { useGetters, formObjectField} = appStore();
+    let {formObject} = useGetters('formObject');
+
     const props = defineProps({
         formObject: {type: Object, default: () => ({})},
         dependencies: {type: Object, default: () => ({})},
     });
-    const formObject = props.formObject;
     const pageDependencies = props.dependencies;
 
     const checkUncheck = ($event, permissions) => {
+        let savPermissions = [...formObject.value.permissions];
         permissions.forEach((value, index) => {
-            if ($event.target.checked && !formObject.permissions.includes(value)) {
-                formObject.permissions.push(value);
+            if ($event.target.checked && !savPermissions.includes(value)) {
+                savPermissions.push(value);
             } else {
-                let index = formObject.permissions.indexOf(value);
+                let index = savPermissions.indexOf(value);
                 if (index !== -1) {
-                    formObject.permissions.splice(index, 1);
+                    savPermissions.splice(index, 1);
                 }
             }
         });
+        formObjectField('permissions', savPermissions);
     };
 </script>
 <template>
@@ -49,12 +54,13 @@
         </div>
     </div>
     <hr>
+    {{formObject}}
     <div class="row mb-2">
         <label class="col-md-4 pointer" for="allPermissions">
             <strong>Permission : </strong>
             <input @change="checkUncheck($event, pageDependencies.permissions)" class="form-check-input" type="checkbox" id="allPermissions" value="all">
         </label>
-        <div class="col-md-8">
+        <div class="col-md-8" v-if="formObject.permissions !== undefined">
             <div class="form-check form-check-inline" v-for="permission in pageDependencies.permissions">
                 <input class="form-check-input" @change="checkUncheck($event, [permission])" type="checkbox" :checked="formObject.permissions.includes(permission)" :id="permission" :value="permission">
                 <label class="form-check-label text-uppercase pointer" :for="permission">{{permission}}</label>

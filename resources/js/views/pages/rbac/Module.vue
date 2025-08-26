@@ -2,13 +2,12 @@
     import {ref, reactive, onMounted} from 'vue'
     import {useStore} from 'vuex'
     import {useRouter} from 'vue-router'
-    const store  = useStore();
-    const router  = useRouter();
 
     import {dataTable, tableTop, fromModal, pageTop} from '@/components'
     import moduleForm from "@/views/pages/rbac/moduleForm.vue";
-
     import {appStore, useHttp, useBase} from "@/lib";
+    const store  = useStore();
+    const router  = useRouter();
 
     const {useGetters, getDataList, submitForm, editData, deleteRecord, getDependency,changeStatus, openModal, handleSelectAll, statusBadge} = {
         ...appStore(),
@@ -31,13 +30,13 @@
 
 </script>
 <template>
-    <dataTable :loading="httpRequest" :headings="tableHeaders" :loader="false">
-        <template v-slot:topRight>
-            <a class="btn btn-danger">Delete All</a>
+    <dataTable :headings="tableHeaders" :loader="false" :formObject="formObject" :defaultObject="{permissions:[]}">
+        <template v-slot:topRight v-if="dataList.data !== undefined">
+            <a class="btn btn-sm btn-outline-danger radius-30 text-uppercase" v-if="dataList.data.some(each => parseInt(each.checked) === 1)">Delete All</a>
         </template>
         <template v-slot:data>
             <template v-for="(item, index) in dataList.data" :key="item.id">
-                <tr >
+                <tr>
                     <td>{{index+1}}</td>
                     <td><input :checked="item.checked" @change="handleSelectAll($event, [item])" class="form-check-input me-3 pointer" type="checkbox"/></td>
                     <td>{{ item.display_name }}</td>
@@ -63,7 +62,7 @@
                             <a @click="editData(subItem, 'fromModal', formObject)" class="btn btn-outline-secondary action">
                                 <i class='bx bxs-edit text-warning'></i>
                             </a>
-                            <a @click="deleteRecord({targetId:subItem.id,listIndex:index, listObject:dataList.data})" class="btn btn-outline-secondary action">
+                            <a @click="deleteRecord({targetId:subItem.id, listObject:dataList.data})" class="btn btn-outline-secondary action">
                                 <i class='bx bxs-trash text-danger'></i>
                             </a>
                         </td>

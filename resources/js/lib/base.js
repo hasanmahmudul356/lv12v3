@@ -2,11 +2,14 @@ import {computed} from 'vue'
 import 'vue-toast-notification/dist/theme-sugar.css'
 import {useToast} from 'vue-toast-notification'
 import Swal from 'sweetalert2/dist/sweetalert2';
-import axios from "axios";
+import {appStore} from "@/lib";
+import {useStore} from 'vuex';
 
 
 export function useBase() {
     const toast = useToast();
+    const store = useStore();
+    let {formObject, assignStore} = appStore();
 
     const toaster = (type = 'success', message = false) => {
         if (message){
@@ -47,22 +50,42 @@ export function useBase() {
         }
     };
 
-    const openModal = (modalId = 'fromModal', callback = false) => {
+    const openModal = (options = {}) => {
+        let {
+            modalId = 'fromModal',
+            defaultObject = {},
+            callback = false
+        } = options;
+
+        if (Object.keys(defaultObject).length > 0) {
+            store.commit('resetForm', defaultObject);
+        }
+
         const modal = document.getElementById(modalId);
+        if (!modal) {
+            console.error(`Modal with id "${modalId}" not found`);
+            return;
+        }
+
         const bsModal = new bootstrap.Modal(modal, {
             backdrop: 'static',
             keyboard: true,
             focus: true
         });
         bsModal.show();
-        modal.focus();
 
-        console.log(modalId);
+        const firstInput = modal.querySelector('input, textarea, select');
+        if (firstInput) {
+            firstInput.focus();
+        } else {
+            modal.focus();
+        }
 
-        if (typeof callback === 'function'){
-            callback(true);
+        if (typeof callback === 'function') {
+            callback({ success: true, modalId, formObject });
         }
     };
+
     const closeModal = (modalId = 'fromModal') => {
         const modal = document.getElementById(modalId);
         const bsModal = bootstrap.Modal.getInstance(modal);
@@ -70,10 +93,16 @@ export function useBase() {
         document.querySelector('body').focus();
     };
 
-    const handelConfirm = async (callback = false, title = false, message = false) => {
+    const handelConfirm = async (options = {}) => {
+        const {
+            title = "Are you sure?",
+            message = "Are you sure to delete this ??",
+            callback = false
+        } = options;
+
         const result = await Swal.fire({
-            title: title ?? "Are you sure?",
-            text: message ?? "Are you sure to delete this ??",
+            title: title,
+            text: message,
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",

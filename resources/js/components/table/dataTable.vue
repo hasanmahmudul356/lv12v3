@@ -1,8 +1,6 @@
 <script setup>
-    import tableHeader from "@/components/table/tableHeader.vue";
-    import tableTop from "@/components/table/tableTop.vue";
-    import pageTop from "@/components/pageTop.vue";
-    import Pagination from "@/plugins/pagination/pagination.vue";
+    import {tableHeader, tableTop, pageTop} from "@/components";
+    import {pagination} from "@/plugins";
 
     import {appStore, useHttp} from "@/lib";
 
@@ -14,9 +12,10 @@
 
     const props = defineProps({
         headings: Array,
-        loading: Boolean,
         loader: Boolean,
         defaultPagination: {type: Boolean, default: true},
+        formObject: {type: Object, default: () => ({})},
+        defaultObject: {type: Object, default: () => ({})},
     });
 
     const headings = props.headings ?? [];
@@ -36,7 +35,7 @@
         </div>
         <div class="card">
             <div class="card-body data-table">
-                <tableTop></tableTop>
+                <tableTop :defaultObject="defaultObject"></tableTop>
                 <div class="table-responsive mb-2">
                     <table class="table mb-0">
                         <thead class="table-light">
@@ -62,7 +61,7 @@
                     </table>
                 </div>
                 <template v-if="defaultPagination && dataList !== undefined">
-                    <Pagination v-if="dataList.data !== undefined" :data="dataList" @paginateTo="getDataList"/>
+                    <pagination v-if="dataList.data !== undefined" :data="dataList" @paginateTo="getDataList"/>
                 </template>
                 <slot name="pagination"></slot>
             </div>
