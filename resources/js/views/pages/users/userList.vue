@@ -1,42 +1,35 @@
 <script setup>
-    import dataTable from '@/components/table/dataTable.vue';
-    import fromModal from '@/components/fromModal.vue';
-    import pageTop from '@/components/pageTop.vue';
+    import {dataTable,fromModal,tableTop } from '@/components';
 
-    import {ref, onMounted, computed} from 'vue';
-
-    let modalInstance = null;
+    import {ref, onMounted} from 'vue';
     import {useStore} from 'vuex';
     const store = useStore();
     import {useBase, useHttp, appStore} from '@/lib';
 
-    const {formFilter, formObject, openModal, closeModal, useGetters, dataList, httpRequest} = {
+    const {getDependency, submitForm, editData, deleteRecord} = {...useHttp()};
+    const {formFilter, formObject, openModal, closeModal, useGetters, dataList, httpRequest, pageDependencies, updateId} = {
         ...useBase(),
         ...appStore(),
-        ...appStore().useGetters('dataList', 'httpRequest')
+        ...appStore().useGetters('dataList', 'httpRequest', 'pageDependencies', 'updateId')
     };
-    const tableHeaders = ref(["#", {
-        name: '',
-        data: dataList.data
-    }, "Name", "Email", "Username", "Phone", "Opening Date", "Actions"]);
 
+    const tableHeaders = ref(["#", "Name", "Email", "Username", "Phone", "Opening Date", "Actions"]);
     const {getDataList, httpReq} = useHttp();
 
-
     onMounted(() => {
-        getDataList(store);
+        getDataList();
+        getDependency({dependency : ['roles']});
     });
 </script>
 
 <template>
     <dataTable :headings="tableHeaders" :setting="true">
         <template v-slot:tableTop>
-            <pageTop></pageTop>
+            <tableTop :defaultObject="{role_id:''}"></tableTop>
         </template>
         <template v-slot:data>
             <tr v-for="(item, index) in dataList.data" :key="item.id">
                 <td>{{index+1}}</td>
-                <td><input class="form-check-input me-3" type="checkbox" value="" aria-label="..."></td>
                 <td>{{ item.name }}</td>
                 <td>{{ item.email }}</td>
                 <td>{{ item.username }}</td>
@@ -48,13 +41,59 @@
                     </a>
                 </td>
                 <td>
-                    <a href="#" class="btn btn-outline-secondary action"><i class='bx bxs-edit text-warning'></i></a>
-                    <a href="#" class="btn btn-outline-secondary action"><i class='bx bxs-trash text-danger'></i></a>
+                    <a @click="editData({data:item, id:item.id, modal:'fromModal'})" class="btn btn-outline-secondary action">
+                        <i class='bx bxs-edit text-warning'></i>
+                    </a>
+                    <a @click="deleteRecord({targetId:item.id,listIndex:index, listObject:dataList.data})" class="btn btn-outline-secondary action">
+                        <i class='bx bxs-trash text-danger'></i>
+                    </a>
                 </td>
             </tr>
         </template>
 
-        <fromModal></fromModal>
+        <fromModal @submit="submitForm({
+            modal: 'fromModal',
+            callback: function (retData) {
+                Object.assign(formObject, {});
+                getDataList();
+            }
+        })">
+            <div class="row mb-2">
+                <label class="col-md-4"><strong>Name : </strong></label>
+                <div class="col-md-8">
+                    <input type="text" v-model="formObject.name" class="form-control"/>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <label class="col-md-4"><strong>Email : </strong></label>
+                <div class="col-md-8">
+                    <input type="text" v-model="formObject.email" class="form-control"/>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <label class="col-md-4"><strong>Username : </strong></label>
+                <div class="col-md-8">
+                    <input type="text" v-model="formObject.username" class="form-control"/>
+                </div>
+            </div>
+            <div class="row mb-2" v-if="!updateId">
+                <label class="col-md-4"><strong>Password : </strong></label>
+                <div class="col-md-8">
+                    <input type="text" v-model="formObject.password" class="form-control"/>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <label class="col-md-4"><strong>Role : </strong></label>
+                <div class="col-md-8">
+                    <select type="text" v-model="formObject.role_id" class="form-control">
+                        <option value="">Select</option>
+                        <template v-for="role in pageDependencies.roles">
+                            <option :value="role.id">{{role.name}}</option>
+                        </template>
+                    </select>
+                </div>
+            </div>
+        </fromModal>
     </dataTable>
 
 </template>

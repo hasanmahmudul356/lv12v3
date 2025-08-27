@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\RBAC\Module;
 use App\Models\RBAC\Permission;
+use App\Models\RBAC\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -62,6 +63,10 @@ class SupportController extends Controller
         if (isset($input['permissions']) || in_array('permissions', $input)){
             $key = isset($input['permissions']['key']) ?  isset($input['permissions']['key']) : 'permissions';
             $data[$key] =  ['index', 'create', 'store', 'show', 'edit', 'update', 'destroy', 'status'];
+        }
+        if (isset($input['roles']) || in_array('roles', $input)){
+            $key = isset($input['roles']['key']) ?  isset($input['roles']['key']) : 'roles';
+            $data[$key] =  Role::where('status', 1)->get();
         }
 
         return returnData(2000, $data);

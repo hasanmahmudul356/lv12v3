@@ -61,6 +61,7 @@ export function appStore() {
         allMenus,
         useGetters,
         setState,
-        formObjectField
+        formObjectField,
+        assignStore
     }
 }

@@ -54,8 +54,14 @@ export function useBase() {
         let {
             modalId = 'fromModal',
             defaultObject = {},
-            callback = false
+            callback = false,
+            resetForm = true
         } = options;
+
+        if (resetForm){
+            assignStore('formObject', {});
+            assignStore('updateId', null);
+        }
 
         if (Object.keys(defaultObject).length > 0) {
             store.commit('resetForm', defaultObject);

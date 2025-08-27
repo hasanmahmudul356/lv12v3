@@ -163,8 +163,8 @@ td:first-child{
     width: 50px;
 }
 
-th:nth-child(2),
-td:nth-child(2) {
+th.checkbox,
+td.checkbox {
     width: 25px;
 }
 

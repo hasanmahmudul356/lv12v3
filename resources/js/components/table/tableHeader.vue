@@ -12,7 +12,7 @@
     <template v-if="headings.length > 0">
         <template v-for="hading in headings">
             <template v-if="typeof hading === 'object' && hading.listObject !== undefined && hading.listObject.data !== undefined">
-               <th>
+               <th class="checkbox">
                    <div class="d-flex align-items-center">
                        <div>
                            <input @change="handleSelectAll($event, hading.listObject.data)" class="form-check-input me-3 pointer" type="checkbox">

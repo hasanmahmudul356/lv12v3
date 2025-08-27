@@ -148,24 +148,23 @@ export function useHttp() {
     const editData = async (options = {}) => {
         let {data = {}, id = false, modal = false, primaryKey = 'id', url = false, method = 'get'} = options;
 
-        store.commit('updateId', id);
-
         if (Object.keys(data).length === 0) {
             data = await httpReq({
                 method: method,
                 url: url ? urlGenerate(url) : `${urlGenerate()}/${id}/edit`,
                 loader: true
             });
-            store.commit('updateId', data[primaryKey]);
         }
         if (modal) {
             openModal({
                 modalId: modal, callback: function (retData) {
                     store.commit('formObject', data);
+                    store.commit('updateId', data[primaryKey]);
                 }
             });
         } else {
             store.commit('formObject', data);
+            store.commit('updateId', data[primaryKey]);
         }
     };
     const deleteRecord = async (options = {}) => {

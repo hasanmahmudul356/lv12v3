@@ -41,7 +41,7 @@
             <template v-for="(item, index) in dataList.data" :key="item.id">
                 <tr>
                     <td>{{index+1}}</td>
-                    <td><input :checked="item.checked" @change="handleSelectAll($event, [item])" class="form-check-input me-3 pointer" type="checkbox"/></td>
+                    <td class="checkbox"><input :checked="item.checked" @change="handleSelectAll($event, [item])" class="form-check-input me-3 pointer" type="checkbox"/></td>
                     <td>{{ item.display_name }}</td>
                     <td>{{ item.name }}</td>
                     <td><a @click="changeStatus({obj:item})" class="pointer" v-html="statusBadge(item.status)"></a></td>

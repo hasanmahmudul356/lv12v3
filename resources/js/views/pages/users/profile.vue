@@ -1,5 +1,4 @@
 <script setup>
-    import {pageTopLeft} from "@/components";
     import {useStore} from 'vuex'
     const store = useStore();
     import {useBase, appStore, useHttp} from "@/lib";
@@ -17,7 +16,7 @@
         <div class="page-content">
             <!--breadcrumb-->
             <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-                <pageTopLeft title="User Profile" :listPage="false"></pageTopLeft>
+
             </div>
             <div class="main-body">
                 <div class="row">

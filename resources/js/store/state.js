@@ -2,6 +2,7 @@ export const state = {
     httpRequest: false,
     dataList: {},
     formObject : {},
+    updateId: '',
     detailsData: [],
     authUser: {},
     Config: [],
@@ -10,7 +11,6 @@ export const state = {
     isConfigLoaded: false,
     pageDependencies: {},
     formType: 1,
-    updateId: '',
     formFilter : {
         per_page : 15,
         status : '',
