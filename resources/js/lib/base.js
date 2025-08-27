@@ -2,28 +2,36 @@ import {computed} from 'vue'
 import 'vue-toast-notification/dist/theme-sugar.css'
 import {useToast} from 'vue-toast-notification'
 import Swal from 'sweetalert2/dist/sweetalert2';
-import {appStore} from "@/lib";
+import {appStore, useValidator} from "@/lib";
 import {useStore} from 'vuex';
 
 
 export function useBase() {
     const toast = useToast();
     const store = useStore();
-    let {formObject, assignStore} = appStore();
+    let {formObject, assignStore, resetValidation} = {...appStore(), ...useValidator()};
 
-    const toaster = (type = 'success', message = false) => {
-        if (message){
-            const map = {
-                success: msg => toast.success(msg),
-                error: msg => toast.error(msg),
-                info: msg => toast.info(msg),
-                warning: msg => toast.warning(msg),
-                default: msg => toast(msg)
-            };
+    const toaster = (type = 'success', message = false, title = false) => {
+        if (!message) return;
 
-            (map[type] || map.default)(message);
-        }
+        const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1);
+        title = title || capitalize(type);
+
+        const formatMessage = (msg, t) =>
+            t ? `<strong>${t}</strong><br><span>${msg}</span>` : `<span>${msg}</span>`;
+
+        const map = {
+            success: msg => toast.success(formatMessage(msg, title)),
+            error: msg => toast.error(formatMessage(msg, title)),
+            info: msg => toast.info(formatMessage(msg, title)),
+            warning: msg => toast.warning(formatMessage(msg, title)),
+            default: msg => toast(formatMessage(msg, title)),
+        };
+
+        (map[type] || map.default)(message);
     };
+
+
 
     const getImage = (imagePath) => {
         return 'https://static.vecteezy.com/system/resources/thumbnails/057/068/323/small/single-fresh-red-strawberry-on-table-green-background-food-fruit-sweet-macro-juicy-plant-image-photo.jpg';
@@ -57,6 +65,8 @@ export function useBase() {
             callback = false,
             resetForm = true
         } = options;
+
+        resetValidation();
 
         if (resetForm){
             assignStore('formObject', {});

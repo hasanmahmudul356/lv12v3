@@ -3,12 +3,13 @@ import {useRouter, useRoute} from 'vue-router';
 import axios from 'axios';
 import {useStore} from 'vuex';
 
-import {useBase, appStore} from "@/lib";
+import {useBase, appStore, useValidator} from "@/lib";
 
 export function useHttp() {
     const store = useStore();
     const router = useRouter();
     const route = useRoute();
+    const { validate, reset } = useValidator();
 
     const {can, toaster, closeModal, openModal, handelConfirm, useGetters} = {...useBase(), ...appStore()};
 
@@ -38,13 +39,13 @@ export function useHttp() {
         const status = parseInt(response.data.status);
 
         if ([5000, 5001].includes(status)) {
-            toaster((response.data.type || 'error'), response.data.message);
+            toaster((response.data.type || 'error'), response.data.message, 'Error');
 
             if (status === 5001) router.push({path: '/dashboard'});
             return false;
         }
         if (status === 2000) {
-            toaster('success', response.data.message);
+            toaster('success', response.data.message, 'Success');
             return response.data.result ?? true;
         }
 
@@ -119,7 +120,7 @@ export function useHttp() {
         }
     };
     const submitForm = async (options = {}) => {
-        let {data = {}, modal = false, callback = false, validation = false, url = false, params = {}, method = false, reset = true} = options;
+        let {data = {}, modal = false, callback = false, validation = true, url = false, params = {}, method = false, reset = true} = options;
 
         if (Object.keys(data).length === 0) {
             data = formObject.value;
@@ -127,22 +128,26 @@ export function useHttp() {
 
         const updateIdVal = store.getters.updateId;
 
-        if (!validation || true) {
-            const retData = await httpReq({
-                method: method || (parseInt(updateIdVal) ? 'put' : 'post'),
-                url: parseInt(updateIdVal) ? `${urlGenerate(url)}/${updateIdVal}` : urlGenerate(url),
-                data: data,
-                params: params,
-                loader: true,
-            });
-            if (retData) {
-                store.commit('updateId', false);
-                if (reset) {
-                    data = {};
-                }
-                if (modal) closeModal(modal);
-                if (typeof callback === 'function') callback(retData);
+        const isValid = validation ? await validate() : true;
+        if (!isValid){
+            toaster('warning', 'Please fill all field properly the submit again', 'Validation Failed');
+            return false;
+        }
+
+        const retData = await httpReq({
+            method: method || (parseInt(updateIdVal) ? 'put' : 'post'),
+            url: parseInt(updateIdVal) ? `${urlGenerate(url)}/${updateIdVal}` : urlGenerate(url),
+            data: data,
+            params: params,
+            loader: true,
+        });
+        if (retData) {
+            store.commit('updateId', false);
+            if (reset) {
+                data = {};
             }
+            if (modal) closeModal(modal);
+            if (typeof callback === 'function') callback(retData);
         }
     };
     const editData = async (options = {}) => {

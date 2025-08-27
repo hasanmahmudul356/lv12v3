@@ -17,7 +17,7 @@
     const { httpRequest, dataList, pageDependencies } = useGetters('httpRequest', 'dataList', 'pageDependencies');
 
     const tableHeaders = reactive(['#', {name: '', listObject: dataList}, 'Display Name', 'Name', 'Status', 'Action']);
-    const permissions = reactive(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy', 'status']);
+    const permissions = reactive(['directives.js', 'create', 'store', 'show', 'edit', 'update', 'destroy', 'status']);
 
     onMounted(()=>{
         getDataList();
@@ -26,7 +26,7 @@
 
 </script>
 <template>
-    <dataTable :headings="tableHeaders" :loader="false" :formObject="formObject">
+    <dataTable :headings="tableHeaders" :loader="true">
         <template v-slot:tableTop>
             <tableTop :defaultObject="{permissions:[]}">
                 <div class="col-md-3">
@@ -62,7 +62,7 @@
                         <td>{{ subItem.name }}</td>
                         <td><a @click="changeStatus({obj:subItem})" class="pointer" v-html="statusBadge(subItem.status)"></a></td>
                         <td>
-                            <a @click="editData(subItem, 'fromModal', formObject)" class="btn btn-outline-secondary action">
+                            <a @click="editData(subItem, 'fromModal')" class="btn btn-outline-secondary action">
                                 <i class='bx bxs-edit text-warning'></i>
                             </a>
                             <a @click="deleteRecord({targetId:subItem.id, listObject:dataList.data})" class="btn btn-outline-secondary action">
@@ -77,11 +77,10 @@
         <fromModal title="Module Form" modal-size="modal-xs" @submit="submitForm({
             modal: 'fromModal',
             callback: function (retData) {
-                Object.assign(formObject, { permissions: [] });
                 getDataList();
             }
         })">
-            <moduleForm :dependencies="pageDependencies" :formObject="formObject"></moduleForm>
+            <moduleForm :dependencies="pageDependencies"></moduleForm>
         </fromModal>
     </dataTable>
 </template>

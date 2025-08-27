@@ -14,7 +14,6 @@
         headings: Array,
         loader: Boolean,
         defaultPagination: {type: Boolean, default: true},
-        formObject: {type: Object, default: () => ({})},
         defaultObject: {type: Object, default: () => ({})},
     });
 
@@ -37,7 +36,7 @@
             <div class="card-body data-table">
                 <slot name="tableTop"></slot>
                 <div class="table-responsive mb-2">
-                    <table class="table mb-0">
+                    <table class="table mb-0 data_table">
                         <thead class="table-light">
                             <tr>
                                 <template v-if="$slots.header">

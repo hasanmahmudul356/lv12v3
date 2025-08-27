@@ -1632,7 +1632,7 @@ $.widget( "ui.accordion", {
 
 		var keyCode = $.ui.keyCode,
 			length = this.headers.length,
-			currentIndex = this.headers.index( event.target ),
+			currentIndex = this.headers.directives( event.target ),
 			toFocus = false;
 
 		switch ( event.keyCode ) {
@@ -1694,7 +1694,7 @@ $.widget( "ui.accordion", {
 		// was active, active panel still exists
 		} else {
 			// make sure active index is correct
-			options.active = this.headers.index( this.active );
+			options.active = this.headers.directives( this.active );
 		}
 
 		this._destroyIcons();
@@ -1876,7 +1876,7 @@ $.widget( "ui.accordion", {
 			return;
 		}
 
-		options.active = collapsing ? false : this.headers.index( clicked );
+		options.active = collapsing ? false : this.headers.directives( clicked );
 
 		// when the call to ._toggle() comes after the class changes
 		// it causes a very odd bug in IE 8 (see #6720)
@@ -1959,7 +1959,7 @@ $.widget( "ui.accordion", {
 			that = this,
 			adjust = 0,
 			down = toShow.length &&
-				( !toHide.length || ( toShow.index() < toHide.index() ) ),
+				( !toHide.length || ( toShow.directives() < toHide.directives() ) ),
 			animate = this.options.animate || {},
 			options = down && animate.down || animate,
 			complete = function() {
@@ -5099,7 +5099,7 @@ $.widget( "ui.dialog", {
 		};
 		this.originalPosition = {
 			parent: this.element.parent(),
-			index: this.element.parent().children().index( this.element )
+			index: this.element.parent().children().directives( this.element )
 		};
 		this.originalTitle = this.element.attr("title");
 		this.options.title = this.options.title || this.originalTitle;
@@ -9624,7 +9624,7 @@ $.widget( "ui.menu", {
 			match = this.activeMenu.children( ".ui-menu-item" ).filter(function() {
 				return regex.test( $( this ).children( "a" ).text() );
 			});
-			match = skip && match.index( this.active.next() ) !== -1 ?
+			match = skip && match.directives( this.active.next() ) !== -1 ?
 				this.active.nextAll( ".ui-menu-item" ) :
 				match;
 
@@ -13856,7 +13856,7 @@ $.widget( "ui.tabs", {
 		if ( $.isArray( options.disabled ) ) {
 			options.disabled = $.unique( options.disabled.concat(
 				$.map( this.tabs.filter( ".ui-state-disabled" ), function( li ) {
-					return that.tabs.index( li );
+					return that.tabs.directives( li );
 				})
 			) ).sort();
 		}
@@ -13893,7 +13893,7 @@ $.widget( "ui.tabs", {
 
 			// check for a tab marked active via a class
 			if ( active === null ) {
-				active = this.tabs.index( this.tabs.filter( ".ui-tabs-active" ) );
+				active = this.tabs.directives( this.tabs.filter( ".ui-tabs-active" ) );
 			}
 
 			// no active tab, set to false
@@ -13904,7 +13904,7 @@ $.widget( "ui.tabs", {
 
 		// handle numbers: negative, out of range
 		if ( active !== false ) {
-			active = this.tabs.index( this.tabs.eq( active ) );
+			active = this.tabs.directives( this.tabs.eq( active ) );
 			if ( active === -1 ) {
 				active = collapsible ? false : 0;
 			}
@@ -13927,7 +13927,7 @@ $.widget( "ui.tabs", {
 
 	_tabKeydown: function( event ) {
 		var focusedTab = $( this.document[0].activeElement ).closest( "li" ),
-			selectedIndex = this.tabs.index( focusedTab ),
+			selectedIndex = this.tabs.directives( focusedTab ),
 			goingForward = true;
 
 		if ( this._handlePageNav( event ) ) {
@@ -14083,7 +14083,7 @@ $.widget( "ui.tabs", {
 		// get disabled tabs from class attribute from HTML
 		// this will get converted to a boolean if needed in _refresh()
 		options.disabled = $.map( lis.filter( ".ui-state-disabled" ), function( tab ) {
-			return lis.index( tab );
+			return lis.directives( tab );
 		});
 
 		this._processTabs();
@@ -14105,7 +14105,7 @@ $.widget( "ui.tabs", {
 		// was active, active tab still exists
 		} else {
 			// make sure active index is correct
-			options.active = this.tabs.index( this.active );
+			options.active = this.tabs.directives( this.active );
 		}
 
 		this._refresh();
@@ -14334,7 +14334,7 @@ $.widget( "ui.tabs", {
 			return;
 		}
 
-		options.active = collapsing ? false : this.tabs.index( tab );
+		options.active = collapsing ? false : this.tabs.directives( tab );
 
 		this.active = clickedIsActive ? $() : tab;
 		if ( this.xhr ) {
@@ -14346,7 +14346,7 @@ $.widget( "ui.tabs", {
 		}
 
 		if ( toShow.length ) {
-			this.load( this.tabs.index( tab ), event );
+			this.load( this.tabs.directives( tab ), event );
 		}
 		this._toggle( event, eventData );
 	},
@@ -14443,7 +14443,7 @@ $.widget( "ui.tabs", {
 	_getIndex: function( index ) {
 		// meta-function to give users option to provide a href string instead of a numerical index.
 		if ( typeof index === "string" ) {
-			index = this.anchors.index( this.anchors.filter( "[href$='" + index + "']" ) );
+			index = this.anchors.directives( this.anchors.filter( "[href$='" + index + "']" ) );
 		}
 
 		return index;

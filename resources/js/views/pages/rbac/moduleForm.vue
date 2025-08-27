@@ -28,25 +28,32 @@
     <div class="row mb-2">
         <label class="col-md-4"><strong>Display Name : </strong></label>
         <div class="col-md-8">
-            <input type="text" v-model="formObject.display_name" class="form-control"/>
+<!--            <input type="text" v-validate="'required|numeric'" v-model="formObject.display_name" class="form-control"/>-->
+            <datepicker validate="required|numeric" v-model="formObject.date" class="form-control"/>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <label class="col-md-4"><strong>Display Name : </strong></label>
+        <div class="col-md-8">
+            <input type="text" v-validate="'required|numeric'" v-model="formObject.display_name" class="form-control"/>
         </div>
     </div>
     <div class="row mb-2">
         <label class="col-md-4"><strong>Name :</strong></label>
         <div class="col-md-8">
-            <input type="text" v-model="formObject.name" class="form-control" />
+            <input type="text" v-validate="'required'" v-model="formObject.name" class="form-control" />
         </div>
     </div>
     <div class="row mb-2">
         <label class="col-md-4"><strong>Link : </strong></label>
         <div class="col-md-8">
-            <input type="text" v-model="formObject.link" class="form-control" />
+            <input type="text" v-validate="'required'" v-model="formObject.link" class="form-control" />
         </div>
     </div>
     <div class="row mb-2">
         <label class="col-md-4"><strong>Icon : </strong></label>
         <div class="col-md-8">
-            <select class="form-control" v-model="formObject.icon">
+            <select class="form-control" v-validate="'required'" v-model="formObject.icon">
                 <option value="">Select</option>
                 <option value="bx bx-cookie">bx bx-cookie</option>
                 <option value="bx bx-menu">bx bx-menu</option>

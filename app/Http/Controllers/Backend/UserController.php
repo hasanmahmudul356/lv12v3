@@ -21,7 +21,7 @@ class UserController extends Controller
 
     public function index(){
         $data = DB::table('users')->paginate();
-        return returnData(2000, $data, 'UnAuthenticate User', 'error');
+        return returnData(2000, $data);
     }
 
 
@@ -32,16 +32,21 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->all();
-        $data['is_superadmin'] = isset($data['is_superadmin']) && $data['is_superadmin'] ? 1 : 0;
+        try{
+            $data = $request->all();
+            $data['is_superadmin'] = isset($data['is_superadmin']) && $data['is_superadmin'] ? 1 : 0;
 
-        if (isset($data['password'])) {
-            $data['password'] = Hash::make($data['password']);
+            if (isset($data['password'])) {
+                $data['password'] = Hash::make($data['password']);
+            }
+            $this->model->fill($data);
+            $this->model->save();
+
+            return returnData(2000, null, 'Successfully Inserted');
+        }catch (\Exception $exception){
+            return returnData(5000, null, 'Successfully Inserted');
         }
-        $this->model->fill($data);
-        $this->model->save();
 
-        return returnData(2000, null, 'Successfully Inserted');
     }
 
     public function show($id)
