@@ -7,79 +7,89 @@ use Illuminate\Http\Request;
 
 class MeterTypeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function __construct()
     {
+        if (!can(request()->route()->action['as'])) {
+            return returnData(5001, null, 'You are not authorized to access this page');
+        }
+        $this->model = new MeterType();
+    }
+
+    public function index(){
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+//        ddA($request);
+        try {
+            $input = $request->all();
+
+            $validate = $this->model->validate($input);
+            if ($validate->fails()) {
+                return returnData(2000, $validate->errors());
+            }
+
+            $this->model->fill($input);
+            $this->model->save();
+
+            return returnData(2000, null, 'Successfully Inserted');
+
+        } catch (\Exception $exception) {
+            return returnData(5000, $exception->getMessage(), 'Whoops, Something Went Wrong..!!');
+        }
+
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\MeterType  $meterType
-     * @return \Illuminate\Http\Response
-     */
-    public function show(MeterType $meterType)
+    public function show($id)
+    {
+       //
+    }
+
+    public function edit($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\MeterType  $meterType
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(MeterType $meterType)
+    public function update(Request $request, $id)
     {
-        //
+        try {
+            $input = $request->all();
+            $validation = $this->model->validate($input);
+            if ($validation->fails()) {
+                return response()->json(['status' => 2000, 'errors' => $validation->errors()], 200);
+            }
+            $data = $this->model->find($id);
+            if ($data) {
+                $data->update($input);
+                return returnData(2000, null, 'Successfully Updated');
+            }
+            return returnData(5000, null, 'Data Not found');
+        } catch (\Exception $exception) {
+            return returnData(5000, $exception->getMessage(), 'Whoops, Something Went Wrong..!!');
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\MeterType  $meterType
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, MeterType $meterType)
+    public function destroy($id)
     {
-        //
-    }
+        try {
+            $data = $this->model->where('id', $id)->first();
+            if (!$data) {
+                return returnData(5000, null, 'Data Not found');
+            }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\MeterType  $meterType
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(MeterType $meterType)
-    {
-        //
+            $data->delete();
+
+            return returnData(2000, $data, 'Successfully Deleted');
+
+        } catch (\Exception $exception) {
+            return returnData(5000, $exception->getMessage(), 'Whoops, Something Went Wrong..!!');
+        }
     }
 }

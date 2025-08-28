@@ -68,6 +68,10 @@ class SupportController extends Controller
             $key = isset($input['roles']['key']) ?  isset($input['roles']['key']) : 'roles';
             $data[$key] =  Role::where('status', 1)->get();
         }
+        if (isset($input['users']) || in_array('users', $input)){
+            $key = isset($input['users']['key']) ?  isset($input['users']['key']) : 'users';
+            $data[$key] =  User::where('status', 1)->get();
+        }
 
         return returnData(2000, $data);
     }

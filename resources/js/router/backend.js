@@ -41,6 +41,11 @@ export const backend = [
                 component: () => import('@/views/pages/rbac/Module.vue'),
                 meta: {dataUrl: 'api/role_permissions', title: 'Module'}
             },
+            {
+                path: 'meter_type', name: 'meter_type',
+                component: () => import('@/views/setting/meterType.vue'),
+                meta: {dataUrl: 'api/meter_type', title: 'Meter Type'}
+            },
         ]
     }
 ];

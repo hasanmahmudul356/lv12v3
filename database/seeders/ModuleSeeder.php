@@ -243,9 +243,9 @@ class ModuleSeeder extends Seeder
                 'icon' => 'fa-tools',
                 'submenus'=>[
                     [
-                        'display_name' => 'Company Information',
-                        'name' => 'company_information',
-                        'link' => '/company_information',
+                        'display_name' => 'Meter Type',
+                        'name' => 'meter_type',
+                        'link' => '/meter_type',
                         'permissions' => array_merge($resourcePermissions, []),
                     ],
                     [
