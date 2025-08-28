@@ -41,6 +41,11 @@ export const backend = [
                 component: () => import('@/views/pages/rbac/Module.vue'),
                 meta: {dataUrl: 'api/role_permissions', title: 'Module'}
             },
+            {
+                path: 'customer_information', name: 'customer_information',
+                component: () => import('@/views/pages/customer_management/customerInformation.vue'),
+                meta: {dataUrl: 'api/customer_information', title: 'Customer Information'}
+            },
         ]
     }
 ];
