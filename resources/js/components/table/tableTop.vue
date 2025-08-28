@@ -25,12 +25,12 @@
                     <slot name="filter"></slot>
                     <div class="col-md-2">
                         <button v-if="httpRequest" type="button" class="btn btn-light radius-30">
-                            <i class='bx bx-loader bx-spin text-white'></i>
-                            <span class="text-white text-uppercase">Loading..</span>
+                            <i class='bx bx-loader bx-spin text-secondary'></i>
+                            <span class="text-secondary text-uppercase">Loading..</span>
                         </button>
                         <button v-else @click="getDataList()" type="button" class="btn btn-outline-dark radius-30">
-                            <i class='bx bx-search text-white'></i>
-                            <span class="text-white text-uppercase">Search</span>
+                            <i class='bx bx-search text-secondary'></i>
+                            <span class="text-secondary text-uppercase">Search</span>
                         </button>
                     </div>
                 </div>

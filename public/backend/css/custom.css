@@ -10,6 +10,14 @@
     text-transform: uppercase;
 }
 
+.bg-default .perPage {
+    border: 0;
+    padding: 0;
+    color: black;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
 select.btn.perPage{
     padding: 0 !important;
 }
@@ -22,7 +30,7 @@ select.btn.perPage{
 }
 
 .bg-default .page_top_text{
-    color: rgba(255, 255, 255, 0.8);
+    color: black;
 }
 .bg-theme .page_top_text{
     color: rgba(255, 255, 255, 0.8);
@@ -67,6 +75,14 @@ input.form-control {
     background-position: center;
     transition: background .3s;
 }
+
+#theme17 {
+    background-color: #f3f3f9;
+    background-size: 100% 100%;
+    background-position: center;
+    transition: background .3s;
+}
+
 .bg-default .switcher-btn {
     background: #d1d2d4;
     color: #000;
@@ -158,19 +174,17 @@ h2#swal2-title {
     font-size: 2rem;             /* adjust size if needed */
 }
 
-table.data_table th:first-child,
-table.data_table td:first-child{
+th:first-child,
+td:first-child{
     width: 50px;
 }
-table.data_table th.checkbox,
-table.data_table td.checkbox {
+
+th:nth-child(2),
+td:nth-child(2) {
     width: 25px;
 }
-table.data_table th:last-child,
-table.data_table td:last-child {
-    width: 180px;
-}
 
-.form-control.is-invalid, .was-validated .form-control:invalid {
-    border-color: var(--bs-danger) !important;
+th:last-child,
+td:last-child {
+    width: 180px;
 }

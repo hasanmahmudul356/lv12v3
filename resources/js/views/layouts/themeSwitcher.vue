@@ -18,6 +18,7 @@
         {name: 'theme5', value: 'bg-theme bg-theme5'},
         {name: 'theme6', value: 'bg-theme bg-theme6'},
         {name: 'theme16', value: 'bg-default bg-theme2'},
+        {name: 'theme17', value: 'bg-default bg-theme17'},
     ]);
 
     const themeGradient = reactive([
