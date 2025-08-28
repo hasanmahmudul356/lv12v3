@@ -7,7 +7,7 @@
     import {useBase, useHttp, appStore} from '@/lib';
 
     const {getDependency, submitForm, editData, deleteRecord} = {...useHttp()};
-    const {formFilter, formObject, openModal, closeModal, useGetters, dataList, httpRequest, pageDependencies, updateId,statusBadge,changeStatus} = {
+    const {formFilter, formObject, openModal, closeModal, useGetters, dataList, httpRequest, pageDependencies, updateId,statusBadge,changeStatus,deleteAllRecords} = {
         ...useBase(),
         ...appStore(),
         ...appStore().useGetters('dataList', 'httpRequest', 'pageDependencies', 'updateId')
@@ -26,6 +26,9 @@
     <dataTable :headings="tableHeaders" :setting="true">
         <template v-slot:tableTop>
             <tableTop :defaultObject="{role_id:''}"></tableTop>
+        </template>
+        <template v-slot:topRight v-if="dataList.data !== undefined">
+            <a class="btn btn-sm btn-outline-danger radius-30 text-uppercase" @click="deleteAllRecords({dataObject:dataList.data})" v-if="dataList.data.some(each => parseInt(each.checked) === 1)">Delete All</a>
         </template>
         <template v-slot:data>
             <tr v-for="(item, index) in dataList.data" :key="item.id">
