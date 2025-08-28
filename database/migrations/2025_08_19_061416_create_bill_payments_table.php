@@ -1,0 +1,40 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('bill_payments', function (Blueprint $table) {
+            $table->id();
+            $table->integer('meter_no');
+            $table->date('receipt_no');
+            $table->date('bill_month');
+            $table->integer('bill_amount');
+            $table->integer('payment_amount');
+            $table->date('payment_date');
+            $table->string('payment_method')->comment('cash,bkash,nagad,rocket,bank');
+            $table->integer('status')->comment('active=1,panding=0');
+            $table->integer('user_id');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('bill_payments');
+    }
+};
