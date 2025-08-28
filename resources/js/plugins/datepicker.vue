@@ -1,9 +1,9 @@
 <script setup>
-    import { ref, onMounted, toRefs } from 'vue';
-    import 'jquery-ui/ui/widgets/datepicker';   // import the datepicker widget
+    import { ref, onMounted, toRefs, watch } from 'vue';
+    import 'jquery-ui/ui/widgets/datepicker';
     import 'jquery-ui/themes/base/all.css';
 
-    // Props
+
     const props = defineProps({
         name: String,
         value: {
@@ -47,16 +47,17 @@
             type: Boolean,
             default: false,
         },
+        modelValue: {
+            type: [String, Date],
+            default: '',
+        },
     });
 
-    // Emits
-    const emit = defineEmits(['input', 'change', 'update', 'keyup', 'keydown', 'blur']);
+    const emit = defineEmits(['update:modelValue']);
 
-    // Refs
     const inputId = ref('');
     const inputValue = ref('');
 
-    // Generate random ID
     const makeId = (length = 5) => {
         let result = '';
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -67,22 +68,15 @@
         return result;
     };
 
-    // Get ID (prop or random)
     const getId = () => {
         return props.id || makeId();
     };
 
-    // Handle input events
     const dateInputed = (event) => {
+        emit('update:modelValue', event.target.value);
         emit('input', event.target.value);
-        emit('change');
-        emit('update');
-        emit('keyup');
-        emit('keydown');
-        emit('blur');
     };
 
-    // Mounted
     onMounted(() => {
         inputId.value = getId();
 
@@ -103,20 +97,18 @@
                     $(document).on('focusin.bs.modal');
                 },
                 onSelect: function (dateText) {
-                    emit('input', dateText);
-                    emit('change');
-                    emit('update');
-                    emit('keyup');
-                    emit('keydown');
-                    emit('blur');
+                    emit('update:modelValue', dateText);
                 }
             });
         });
+        if (props.modelValue) {
+            emit('update:modelValue', props.modelValue);
+        }
     });
 </script>
 
 <template>
-    <input type="text" autocomplete="off" @change="dateInputed" :readonly="readonly" :id="inputId" :name="name" :data-vv-as="validation_name" :placeholder="placeholder" v-validate="validate" :value="value" :disabled="disabled" :class="input_class"/>
+    <input type="text" autocomplete="off" @change="dateInputed" @keydown="dateInputed" @keyup="dateInputed" @input="dateInputed" :readonly="readonly" :id="inputId" :name="name" :data-vv-as="validation_name" :placeholder="placeholder" v-validate="validate" :value="value" :disabled="disabled" :class="input_class"/>
 </template>
 
 <style scoped>

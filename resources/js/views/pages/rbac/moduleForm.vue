@@ -28,8 +28,8 @@
     <div class="row mb-2">
         <label class="col-md-4"><strong>Display Name : </strong></label>
         <div class="col-md-8">
-<!--            <input type="text" v-validate="'required|numeric'" v-model="formObject.display_name" class="form-control"/>-->
-            <datepicker validate="required|numeric" v-model="formObject.date" class="form-control"/>
+            <input type="text" v-validate="'required|numeric'" v-model="formObject.display_name" class="form-control"/>
+<!--            <datepicker validate="required" :value="formObject.date" v-model="formObject.date" class="form-control"/>-->
         </div>
     </div>
     <div class="row mb-2">
