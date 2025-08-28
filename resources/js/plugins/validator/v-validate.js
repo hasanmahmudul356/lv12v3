@@ -10,6 +10,15 @@ import "@/plugins/validator/rules";
         el.addEventListener('input', async () => {
             await validationManager.validateField(el, rules);
         });
+        el.addEventListener('change', async () => {
+            await validationManager.validateField(el, rules);
+        });
+        el.addEventListener('keyup', async () => {
+            await validationManager.validateField(el, rules);
+        });
+        el.addEventListener('keydown', async () => {
+            await validationManager.validateField(el, rules);
+        });
     },
 
     unmounted(el) {
