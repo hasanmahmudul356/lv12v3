@@ -25,7 +25,44 @@
                 o = o.parent("").addClass("mm-show").parent("").addClass("mm-active")
             }
         })
-    })
+    });
+
+    onMounted(() => {
+        if (window.innerWidth <= 1024) {
+            $(".mobile-toggle-menu").on("click", function () {
+                $(".wrapper").addClass("toggled");
+            });
+
+            $(".toggle-icon").on("click", function () {
+                if ($(".wrapper").hasClass("toggled")) {
+                    $(".wrapper").removeClass("toggled");
+                    $(".sidebar-wrapper").unbind("hover");
+                } else {
+                    $(".wrapper").addClass("toggled");
+                    $(".sidebar-wrapper").hover(
+                        function () {
+                            $(".wrapper").addClass("sidebar-hovered");
+                        },
+                        function () {
+                            $(".wrapper").removeClass("sidebar-hovered");
+                        }
+                    );
+                }
+            });
+
+            $(window).on("scroll", function () {
+                $(this).scrollTop() > 300
+                    ? $(".back-to-top").fadeIn()
+                    : $(".back-to-top").fadeOut();
+            });
+
+            $(".back-to-top").on("click", function () {
+                $("html, body").animate({ scrollTop: 0 }, 600);
+                return false;
+            });
+        }
+    });
+
 </script>
 
 <template>

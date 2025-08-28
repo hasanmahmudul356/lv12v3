@@ -21,6 +21,7 @@
     "dependencies": {
         "jquery": "^3.7.1",
         "jquery-ui": "^1.14.1",
+        "metismenu": "^3.0.7",
         "sweetalert2": "^11.22.4",
         "vee-validate": "^4.14.7",
         "vue-router": "^4.5.1",
