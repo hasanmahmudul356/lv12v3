@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('meter_type');
             $table->integer('unit_rate')->comment('Per KWh');
             $table->string('effective_from');
-            $table->integer('status')->comment('active=1,panding=0');
+            $table->integer('status')->default(1)->comment('active=1,panding=0');
             $table->integer('user_id');
             $table->timestamps();
         });

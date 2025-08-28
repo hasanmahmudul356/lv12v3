@@ -21,5 +21,7 @@ Route::middleware(\App\Http\Middleware\AuthCheckMiddleware::class)->group(functi
 
         Route::resource('users', \App\Http\Controllers\Backend\UserController::class);
         Route::resource('modules', \App\Http\Controllers\Backend\RBAC\ModuleController::class);
+        Route::resource('meter', \App\Http\Controllers\MeterController::class);
+        Route::resource('tariff_rate', \App\Http\Controllers\TariffAndRateController::class);
     });
 });

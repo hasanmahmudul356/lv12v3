@@ -41,6 +41,16 @@ export const backend = [
                 component: () => import('@/views/pages/rbac/Module.vue'),
                 meta: {dataUrl: 'api/role_permissions', title: 'Module'}
             },
+            {
+                path: 'add_meter', name: 'add_meter',
+                component: () => import('@/views/pages/meterManagement/meterAdd.vue'),
+                meta: {dataUrl: 'api/meter', title: 'Meter'}
+            },
+            {
+                path: 'tariff_rate', name: 'tariff_rate',
+                component: () => import('@/views/pages/tariffAndRate.vue'),
+                meta: {dataUrl: 'api/tariff_rate', title: 'Tariff And Rate'}
+            },
         ]
     }
 ];
