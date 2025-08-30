@@ -96,6 +96,12 @@ class ModuleSeeder extends Seeder
                         'link' => '/customer_information',
                         'permissions' => array_merge($resourcePermissions, []),
                     ],
+                    [
+                        'display_name' => 'Customer Type',
+                        'name' => 'customer_type',
+                        'link' => '/customer_type',
+                        'permissions' => array_merge($resourcePermissions, []),
+                    ],
                 ]
             ],
             [

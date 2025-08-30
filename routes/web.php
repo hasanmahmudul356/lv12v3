@@ -23,5 +23,6 @@ Route::middleware(\App\Http\Middleware\AuthCheckMiddleware::class)->group(functi
         Route::resource('modules', \App\Http\Controllers\Backend\RBAC\ModuleController::class);
         Route::resource('customer_information',\App\Http\Controllers\CustomerController::class);
         Route::resource('bill_information',\App\Http\Controllers\BillInformationController::class);
+        Route::resource('customer_type',\App\Http\Controllers\CustomerTypeController::class);
     });
 });
