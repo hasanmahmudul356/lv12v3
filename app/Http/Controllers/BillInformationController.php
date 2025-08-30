@@ -2,84 +2,102 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
 use App\Models\BillInformation;
 use Illuminate\Http\Request;
 
 class BillInformationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    use Helper;
+
+    public function __construct()
     {
-        //
+        $this->model = new BillInformation();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function index()
+    {
+        try {
+            $keyword = request()->input('keyword');
+            $data = $this->model
+                ->when($keyword, function ($query) use ($keyword) {
+                    $query->where('name', 'Like', "%$keyword%");
+                })->paginate(input('perPage'));
+
+            return returnData(2000, $data);
+        } catch (\Exception $exception) {
+            return returnData(5000, $exception->getMessage(), 'Whoops, Something Went Wrong..!!');
+        }
+
+    }
+
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        try {
+            $input = $request->all();
+
+            $validate = $this->model->validate($input);
+            if ($validate->fails()) {
+                return returnData(2000, $validate->errors());
+            }
+
+            $this->model->fill($input);
+            $this->model->save();
+
+            return returnData(2000, null, 'Successfully Inserted');
+
+        } catch (\Exception $exception) {
+            return returnData(5000, $exception->getMessage(), 'Whoops, Something Went Wrong..!!');
+        }
+
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\BillInformation  $billInformation
-     * @return \Illuminate\Http\Response
-     */
-    public function show(BillInformation $billInformation)
+    public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\BillInformation  $billInformation
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(BillInformation $billInformation)
+    public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\BillInformation  $billInformation
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, BillInformation $billInformation)
+    public function update(Request $request, $id)
     {
-        //
+        try {
+            $input = $request->all();
+            $validation = $this->model->validate($input);
+            if ($validation->fails()) {
+                return response()->json(['status' => 2000, 'errors' => $validation->errors()], 200);
+            }
+            $data = $this->model->find($id);
+            if ($data) {
+                $data->update($input);
+                return returnData(2000, null, 'Successfully Updated');
+            }
+            return returnData(5000, null, 'Data Not found');
+        } catch (\Exception $exception) {
+            return returnData(5000, $exception->getMessage(), 'Whoops, Something Went Wrong..!!');
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\BillInformation  $billInformation
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(BillInformation $billInformation)
+    public function destroy($id)
     {
-        //
+        try {
+            $data = $this->model->where('id', $id)->first();
+            if ($data) {
+                $data->delete();
+                return returnData(2000, $data, 'Successfully Deleted');
+            }
+            return returnData(5000, null, 'Data Not found');
+
+        } catch (\Exception $exception) {
+            return returnData(5000, $exception->getMessage(), 'Whoops, Something Went Wrong..!!');
+        }
     }
 }

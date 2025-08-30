@@ -46,6 +46,11 @@ export const backend = [
                 component: () => import('@/views/pages/customer_management/customerInformation.vue'),
                 meta: {dataUrl: 'api/customer_information', title: 'Customer Information'}
             },
+            {
+                path: 'bill_information', name: 'bill_information',
+                component: () => import('@/views/pages/customer_management/billInformation.vue'),
+                meta: {dataUrl: 'api/bill_information', title: 'Bill Information'}
+            },
         ]
     }
 ];
