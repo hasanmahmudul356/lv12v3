@@ -5,19 +5,19 @@ import {useStore} from 'vuex';
 const store = useStore();
 import {useBase, useHttp, appStore} from '@/lib';
 
-const {getDependency, submitForm, editData, deleteRecord} = {...useHttp()};
-const {formFilter, formObject, openModal, closeModal, useGetters, dataList, httpRequest, pageDependencies, updateId} = {
+const {submitForm, editData, deleteRecord} = {...useHttp()};
+const {changeStatus, statusBadge, formFilter, formObject, openModal, closeModal, useGetters, dataList, httpRequest, pageDependencies, updateId} = {
     ...useBase(),
+    ...useHttp(),
     ...appStore(),
     ...appStore().useGetters('dataList', 'httpRequest', 'pageDependencies', 'updateId')
 };
 
-const tableHeaders = ref(["#", "Name", "Username", "Status", "Actions"]);
+const tableHeaders = ref(["#", "Name", "Status", "Actions"]);
 const {getDataList, httpReq} = useHttp();
 
 onMounted(() => {
     getDataList();
-    getDependency({dependency : ['users']});
 });
 </script>
 
@@ -27,21 +27,17 @@ onMounted(() => {
            <tableTop></tableTop>
        </template>
        <template v-slot:data>
-           <tr>
-               <td></td>
-               <td></td>
-               <td></td>
+           <tr v-for="(item, index) in dataList.data" :key="item.id">
+               <td>{{index+1}}</td>
+               <td>{{item.name}}</td>
                <td>
-                   <a class="badge rounded-pill p-2 text-uppercase px-3" >
-                       <i class='bx bxs-circle me-1'></i>
-                       <span></span>
-                   </a>
+                   <a @click="changeStatus({obj:item})" class="pointer" v-html="statusBadge(item.status)"></a>
                </td>
                <td>
-                   <a  class="btn btn-outline-secondary action">
+                   <a @click="editData({data:item, id:item.id, modal:'fromModal'})" class="btn btn-outline-secondary action">
                        <i class='bx bxs-edit text-warning'></i>
                    </a>
-                   <a  class="btn btn-outline-secondary action">
+                   <a @click="deleteRecord({targetId:item.id,listIndex:index, listObject:dataList.data})" class="btn btn-outline-secondary action">
                        <i class='bx bxs-trash text-danger'></i>
                    </a>
                </td>
@@ -59,17 +55,6 @@ onMounted(() => {
                <label class="col-md-4"><strong>Name : </strong></label>
                <div class="col-md-8">
                    <input type="text" v-model="formObject.name" class="form-control"/>
-               </div>
-           </div>
-           <div class="row mb-2">
-               <label class="col-md-4"><strong>Role : </strong></label>
-               <div class="col-md-8">
-                   <select type="text" v-model="formObject.user_id" class="form-control">
-                       <option value="">Select</option>
-                       <template v-for="user in pageDependencies.users">
-                           <option :value="user.id">{{user.name}}</option>
-                       </template>
-                   </select>
                </div>
            </div>
        </fromModal>

@@ -2,21 +2,35 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
 use App\Models\MeterType;
 use Illuminate\Http\Request;
 
 class MeterTypeController extends Controller
 {
+    use Helper;
+
     public function __construct()
     {
-        if (!can(request()->route()->action['as'])) {
-            return returnData(5001, null, 'You are not authorized to access this page');
-        }
+//        if (!can(request()->route()->action['as'])) {
+//            return returnData(5001, null, 'You are not authorized to access this page');
+//        }
         $this->model = new MeterType();
     }
 
-    public function index(){
-        //
+    public function index()
+    {
+        try {
+            $keyword = request()->input('keyword');
+            $data = $this->model
+                ->when($keyword, function ($query) use ($keyword) {
+                    $query->where('name', 'Like', "%$keyword%");
+                })->paginate(input('perPage'));
+
+            return returnData(2000, $data);
+        } catch (\Exception $exception) {
+            return returnData(5000, $exception->getMessage(), 'Whoops, Something Went Wrong..!!');
+        }
     }
 
 
@@ -30,6 +44,9 @@ class MeterTypeController extends Controller
 //        ddA($request);
         try {
             $input = $request->all();
+
+            // logged in user id insert
+            $input['user_id'] = auth()->id();
 
             $validate = $this->model->validate($input);
             if ($validate->fails()) {
@@ -61,6 +78,10 @@ class MeterTypeController extends Controller
     {
         try {
             $input = $request->all();
+
+            // logged in user_id override
+            $input['user_id'] = auth()->id();
+
             $validation = $this->model->validate($input);
             if ($validation->fails()) {
                 return response()->json(['status' => 2000, 'errors' => $validation->errors()], 200);
