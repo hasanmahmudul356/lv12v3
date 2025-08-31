@@ -13,20 +13,14 @@ class BulkBillGeneration extends Model
     use HasFactory;
 
     protected $table = 'bulk_bill_generations';
-    protected $fillable = ['user_id','meter_number','billing_month','start_reading','end_reading','units_consumed','bill_amount','bill_status'];
+    protected $fillable = ['billing_month','unit_rate'];
 
 
     public function validate($input = [])
     {
         $validate = Validator::make($input, [
-            'user_id' => '',
-            'meter_number' => 'required',
-            'billing_month' => '',
-            'start_reading' => '',
-            'end_reading' => '',
-            'units_consumed' => '',
-            'bill_amount' => '',
-            'bill_status' => '',
+            'billing_month' => 'required',
+            'unit_rate' => '',
             'status' => ''
         ]);
 

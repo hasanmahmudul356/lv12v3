@@ -11,7 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //
+        Schema::create('bulk_bill_generations', function (Blueprint $table) {
+            $table->id();
+            $table->string('billing_month');
+            $table->decimal('unit_rate',10,2);
+            $table->integer('user_id');
+            $table->integer('status')->default(1)->comment('1=Active 2=InActive');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -19,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('bulk_bill_generations');
     }
 };
