@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\Helper;
 use App\Models\TariffAndRate;
 use Illuminate\Http\Request;
+use function Illuminate\Support\where;
 
 class TariffAndRateController extends Controller
 {
@@ -18,7 +19,12 @@ class TariffAndRateController extends Controller
     }
 
     public function index(){
-        $data = $this->model->paginate();
+        $keyword=request()->input('keyword');
+        $data = $this->model->with(['meter_type'])
+            ->when($keyword, function ($q) use ($keyword) {
+                $q->where('effective_from', 'LIKE', '%' . $keyword . '%');
+            })
+        ->paginate();
         return returnData(2000, $data);
     }
 

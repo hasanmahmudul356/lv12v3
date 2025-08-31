@@ -19,7 +19,7 @@
 
     onMounted(() => {
         getDataList();
-        getDependency({dependency : ['roles']});
+        getDependency({dependency : ['meter_type','customer']});
     });
 </script>
 
@@ -83,8 +83,8 @@
                 <div class="col-md-8">
                     <select  v-model="formObject.meter_type" class="form-control" v-validate="'required'">
                         <option value="">Select</option>
-                        <template v-for="role in pageDependencies.roles">
-                            <option :value="role.id">{{role.name}}</option>
+                        <template v-for="type in pageDependencies.meter_type">
+                            <option :value="type.id">{{type.name}}</option>
                         </template>
                     </select>
                 </div>

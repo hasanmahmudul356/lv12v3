@@ -21,4 +21,9 @@ class TariffAndRate extends Model
 
         return $validate;
     }
+
+    public function meter_type()
+    {
+        return $this->hasOne(MeterType::class, 'id', 'meter_type');
+    }
 }

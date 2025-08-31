@@ -19,19 +19,19 @@
 
     onMounted(() => {
         getDataList();
-        getDependency({dependency : ['roles']});
+        getDependency({dependency : ['meter_type']});
     });
 </script>
 
 <template>
     <dataTable :headings="tableHeaders" :setting="true">
-        <template v-slot:tableTop>
+        <template v-slot:tableTop >
             <tableTop :defaultObject="{meter_type:''}"></tableTop>
         </template>
         <template v-slot:data>
             <tr v-for="(item, index) in dataList.data" :key="item.id">
                 <td>{{index+1}}</td>
-                <td>{{ item.meter_type }}</td>
+                <td>{{ item.meter_type ? item.meter_type.name : '-' }}</td>
                 <td>{{ item.unit_rate }}</td>
                 <td>{{ item.effective_from }}</td>
                 <td><a @click="changeStatus({obj:item})" class="pointer" v-html="statusBadge(item.status)"></a></td>
@@ -59,8 +59,8 @@
                 <div class="col-md-8">
                     <select v-model="formObject.meter_type" class="form-control" v-validate="'required'">
                         <option value="">Select</option>
-                        <template v-for="role in pageDependencies.roles">
-                            <option :value="role.id">{{role.name}}</option>
+                        <template v-for="type in pageDependencies.meter_type">
+                            <option :value="type.id">{{type.name}}</option>
                         </template>
                     </select>
                 </div>
