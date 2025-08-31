@@ -133,9 +133,9 @@ class ModuleSeeder extends Seeder
                 'icon' => 'fa-file-invoice-dollar',
                 'submenus'=>[
                     [
-                        'display_name' => 'Bill Entry',
-                        'name' => 'bill_entry',
-                        'link' => '/bill_entry',
+                        'display_name' => 'Manual Bill Entry',
+                        'name' => 'manual_bill_entry',
+                        'link' => '/manual_bill_entry',
                         'permissions' => array_merge($resourcePermissions, []),
                     ],
                     [

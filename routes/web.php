@@ -25,5 +25,7 @@ Route::middleware(\App\Http\Middleware\AuthCheckMiddleware::class)->group(functi
         Route::resource('customer_information',\App\Http\Controllers\CustomerController::class);
         Route::resource('bill_information',\App\Http\Controllers\BillInformationController::class);
         Route::resource('meter_reading',\App\Http\Controllers\MeterReadingController::class);
+        Route::resource('manual_bill_entry',\App\Http\Controllers\ManualBillEntryController::class);
+        Route::resource('bulk_bill_generation',\App\Http\Controllers\BulkBillGenerationController::class);
     });
 });
