@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('house_holding_no');
             $table->string('area');
             $table->date('dob');
-            $table->integer('meter_type');
+            $table->integer('meter_type_id');
             $table->integer('status')->default(1)->comment('1=Active, 0=InActive');
             $table->integer('user_id');
             $table->timestamps();
