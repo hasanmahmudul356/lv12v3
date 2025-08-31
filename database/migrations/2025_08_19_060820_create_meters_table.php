@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('customer_id');
             $table->date('connection_date');
             $table->integer('meter_type');
-            $table->integer('status')->comment('active=1,panding=0');
+            $table->integer('status')->default(1)->comment('active=1,panding=0');
             $table->integer('user_id');
             $table->timestamps();
         });
