@@ -57,6 +57,16 @@ export const backend = [
                 meta: {dataUrl: 'api/bill_information', title: 'Bill Information'}
             },
             {
+                path: 'manual_bill_entry', name: 'manual_bill_entry',
+                component: () => import('@/views/pages/bill_generation/manualBillEntry.vue'),
+                meta: {dataUrl: 'api/manual_bill_entry', title: 'Manual Bill Entry'}
+            },
+            {
+                path: 'bulk_bill_generation', name: 'bulk_bill_generation',
+                component: () => import('@/views/pages/bill_generation/bulkBillGeneration.vue'),
+                meta: {dataUrl: 'api/bulk_bill_generation', title: 'Bulk Bill Generation'}
+            },
+            {
                 path: 'meter_reading', name: 'meter_reading',
                 component: () => import('@/views/pages/meterManagement/meterReading.vue'),
                 meta: {dataUrl: 'api/meter_reading', title: 'Meter Reading'}
