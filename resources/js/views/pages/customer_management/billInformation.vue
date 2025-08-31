@@ -9,6 +9,7 @@
     const {getDependency, submitForm, editData, deleteRecord} = {...useHttp()};
     const {formFilter, formObject, openModal, closeModal, useGetters, dataList, httpRequest, pageDependencies, updateId,statusBadge,changeStatus,deleteAllRecords} = {
         ...useBase(),
+        ...useHttp(),
         ...appStore(),
         ...appStore().useGetters('dataList', 'httpRequest', 'pageDependencies', 'updateId')
     };
