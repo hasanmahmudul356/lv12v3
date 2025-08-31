@@ -8,27 +8,22 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('meter_types', function (Blueprint $table) {
+        Schema::create('customer_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('status')->default(1)->comment('active=1,panding=0');
-            $table->integer('user_id');
+            $table->integer('status')->default(1)->comment('1=Active,2=InActive');
             $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::dropIfExists('meter_types');
+        Schema::dropIfExists('customer_types');
     }
 };

@@ -3,17 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
-use App\Http\Controllers\Controller;
-use App\Models\Customer;
+use App\Models\CustomerType;
 use Illuminate\Http\Request;
 
-class CustomerController extends Controller
+class CustomerTypeController extends Controller
 {
     use Helper;
 
     public function __construct()
     {
-        $this->model = new Customer();
+        $this->model = new CustomerType();
     }
 
     public function index()

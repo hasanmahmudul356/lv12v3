@@ -42,14 +42,24 @@ export const backend = [
                 meta: {dataUrl: 'api/role_permissions', title: 'Module'}
             },
             {
-                path: 'add_meter', name: 'add_meter',
-                component: () => import('@/views/pages/meterManagement/meterAdd.vue'),
-                meta: {dataUrl: 'api/meter', title: 'Meter'}
+                path: 'meter_type', name: 'meter_type',
+                component: () => import('@/views/setting/meterType.vue'),
+                meta: {dataUrl: 'api/meter_type', title: 'Meter Type'}
             },
             {
-                path: 'tariff_rate', name: 'tariff_rate',
-                component: () => import('@/views/pages/tariffAndRate.vue'),
-                meta: {dataUrl: 'api/tariff_rate', title: 'Tariff And Rate'}
+                path: 'customer_information', name: 'customer_information',
+                component: () => import('@/views/pages/customer_management/customerInformation.vue'),
+                meta: {dataUrl: 'api/customer_information', title: 'Customer Information'}
+            },
+            {
+                path: 'bill_information', name: 'bill_information',
+                component: () => import('@/views/pages/customer_management/billInformation.vue'),
+                meta: {dataUrl: 'api/bill_information', title: 'Bill Information'}
+            },
+            {
+                path: 'customer_type', name: 'customer_type',
+                component: () => import('@/views/pages/customer_management/customerType.vue'),
+                meta: {dataUrl: 'api/customer_type', title: 'Customer Type'}
             },
         ]
     }
