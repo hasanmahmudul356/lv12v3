@@ -19,14 +19,14 @@
 
     onMounted(() => {
         getDataList();
-        getDependency({dependency : ['roles']});
+        getDependency({dependency : ['meter_type']});
     });
 </script>
 
 <template>
     <dataTable :headings="tableHeaders" :setting="true">
         <template v-slot:tableTop>
-            <tableTop :defaultObject="{role_id:''}"></tableTop>
+            <tableTop :defaultObject="{meter_type:''}"></tableTop>
         </template>
         <template v-slot:topRight v-if="dataList.data !== undefined">
             <a class="btn btn-sm btn-outline-danger radius-30 text-uppercase" @click="deleteAllRecords({dataObject:dataList.data})" v-if="dataList.data.some(each => parseInt(each.checked) === 1)">Delete All</a>
@@ -39,10 +39,10 @@
                 <td>{{ item.email }}</td>
                 <td>{{ item.phone_number }}</td>
                 <td>{{ item.address }}</td>
-                <td>{{ item.meter_type }}</td>
+                <td>{{ item.m_name }}</td>
                 <td>{{ item.house_holding_no }}</td>
                 <td>{{ item.dob }}</td>
-                <td>{{ item.meter_type }}</td>
+                <td>{{ item.image }}</td>
                 <td><a @click="changeStatus({obj:item})" class="pointer" v-html="statusBadge(item.status)"></a></td>
                 <td>
                     <a @click="editData({data:item, id:item.id, modal:'fromModal'})" class="btn btn-outline-secondary action">
@@ -105,9 +105,14 @@
                 </div>
             </div>
             <div class="row mb-2">
-                <label class="col-md-4"><strong>Meter Type : </strong></label>
+                <label class="col-md-4"><strong>Meter Type: </strong></label>
                 <div class="col-md-8">
-                    <input type="number" v-model="formObject.meter_type" class="form-control"/>
+                    <select v-model="formObject.meter_type_id" class="form-control" v-validate="'required'">
+                        <option value="">Select</option>
+                        <template v-for="type in pageDependencies.meter_type">
+                            <option :value="type.id">{{type.m_name}}</option>
+                        </template>
+                    </select>
                 </div>
             </div>
 
