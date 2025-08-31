@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('meter_types', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('m_name');
             $table->integer('status')->default(1)->comment('active=1,panding=0');
             $table->integer('user_id');
             $table->timestamps();
