@@ -29,7 +29,7 @@ onMounted(() => {
        <template v-slot:data>
            <tr v-for="(item, index) in dataList.data" :key="item.id">
                <td>{{index+1}}</td>
-               <td>{{item.name}}</td>
+               <td>{{item.m_name}}</td>
                <td>
                    <a @click="changeStatus({obj:item})" class="pointer" v-html="statusBadge(item.status)"></a>
                </td>
@@ -54,7 +54,7 @@ onMounted(() => {
            <div class="row mb-2">
                <label class="col-md-4"><strong>Name : </strong></label>
                <div class="col-md-8">
-                   <input type="text" v-model="formObject.name" class="form-control"/>
+                   <input type="text" v-model="formObject.m_name" class="form-control"/>
                </div>
            </div>
        </fromModal>

@@ -15,22 +15,26 @@ class CustomerController extends Controller
     {
         $this->model = new Customer();
     }
-
     public function index()
     {
         try {
             $keyword = request()->input('keyword');
             $data = $this->model
+                ->leftJoin('meter_types', 'customers.meter_type_id', '=', 'meter_types.id')
                 ->when($keyword, function ($query) use ($keyword) {
-                    $query->where('name', 'Like', "%$keyword%");
-                })->paginate(input('perPage'));
+                    $query->where('customers.name', 'LIKE', "%$keyword%");
+                })
+                ->select(
+                    'customers.*', 'meter_types.m_name'
+                )
+                ->paginate(input('perPage'));
 
             return returnData(2000, $data);
         } catch (\Exception $exception) {
             return returnData(5000, $exception->getMessage(), 'Whoops, Something Went Wrong..!!');
         }
-
     }
+
 
     public function create()
     {
