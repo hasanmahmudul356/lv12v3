@@ -24,7 +24,6 @@ Route::middleware(\App\Http\Middleware\AuthCheckMiddleware::class)->group(functi
         Route::resource('meter_type', \App\Http\Controllers\MeterTypeController::class);
         Route::resource('customer_information',\App\Http\Controllers\CustomerController::class);
         Route::resource('bill_information',\App\Http\Controllers\BillInformationController::class);
-        Route::resource('customer_type',\App\Http\Controllers\CustomerTypeController::class);
         Route::resource('meter_reading',\App\Http\Controllers\MeterReadingController::class);
     });
 });
