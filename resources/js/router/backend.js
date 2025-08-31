@@ -61,6 +61,11 @@ export const backend = [
                 component: () => import('@/views/pages/customer_management/customerType.vue'),
                 meta: {dataUrl: 'api/customer_type', title: 'Customer Type'}
             },
+            {
+                path: 'meter_reading', name: 'meter_reading',
+                component: () => import('@/views/pages/meterManagement/meterReading.vue'),
+                meta: {dataUrl: 'api/meter_reading', title: 'Meter Reading'}
+            },
         ]
     }
 ];

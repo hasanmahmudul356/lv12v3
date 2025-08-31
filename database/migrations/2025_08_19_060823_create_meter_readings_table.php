@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('meter_no');
             $table->date('reading_date');
             $table->integer('current_reading')->comment('KWh');
-            $table->integer('status')->comment('active=1,panding=0');
+            $table->integer('status')->default(1)->comment('active=1,panding=0');
             $table->integer('user_id');
             $table->timestamps();
         });

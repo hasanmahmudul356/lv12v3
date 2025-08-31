@@ -22,4 +22,5 @@ class Meter extends Model
 
         return $validate;
     }
+
 }

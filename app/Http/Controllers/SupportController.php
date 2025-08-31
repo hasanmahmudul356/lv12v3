@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\Meter;
 use App\Models\MeterType;
 use App\Models\RBAC\Module;
 use App\Models\RBAC\Permission;
@@ -89,6 +90,11 @@ class SupportController extends Controller
         if (isset($input['users']) || in_array('users', $input)){
             $key = isset($input['users']['key']) ?  isset($input['users']['key']) : 'users';
             $data[$key] =  User::where('status', 1)->get();
+        }
+
+        if (isset($input['meter_num']) || in_array('meter_num', $input)){
+            $key = isset($input['meter_num']['key']) ?  isset($input['meter_num']['key']) : 'meter_num';
+            $data[$key] =  Meter::where('status', 1)->get();
         }
 
         return returnData(2000, $data);

@@ -10,8 +10,6 @@ class MeterType extends Model
 {
     use HasFactory;
 
-    protected $table = 'meter_types';
-
     protected $fillable = [
         'name',
         'user_id'
