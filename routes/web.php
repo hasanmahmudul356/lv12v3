@@ -25,5 +25,9 @@ Route::middleware(\App\Http\Middleware\AuthCheckMiddleware::class)->group(functi
         Route::resource('customer_information',\App\Http\Controllers\CustomerController::class);
         Route::resource('bill_information',\App\Http\Controllers\BillInformationController::class);
         Route::resource('meter_reading',\App\Http\Controllers\MeterReadingController::class);
+        Route::resource('overdue_bills',\App\Http\Controllers\OverdueBillController::class);
+        Route::resource('customer_area',\App\Http\Controllers\AreaController::class);
+        Route::resource('solar_plant',\App\Http\Controllers\SolarPlantController::class);
+        Route::resource('generator',\App\Http\Controllers\GeneratorController::class);
     });
 });

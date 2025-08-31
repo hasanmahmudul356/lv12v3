@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('capacity')->comment('KW');
             $table->string('fuel_type');
             $table->date('installation_date');
-            $table->integer('status')->comment('active=1,panding=0');
+            $table->integer('status')->default(1)->comment('active=1,panding=0');
             $table->integer('user_id');
             $table->timestamps();
         });

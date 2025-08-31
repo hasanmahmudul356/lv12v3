@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('address');
             $table->string('city');
             $table->string('postal_code');
-            $table->integer('status')->comment('active=1,panding=0');
+            $table->integer('status')->default(1)->comment('active=1,panding=0');
             $table->integer('user_id');
             $table->timestamps();
         });

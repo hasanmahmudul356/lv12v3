@@ -26,7 +26,9 @@ class MeterReadingController extends Controller
             $data = $this->model
                 ->with('meter')
                 ->when($keyword, function ($query) use ($keyword) {
-                    $query->where('name', 'Like', "%$keyword%");
+                    $query->whereHas('meter', function ($q) use ($keyword) {
+                        $q->where('meter_number', 'like', "%$keyword%");
+                    });
                 })->paginate(input('perPage'));
 
             return returnData(2000, $data);

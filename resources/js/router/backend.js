@@ -62,6 +62,26 @@ export const backend = [
                 component: () => import('@/views/pages/meterManagement/meterReading.vue'),
                 meta: {dataUrl: 'api/meter_reading', title: 'Meter Reading'}
             },
+            {
+                path: 'overdue_bills', name: 'overdue_bills',
+                component: () => import('@/views/pages/duePenaltyManagement/overdueBills.vue'),
+                meta: {dataUrl: 'api/overdue_bills', title: 'Overdue Bill'}
+            },
+            {
+                path: 'customer_area', name: 'customer_area',
+                component: () => import('@/views/setting/customerArea.vue'),
+                meta: {dataUrl: 'api/customer_area', title: 'Customer Area'}
+            },
+            {
+                path: 'solar_plant', name: 'solar_plant',
+                component: () => import('@/views/setting/solarPlant.vue'),
+                meta: {dataUrl: 'api/solar_plant', title: 'Solar Plant'}
+            },
+            {
+                path: 'generator', name: 'generator',
+                component: () => import('@/views/setting/generator.vue'),
+                meta: {dataUrl: 'api/generator', title: 'Generator'}
+            },
         ]
     }
 ];

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('zone')->comment('zone/region');
             $table->integer('city');
             $table->integer('officer_id');
-            $table->integer('status')->comment('active=1,panding=0');
+            $table->integer('status')->default(1)->comment('active=1,panding=0');
             $table->integer('user_id');
             $table->timestamps();
         });
