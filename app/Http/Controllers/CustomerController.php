@@ -52,6 +52,7 @@ class CustomerController extends Controller
             }
 
             $this->model->fill($input);
+            $this->model->user_id = auth()->user()->id;
             $this->model->save();
 
             return returnData(2000, null, 'Successfully Inserted');
@@ -72,23 +73,25 @@ class CustomerController extends Controller
         //
     }
 
+
     public function update(Request $request, $id)
     {
-        try {
-            $input = $request->all();
-            $validation = $this->model->validate($input);
-            if ($validation->fails()) {
-                return response()->json(['status' => 2000, 'errors' => $validation->errors()], 200);
-            }
-            $data = $this->model->find($id);
-            if ($data) {
-                $data->update($input);
-                return returnData(2000, null, 'Successfully Updated');
-            }
-            return returnData(5000, null, 'Data Not found');
-        } catch (\Exception $exception) {
-            return returnData(5000, $exception->getMessage(), 'Whoops, Something Went Wrong..!!');
+        $validator = $this->model->validate($request->all());
+
+        if ($validator->fails()) {
+            return response()->json(['result' => $validator->errors(), 'status' => 3000], 200);
         }
+
+        $data = $this->model->where('id', $request->input('id'))->first();
+
+        if ($data) {
+            $data->fill($request->all());
+            $data->user_id = auth()->user()->id;
+            $data->update();
+            return returnData(2000, null, 'Successfully Updated');
+        }
+
+        return returnData(2000, null, 'Unsuccessful Updated');
     }
 
     public function destroy($id)

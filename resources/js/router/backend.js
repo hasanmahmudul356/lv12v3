@@ -56,10 +56,6 @@ export const backend = [
                 component: () => import('@/views/pages/customer_management/billInformation.vue'),
                 meta: {dataUrl: 'api/bill_information', title: 'Bill Information'}
             },
-<<<<<<< HEAD
-
-=======
->>>>>>> mehedi
             {
                 path: 'meter_reading', name: 'meter_reading',
                 component: () => import('@/views/pages/meterManagement/meterReading.vue'),

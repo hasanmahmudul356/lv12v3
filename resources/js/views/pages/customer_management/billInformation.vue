@@ -14,7 +14,7 @@
         ...appStore().useGetters('dataList', 'httpRequest', 'pageDependencies', 'updateId')
     };
 
-    const tableHeaders = ref(['#', {name: '', listObject: dataList}, "User Id", "Meter No", "Billing Month", "Start Reading","End Reading", "Units Consumed","Bill Amount", "Status","Actions"]);
+    const tableHeaders = ref(['#', {name: '', listObject: dataList}, "Meter No", "Billing Month", "Start Reading","End Reading", "Units Consumed","Bill Amount", "Status","Actions"]);
     const {getDataList, httpReq} = useHttp();
 
     onMounted(() => {
@@ -35,7 +35,6 @@
             <tr v-for="(item, index) in dataList.data" :key="item.id">
                 <td>{{index+1}}</td>
                 <td class="checkbox"><input :checked="item.checked" @change="handleSelectAll($event, [item])" class="form-check-input me-3 pointer" type="checkbox"/></td>
-                <td>{{ item.user_id }}</td>
                 <td>{{ item.meter_no }}</td>
                 <td>{{ item.billing_month }}</td>
                 <td>{{ item.start_reading }}</td>
@@ -61,12 +60,6 @@
                 getDataList();
             }
         })">
-            <div class="row mb-2">
-                <label class="col-md-4"><strong>User : </strong></label>
-                <div class="col-md-8">
-                    <input type="select" v-model="formObject.user_id" class="form-control"/>
-                </div>
-            </div>
             <div class="row mb-2">
                 <label class="col-md-4"><strong>Meter No : </strong></label>
                 <div class="col-md-8">
