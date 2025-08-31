@@ -13,15 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('bill_information', function (Blueprint $table) {
+        Schema::create('bill_informations', function (Blueprint $table) {
             $table->id();
-            $table->integer('meter_no');
-            $table->date('billing_month');
+            $table->string('meter_no');
+            $table->string('billing_month', 7)->comment('Format: YYYY-MM');
             $table->integer('start_reading')->comment('(KWh)');
             $table->integer('end_reading')->comment('(KWh)');
             $table->integer('units_consumed')->comment('(KWh)');
-            $table->integer('bill_amount');
-            $table->integer('status')->comment('active=1,panding=0');
+            $table->decimal('bill_amount',10,2);
+            $table->integer('status')->default(1)->comment('1=Active, 0=InActive');
             $table->integer('user_id');
             $table->timestamps();
         });
@@ -34,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bill_information');
+        Schema::dropIfExists('bill_informations');
     }
 };
