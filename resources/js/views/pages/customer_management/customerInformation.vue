@@ -115,13 +115,6 @@
                     </select>
                 </div>
             </div>
-
-            <div class="row mb-2">
-                <label class="col-md-4"><strong>User : </strong></label>
-                <div class="col-md-8">
-                    <input type="number" v-model="formObject.user_id" class="form-control"/>
-                </div>
-            </div>
             <div class="row mb-2">
                 <label class="col-md-4"><strong>Image : </strong></label>
                 <div class="col-md-8">

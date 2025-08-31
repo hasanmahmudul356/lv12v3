@@ -3,16 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
-use App\Models\BillInformation;
+use App\Http\Controllers\Controller;
+use App\Models\ManualBillEntry;
 use Illuminate\Http\Request;
 
-class BillInformationController extends Controller
+class ManualBillEntryController extends Controller
 {
     use Helper;
 
     public function __construct()
     {
-        $this->model = new BillInformation();
+        $this->model = new ManualBillEntry();
     }
 
     public function index()
