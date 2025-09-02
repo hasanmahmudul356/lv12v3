@@ -48,22 +48,22 @@ export const backend = [
             },
             {
                 path: 'customer_information', name: 'customer_information',
-                component: () => import('@/views/pages/customer_management/customerInformation.vue'),
+                component: () => import('@/views/pages/customerManagement/customerInformation.vue'),
                 meta: {dataUrl: 'api/customer_information', title: 'Customer Information'}
             },
             {
                 path: 'bill_information', name: 'bill_information',
-                component: () => import('@/views/pages/customer_management/billInformation.vue'),
+                component: () => import('@/views/pages/customerManagement/billInformation.vue'),
                 meta: {dataUrl: 'api/bill_information', title: 'Bill Information'}
             },
             {
                 path: 'manual_bill_entry', name: 'manual_bill_entry',
-                component: () => import('@/views/pages/bill_generation/manualBillEntry.vue'),
+                component: () => import('@/views/pages/billGeneration/manualBillEntry.vue'),
                 meta: {dataUrl: 'api/manual_bill_entry', title: 'Manual Bill Entry'}
             },
             {
                 path: 'bulk_bill_generation', name: 'bulk_bill_generation',
-                component: () => import('@/views/pages/bill_generation/bulkBillGeneration.vue'),
+                component: () => import('@/views/pages/billGeneration/bulkBillGeneration.vue'),
                 meta: {dataUrl: 'api/bulk_bill_generation', title: 'Bulk Bill Generation'}
             },
             {

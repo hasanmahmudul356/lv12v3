@@ -79,7 +79,7 @@ class ModuleSeeder extends Seeder
             ],
             [
                 'display_name' => 'Customer Management',
-                'name' => 'customer_management',
+                'name' => 'customerManagement',
                 'link' => '#',
                 'permissions' => ['view', 'report', 'print'],
                 'icon' => 'fa-user-shield',
@@ -127,7 +127,7 @@ class ModuleSeeder extends Seeder
             ],
             [
                 'display_name' => 'Bill Generation',
-                'name' => 'bill_generation',
+                'name' => 'billGeneration',
                 'link' => '#',
                 'permissions' => ['view', 'report', 'print'],
                 'icon' => 'fa-file-invoice-dollar',
