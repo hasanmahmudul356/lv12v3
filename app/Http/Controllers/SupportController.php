@@ -54,7 +54,7 @@ class SupportController extends Controller
         $data['permissions'] = collect($permissions)->pluck('name');
         $data['localization'] = [
             ['locale' => 'en', 'name' => 'English', 'flag' => publicImage('backend/flags/1x1/us.svg')],
-            ['locale' => 'bn', 'name' => 'Bengali', 'flag' => publicImage('backend/flags/1x1/bd.svg')]
+            ['locale' => 'bn', 'name' => 'বাংলা', 'flag' => publicImage('backend/flags/1x1/bd.svg')]
         ];
 
         $data['menus'] = Module::where('parent_id', 0)
