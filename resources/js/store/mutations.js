@@ -29,6 +29,9 @@ export const mutations = {
     allMenus(state, data) {
         state.allMenus = data;
     },
+    localization(state, data) {
+        state.localization = data;
+    },
     layersConfig(state, data) {
         state.layersConfig = data;
     },

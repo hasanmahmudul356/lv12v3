@@ -23,4 +23,5 @@ export const state = {
     previousDataData: {},
     currentDate: null,
     currentDateTime: null,
+    localization: [],
 };

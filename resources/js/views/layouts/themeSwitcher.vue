@@ -39,6 +39,7 @@
         submitForm({
             data : {request:'theme',theme:theme.value},
             url : `api/profile`,
+            validation : false,
             callback : function(retData){
                 $('body').attr('class', theme.value);
             }

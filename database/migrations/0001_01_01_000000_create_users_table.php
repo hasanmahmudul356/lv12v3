@@ -21,6 +21,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->integer('status')->default(1)->comment('1=Active, 0=InActive');
             $table->string('password');
+            $table->string('locale')->default('en');
             $table->string('theme')->default('bg-theme bg-theme2');
             $table->rememberToken();
             $table->timestamps();

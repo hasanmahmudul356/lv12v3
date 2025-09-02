@@ -32,6 +32,9 @@ export const getters = {
     allMenus(state) {
         return state.allMenus;
     },
+    localization(state) {
+        return state.localization;
+    },
     layersConfig(state) {
         return state.layersConfig;
     },

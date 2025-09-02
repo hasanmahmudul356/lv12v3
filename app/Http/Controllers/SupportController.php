@@ -22,6 +22,13 @@ class SupportController extends Controller
                 return returnData(2000, $user, 'Successfully Theme Updated');
             }
 
+            if ($reqFor && $reqFor == 'locale'){
+                $user->locale = $request->input('locale');
+                $user->save();
+
+                return returnData(2000, $user, 'Successfully locale Updated');
+            }
+
             $user->name = $request->input('name');
             $user->email = $request->input('email');
             $user->phone = $request->input('phone');
@@ -45,6 +52,10 @@ class SupportController extends Controller
 
         $permittedModules = collect($permissions)->pluck('module_id');
         $data['permissions'] = collect($permissions)->pluck('name');
+        $data['localization'] = [
+            ['locale' => 'en', 'name' => 'English', 'flag' => publicImage('backend/flags/1x1/us.svg')],
+            ['locale' => 'bn', 'name' => 'Bengali', 'flag' => publicImage('backend/flags/1x1/bd.svg')]
+        ];
 
         $data['menus'] = Module::where('parent_id', 0)
             ->whereIn('id', $permittedModules)
@@ -54,6 +65,18 @@ class SupportController extends Controller
             }])->get();
 
         return returnData(2000, $data);
+    }
+
+    public function getLocalization(){
+        $languages = ['en', 'bn'];
+        $locals = [];
+        foreach ($languages as $locale){
+            $path = resource_path("lang/{$locale}.json");
+            if (file_exists($path)){
+                $locals[$locale] = json_decode(file_get_contents($path), true);
+            };
+        }
+        return response()->json(json_encode($locals));
     }
 
     public function getGeneralData(){

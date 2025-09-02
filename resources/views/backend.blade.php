@@ -17,6 +17,7 @@
     <link href="{{assets('backend/css/icons.css')}}" rel="stylesheet">
 
     <script>window.baseUrl = '{{url('/')}}'</script>
+    <script>window.locale = '{{auth()->user()->locale ? auth()->user()->locale : 'en'}}'</script>
 
     @vite('resources/js/app.js')
     <title>Dashtrans - Bootstrap5 Admin Template</title>

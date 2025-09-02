@@ -71,6 +71,7 @@ export function useHttp() {
                 store.commit('Config', retData);
                 store.commit('authUser', retData.user);
                 store.commit('allMenus', retData.menus);
+                store.commit('localization', retData.localization);
 
                 if (typeof callback === 'function') {
                     callback(retData)

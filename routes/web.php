@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+Route::get('/locale.json', [\App\Http\Controllers\SupportController::class, 'getLocalization']);
 
 Route::middleware('guest')->group(function (){
     Route::get('/', function (){return redirect(\route('login'));})->name('login');

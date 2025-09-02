@@ -1,12 +1,12 @@
 <script setup>
     import {ref, defineProps} from 'vue'
-    import {appStore, useHttp} from '@/lib';
+    import {appStore, useHttp, useBase} from '@/lib';
 
     import {useStore} from 'vuex';
 
     const store = useStore();
 
-    const {formFilter, useGetters, routeMeta, getDataList} = {...appStore(), ...useHttp()};
+    const {_l, formFilter, useGetters, routeMeta, getDataList} = {...useBase(), ...appStore(), ...useHttp()};
     const {dataList} = useGetters('dataList', 'httpRequest');
     const perPage = ref([10,15, 20, 50, 100, 200]);
 
@@ -33,7 +33,7 @@
                         </select>
                     </li>
                     <li v-if="dataList.total !== undefined">
-                        <span class="page_top_text">|| <b>TOTAL</b> : {{ dataList.total }} || <b>SHOWING</b> : {{ dataList.from }} to {{ dataList.to }} (<b>Per page</b> : {{ dataList.per_page }})</span>
+                        <span class="page_top_text">|| <b>{{ _l('total') }}</b> : {{ dataList.total }} || <b>{{ _l('showing') }}</b> : {{ dataList.from }} to {{ dataList.to }} (<b>{{ _l('per_page') }}</b> : {{ dataList.per_page }})</span>
                     </li>
                 </template>
                 <template v-else>
