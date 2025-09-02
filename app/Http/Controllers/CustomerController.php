@@ -25,7 +25,7 @@ class CustomerController extends Controller
                     $query->where('customers.name', 'LIKE', "%$keyword%");
                 })
                 ->select(
-                    'customers.*', 'meter_types.m_name'
+                    'customers.*', 'meter_types.name as meter_name'
                 )
                 ->paginate(input('perPage'));
 

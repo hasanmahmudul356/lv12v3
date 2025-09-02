@@ -82,7 +82,7 @@ class ModuleSeeder extends Seeder
                 'name' => 'customerManagement',
                 'link' => '#',
                 'permissions' => ['view', 'report', 'print'],
-                'icon' => 'fa-user-shield',
+                'icon' => 'bx bx-group',
                 'submenus'=>[
                     [
                         'display_name' => 'Bill Information',
@@ -103,7 +103,7 @@ class ModuleSeeder extends Seeder
                 'name' => 'Meter_management',
                 'link' => '#',
                 'permissions' => ['view', 'report', 'print'],
-                'icon' => 'fa-tachometer-alt',
+                'icon' => 'bx bx-tachometer',
                 'submenus'=>[
                     [
                         'display_name' => 'Add Meter',
@@ -130,7 +130,7 @@ class ModuleSeeder extends Seeder
                 'name' => 'billGeneration',
                 'link' => '#',
                 'permissions' => ['view', 'report', 'print'],
-                'icon' => 'fa-file-invoice-dollar',
+                'icon' => 'bx bx-receipt',
                 'submenus'=>[
                     [
                         'display_name' => 'Manual Bill Entry',
@@ -152,7 +152,7 @@ class ModuleSeeder extends Seeder
                 'name' => 'payment_management',
                 'link' => '#',
                 'permissions' => ['view', 'report', 'print'],
-                'icon' => 'fa-money-check-alt',
+                'icon' => 'bx bx-credit-card',
                 'submenus'=>[
                     [
                         'display_name' => 'Record Payment',
@@ -179,14 +179,14 @@ class ModuleSeeder extends Seeder
                 'name' => 'tariff_rate',
                 'link' => '/tariff_rate',
                 'permissions' => array_merge($resourcePermissions, []),
-                'icon' => 'fa-calculator'
+                'icon' => 'bx bx-calculator'
             ],
             [
                 'display_name' => 'Due & Penalty',
                 'name' => 'due_penalty',
                 'link' => '#',
                 'permissions' => ['view', 'report', 'print'],
-                'icon' => 'fa-exclamation-circle',
+                'icon' => 'bx bx-error',
                 'submenus'=>[
                     [
                         'display_name' => 'Overdue Bills',
@@ -213,7 +213,7 @@ class ModuleSeeder extends Seeder
                 'name' => 'Reports_analytics',
                 'link' => '#',
                 'permissions' => ['view', 'report', 'print'],
-                'icon' => 'fa-file-invoice',
+                'icon' => 'bx bx-bar-chart-alt-2',
                 'submenus'=>[
                     [
                         'display_name' => 'Billing Reports',
@@ -240,7 +240,7 @@ class ModuleSeeder extends Seeder
                 'name' => 'settings',
                 'link' => '#',
                 'permissions' => ['view', 'report', 'print'],
-                'icon' => 'fa-tools',
+                'icon' => 'bx bx-cog',
                 'submenus'=>[
                     [
                         'display_name' => 'Meter Type',
@@ -285,7 +285,7 @@ class ModuleSeeder extends Seeder
                 'name' => 'help_support',
                 'link' => '#',
                 'permissions' => ['view', 'report', 'print'],
-                'icon' => 'fa-question-circle',
+                'icon' => 'bx bx-help-circle',
                 'submenus'=>[
                     [
                         'display_name' => 'User Manual',
