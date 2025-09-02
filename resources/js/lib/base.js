@@ -5,10 +5,14 @@ import Swal from 'sweetalert2/dist/sweetalert2';
 import {appStore, useValidator} from "@/lib";
 import {useStore} from 'vuex';
 
+import { useI18n } from 'vue-i18n'
+
 
 export function useBase() {
     const toast = useToast();
     const store = useStore();
+    const { t } = useI18n();
+
     let {formObject, assignStore, resetValidation} = {...appStore(), ...useValidator()};
 
     const toaster = (type = 'success', message = false, title = false) => {
@@ -31,7 +35,7 @@ export function useBase() {
         (map[type] || map.default)(message);
     };
 
-
+    const _l = (key) => t(key);
 
     const getImage = (imagePath) => {
         return 'https://static.vecteezy.com/system/resources/thumbnails/057/068/323/small/single-fresh-red-strawberry-on-table-green-background-food-fruit-sweet-macro-juicy-plant-image-photo.jpg';
@@ -154,6 +158,7 @@ export function useBase() {
     };
 
     return {
+        _l,
         getImage,
         openFile,
         toaster,
