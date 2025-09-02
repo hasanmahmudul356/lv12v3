@@ -91,6 +91,16 @@ export const backend = [
                 component: () => import('@/views/setting/generator.vue'),
                 meta: {dataUrl: 'api/generator', title: 'Generator'}
             },
+            {
+                path: 'add_meter', name: 'add_meter',
+                component: () => import('@/views/pages/meterManagement/meterAdd.vue'),
+                meta: {dataUrl: 'api/add_meter', title: 'Add Meter'}
+            },
+            {
+                path: 'tariff_rate', name: 'tariff_rate',
+                component: () => import('@/views/pages/tariffAndRate.vue'),
+                meta: {dataUrl: 'api/tariff_rate', title: 'Tariff Rate'}
+            },
         ]
     }
 ];

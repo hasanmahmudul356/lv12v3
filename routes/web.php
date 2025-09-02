@@ -31,5 +31,8 @@ Route::middleware(\App\Http\Middleware\AuthCheckMiddleware::class)->group(functi
         Route::resource('generator',\App\Http\Controllers\GeneratorController::class);
         Route::resource('manual_bill_entry',\App\Http\Controllers\ManualBillEntryController::class);
         Route::resource('bulk_bill_generation',\App\Http\Controllers\BulkBillGenerationController::class);
+        Route::resource('add_meter',\App\Http\Controllers\MeterController::class);
+        Route::resource('add_meter',\App\Http\Controllers\MeterController::class);
+        Route::resource('tariff_rate',\App\Http\Controllers\TariffAndRateController::class);
     });
 });
