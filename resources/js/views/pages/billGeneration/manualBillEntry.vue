@@ -1,7 +1,7 @@
 <script setup>
     import {dataTable,fromModal,tableTop } from '@/components';
 
-    import {ref, onMounted} from 'vue';
+    import {ref, watch, onMounted} from 'vue';
     import {useStore} from 'vuex';
     const store = useStore();
     import {useBase, useHttp, appStore} from '@/lib';
@@ -21,6 +21,26 @@
         getDataList();
         getDependency({dependency : ['']});
     });
+
+    watch(
+        () => [formObject.value.start_reading, formObject.value.end_reading, formObject.value.unit_rate],
+        ([start, end, rate]) => {
+
+            if (start !== null && end !== null && end >= start) {
+                formObject.value.units_consumed = end - start;
+            } else {
+                formObject.value.units_consumed = null;
+            }
+
+            if (formObject.value.units_consumed !== null && rate) {
+                formObject.value.bill_amount = formObject.value.units_consumed * rate;
+            } else {
+                formObject.value.bill_amount = null;
+            }
+        }
+    );
+
+
 </script>
 
 <template>
@@ -97,14 +117,22 @@
             <div class="row mb-2">
                 <label class="col-md-4"><strong>Units Consumed (kWh) : </strong></label>
                 <div class="col-md-8">
-                    <input type="number" v-model="formObject.units_consumed" class="form-control"/>
+                    <input type="number" v-model="formObject.units_consumed" class="form-control" readonly/>
                 </div>
             </div>
+
+<!--            <div class="row mb-2">-->
+<!--                <label class="col-md-4"><strong>Per Unit Rate (৳) : </strong></label>-->
+<!--                <div class="col-md-8">-->
+<!--                    <input type="number" step="0.01" v-model="formObject.unit_rate" class="form-control"/>-->
+<!--                </div>-->
+<!--            </div>-->
+
 
             <div class="row mb-2">
                 <label class="col-md-4"><strong>Bill Amount : </strong></label>
                 <div class="col-md-8">
-                    <input type="number" step="0.01" v-model="formObject.bill_amount" class="form-control"/>
+                    <input type="number" step="0.01" v-model="formObject.bill_amount" class="form-control" readonly/>
                 </div>
             </div>
 
