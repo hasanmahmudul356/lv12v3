@@ -39,7 +39,7 @@
                 <td>{{ item.email }}</td>
                 <td>{{ item.phone_number }}</td>
                 <td>{{ item.address }}</td>
-                <td>{{ item.m_name }}</td>
+                <td>{{ item.meter_name }}</td>
                 <td>{{ item.house_holding_no }}</td>
                 <td>{{ item.dob }}</td>
                 <td>{{ item.image }}</td>
@@ -110,7 +110,7 @@
                     <select v-model="formObject.meter_type_id" class="form-control" v-validate="'required'">
                         <option value="">Select</option>
                         <template v-for="type in pageDependencies.meter_type">
-                            <option :value="type.id">{{type.m_name}}</option>
+                            <option :value="type.id">{{type.name}}</option>
                         </template>
                     </select>
                 </div>
