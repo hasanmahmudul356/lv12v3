@@ -77,6 +77,237 @@ class ModuleSeeder extends Seeder
                     ],
                 ]
             ],
+            [
+                'display_name' => 'Customer Management',
+                'name' => 'customer_management',
+                'link' => '#',
+                'permissions' => ['view', 'report', 'print'],
+                'icon' => 'fa-user-shield',
+                'submenus'=>[
+                    [
+                        'display_name' => 'Bill Information',
+                        'name' => 'bill_information',
+                        'link' => '/bill_information',
+                        'permissions' => array_merge($resourcePermissions, []),
+                    ],
+                    [
+                        'display_name' => 'Customer Information',
+                        'name' => 'customer_information',
+                        'link' => '/customer_information',
+                        'permissions' => array_merge($resourcePermissions, []),
+                    ],
+                ]
+            ],
+            [
+                'display_name' => 'Meter Management',
+                'name' => 'Meter_management',
+                'link' => '#',
+                'permissions' => ['view', 'report', 'print'],
+                'icon' => 'fa-tachometer-alt',
+                'submenus'=>[
+                    [
+                        'display_name' => 'Add Meter',
+                        'name' => 'add_meter',
+                        'link' => '/add_meter',
+                        'permissions' => array_merge($resourcePermissions, []),
+                    ],
+                    [
+                        'display_name' => 'Meter Reading',
+                        'name' => 'meter_reading',
+                        'link' => '/meter_reading',
+                        'permissions' => array_merge($resourcePermissions, []),
+                    ],
+                    [
+                        'display_name' => 'Meter History',
+                        'name' => 'meter_history',
+                        'link' => '/meter_history',
+                        'permissions' => array_merge($resourcePermissions, []),
+                    ],
+                ]
+            ],
+            [
+                'display_name' => 'Bill Generation',
+                'name' => 'bill_generation',
+                'link' => '#',
+                'permissions' => ['view', 'report', 'print'],
+                'icon' => 'fa-file-invoice-dollar',
+                'submenus'=>[
+                    [
+                        'display_name' => 'Manual Bill Entry',
+                        'name' => 'manual_bill_entry',
+                        'link' => '/manual_bill_entry',
+                        'permissions' => array_merge($resourcePermissions, []),
+                    ],
+                    [
+                        'display_name' => 'Bulk Bill Generation',
+                        'name' => 'bulk_bill_generation',
+                        'link' => '/bulk_bill_generation',
+                        'permissions' => array_merge($resourcePermissions, []),
+                    ],
+                ]
+
+            ],
+            [
+                'display_name' => 'Payment Management',
+                'name' => 'payment_management',
+                'link' => '#',
+                'permissions' => ['view', 'report', 'print'],
+                'icon' => 'fa-money-check-alt',
+                'submenus'=>[
+                    [
+                        'display_name' => 'Record Payment',
+                        'name' => 'record_payment',
+                        'link' => '/record_payment',
+                        'permissions' => array_merge($resourcePermissions, []),
+                    ],
+                    [
+                        'display_name' => 'Payment History',
+                        'name' => 'payment_history',
+                        'link' => '/payment_history',
+                        'permissions' => array_merge($resourcePermissions, []),
+                    ],
+                    [
+                        'display_name' => 'Generate Receipt',
+                        'name' => 'generate_receipt',
+                        'link' => '/generate_receipt',
+                        'permissions' => array_merge($resourcePermissions, []),
+                    ],
+                ]
+            ],
+            [
+                'display_name' => 'Tariff & Rate',
+                'name' => 'tariff_rate',
+                'link' => '/tariff_rate',
+                'permissions' => array_merge($resourcePermissions, []),
+                'icon' => 'fa-calculator'
+            ],
+            [
+                'display_name' => 'Due & Penalty',
+                'name' => 'due_penalty',
+                'link' => '#',
+                'permissions' => ['view', 'report', 'print'],
+                'icon' => 'fa-exclamation-circle',
+                'submenus'=>[
+                    [
+                        'display_name' => 'Overdue Bills',
+                        'name' => 'overdue_bills',
+                        'link' => '/overdue_bills',
+                        'permissions' => array_merge($resourcePermissions, []),
+                    ],
+                    [
+                        'display_name' => 'Penalty Calculation',
+                        'name' => 'penalty_calculation',
+                        'link' => '/penalty_calculation',
+                        'permissions' => array_merge($resourcePermissions, []),
+                    ],
+                    [
+                        'display_name' => 'Customer Notifications',
+                        'name' => 'customer_notifications',
+                        'link' => '/customer_notifications',
+                        'permissions' => array_merge($resourcePermissions, []),
+                    ],
+                ]
+            ],
+            [
+                'display_name' => 'Reports & Analytics',
+                'name' => 'Reports_analytics',
+                'link' => '#',
+                'permissions' => ['view', 'report', 'print'],
+                'icon' => 'fa-file-invoice',
+                'submenus'=>[
+                    [
+                        'display_name' => 'Billing Reports',
+                        'name' => 'billing_reports',
+                        'link' => '/billing_reports',
+                        'permissions' => array_merge($resourcePermissions, []),
+                    ],
+                    [
+                        'display_name' => 'Collection Reports',
+                        'name' => 'collection_reports',
+                        'link' => '/collection_reports',
+                        'permissions' => array_merge($resourcePermissions, []),
+                    ],
+                    [
+                        'display_name' => 'Consumption Analysis',
+                        'name' => 'consumption_analysis',
+                        'link' => '/consumption_analysis',
+                        'permissions' => array_merge($resourcePermissions, []),
+                    ],
+                ]
+            ],
+            [
+                'display_name' => 'Settings',
+                'name' => 'settings',
+                'link' => '#',
+                'permissions' => ['view', 'report', 'print'],
+                'icon' => 'fa-tools',
+                'submenus'=>[
+                    [
+                        'display_name' => 'Meter Type',
+                        'name' => 'meter_type',
+                        'link' => '/meter_type',
+                        'permissions' => array_merge($resourcePermissions, []),
+                    ],
+                    [
+                        'display_name' => 'Customer Area',
+                        'name' => 'customer_area',
+                        'link' => '/customer_area',
+                        'permissions' => array_merge($resourcePermissions, []),
+                    ],
+                    [
+                        'display_name' => 'Solar Plant',
+                        'name' => 'solar_plant',
+                        'link' => '/solar_plant',
+                        'permissions' => array_merge($resourcePermissions, []),
+                    ],
+                    [
+                        'display_name' => 'Generator',
+                        'name' => 'generator',
+                        'link' => '/generator',
+                        'permissions' => array_merge($resourcePermissions, []),
+                    ],
+                    [
+                        'display_name' => 'Notification Settings',
+                        'name' => 'notification_settings',
+                        'link' => '/notification_settings',
+                        'permissions' => array_merge($resourcePermissions, []),
+                    ],
+                    [
+                        'display_name' => 'Backup & Restore',
+                        'name' => 'backup_restore',
+                        'link' => '/backup_restore',
+                        'permissions' => array_merge($resourcePermissions, []),
+                    ],
+                ]
+            ],
+            [
+                'display_name' => 'Help & Support',
+                'name' => 'help_support',
+                'link' => '#',
+                'permissions' => ['view', 'report', 'print'],
+                'icon' => 'fa-question-circle',
+                'submenus'=>[
+                    [
+                        'display_name' => 'User Manual',
+                        'name' => 'user_manual',
+                        'link' => '/user_manual',
+                        'permissions' => array_merge($resourcePermissions, []),
+                    ],
+                    [
+                        'display_name' => 'Contact Support',
+                        'name' => 'contact_support',
+                        'link' => '/contact_support',
+                        'permissions' => array_merge($resourcePermissions, []),
+                    ],
+                    [
+                        'display_name' => 'Generate Receipt',
+                        'name' => 'generate_receipt',
+                        'link' => '/generate_receipt',
+                        'permissions' => array_merge($resourcePermissions, []),
+                    ],
+                ]
+            ],
+
         ];
 
         foreach ($modules as $data) {

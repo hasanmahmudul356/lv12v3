@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
+use App\Models\Meter;
+use App\Models\MeterType;
 use App\Models\RBAC\Module;
 use App\Models\RBAC\Permission;
 use App\Models\RBAC\Role;
@@ -67,6 +70,31 @@ class SupportController extends Controller
         if (isset($input['roles']) || in_array('roles', $input)){
             $key = isset($input['roles']['key']) ?  isset($input['roles']['key']) : 'roles';
             $data[$key] =  Role::where('status', 1)->get();
+        }
+        if (isset($input['meter_type']) || in_array('meter_type', $input)){
+            $key = isset($input['meter_type']['key']) ?  isset($input['meter_type']['key']) : 'meter_type';
+            $data[$key] =  MeterType::where('status', 1)->get();
+        }
+        if (isset($input['customer'],$array) || in_array('customer', $input)){
+            $key = isset($input['customer']['key']) ?  isset($input['customer']['key']) : 'customer';
+            $data[$key] =  Customer::where('status', 1)
+                ->where(function ($q) use ($array){
+                    $type=isset($array['customer']['meter_type']) ? $array['customer']['meter_type'] : 0;
+                    if ($type){
+                        $q->where('meter_type',$type);
+                    }
+                })
+                ->get();
+        }
+
+        if (isset($input['users']) || in_array('users', $input)){
+            $key = isset($input['users']['key']) ?  isset($input['users']['key']) : 'users';
+            $data[$key] =  User::where('status', 1)->get();
+        }
+
+        if (isset($input['meter_num']) || in_array('meter_num', $input)){
+            $key = isset($input['meter_num']['key']) ?  isset($input['meter_num']['key']) : 'meter_num';
+            $data[$key] =  Meter::where('status', 1)->get();
         }
 
         return returnData(2000, $data);
