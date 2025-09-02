@@ -19,7 +19,7 @@
 
     onMounted(() => {
         getDataList();
-        getDependency({dependency : ['']});
+        getDependency({dependency : ['meter_num']});
     });
 
     watch(
@@ -46,7 +46,7 @@
 <template>
     <dataTable :headings="tableHeaders" :setting="true">
         <template v-slot:tableTop>
-            <tableTop :defaultObject="{bill_status:''}"></tableTop>
+            <tableTop :defaultObject="{bill_status:'',meter_id: ''}"></tableTop>
         </template>
         <template v-slot:topRight v-if="dataList.data !== undefined">
             <a class="btn btn-sm btn-outline-danger radius-30 text-uppercase" @click="deleteAllRecords({dataObject:dataList.data})" v-if="dataList.data.some(each => parseInt(each.checked) === 1)">Delete All</a>
@@ -87,9 +87,14 @@
             }
         })">
             <div class="row mb-2">
-                <label class="col-md-4"><strong>Meter Number : </strong></label>
+                <label class="col-md-4"><strong>Meter Number: </strong></label>
                 <div class="col-md-8">
-                    <input type="text" v-validate="'required'" v-model="formObject.meter_number" class="form-control"/>
+                    <select v-model="formObject.meter_id" class="form-control" v-validate="'required'">
+                        <option value="">Select</option>
+                        <template v-for="type in pageDependencies.meter_num">
+                            <option :value="type.id">{{type.meter_number}}</option>
+                        </template>
+                    </select>
                 </div>
             </div>
 
