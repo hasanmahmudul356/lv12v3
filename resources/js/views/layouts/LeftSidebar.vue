@@ -11,20 +11,22 @@
     };
 
     onMounted(() => {
-        loadConfigurations(async (retData) => {
-            await nextTick();
+        loadConfigurations({
+            callback: async (retData) => {
+                await nextTick();
 
-            $("#menu").metisMenu();
+                $("#menu").metisMenu();
 
-            let e = window.location;
-            let o = $(".metismenu li a").filter(function () {
-                    return this.href === e.href
+                let e = window.location;
+                let o = $(".metismenu li a").filter(function () {
+                    return this.href === e.href;
                 }).parent().addClass("mm-active");
 
-            while (o.is("li")) {
-                o = o.parent("").addClass("mm-show").parent("").addClass("mm-active")
+                while (o.is("li")) {
+                    o = o.parent().addClass("mm-show").parent().addClass("mm-active");
+                }
             }
-        })
+        });
     });
 
     onMounted(() => {

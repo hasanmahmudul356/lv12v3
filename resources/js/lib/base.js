@@ -101,7 +101,6 @@ export function useBase() {
             callback({ success: true, modalId, formObject });
         }
     };
-
     const closeModal = (modalId = 'fromModal') => {
         const modal = document.getElementById(modalId);
         const bsModal = bootstrap.Modal.getInstance(modal);
