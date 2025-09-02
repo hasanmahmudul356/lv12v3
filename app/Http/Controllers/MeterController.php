@@ -18,8 +18,18 @@ class MeterController extends Controller
     }
 
     public function index(){
-        $data = $this->model->paginate();
-        return returnData(2000, $data);
+        try {
+            $keyword = request()->input('keyword');
+            $data = $this->model
+                ->with('customer', 'meterType')
+                ->when($keyword, function ($query) use ($keyword) {
+                    $query->where('name', 'Like', "%$keyword%");
+                })->paginate(input('perPage'));
+
+            return returnData(2000, $data);
+        } catch (\Exception $exception) {
+            return returnData(5000, $exception->getMessage(), 'Whoops, Something Went Wrong..!!');
+        }
     }
 
 

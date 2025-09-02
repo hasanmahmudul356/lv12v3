@@ -35,4 +35,10 @@ class Customer extends Model
 
         return $validate;
     }
+
+    public function meterType()
+    {
+        return $this->hasOne(MeterType::class, 'id', 'meter_type_id');
+    }
+
 }

@@ -75,17 +75,42 @@ class SupportController extends Controller
             $key = isset($input['meter_type']['key']) ?  isset($input['meter_type']['key']) : 'meter_type';
             $data[$key] =  MeterType::where('status', 1)->get();
         }
-        if (isset($input['customer'],$array) || in_array('customer', $input)){
-            $key = isset($input['customer']['key']) ?  isset($input['customer']['key']) : 'customer';
-            $data[$key] =  Customer::where('status', 1)
-                ->where(function ($q) use ($array){
-                    $type=isset($array['customer']['meter_type']) ? $array['customer']['meter_type'] : 0;
-                    if ($type){
-                        $q->where('meter_type',$type);
-                    }
-                })
+//        if (isset($input['customer'],$array) || in_array('customer', $input)){
+//            $key = isset($input['customer']['key']) ?  isset($input['customer']['key']) : 'customer';
+//            $data[$key] =  Customer::where('status', 1)
+//                ->where(function ($q) use ($array){
+//                    $type=isset($array['customer']['meter_type']) ? $array['customer']['meter_type'] : 0;
+//                    if ($type){
+//                        $q->where('meter_type',$type);
+//                    }
+//                })
+//                ->get();
+//        }
+
+//        $array = $array ?? [];
+//
+//        if (isset($input['customer']) || in_array('customer', $input)) {
+//            $key = isset($input['customer']['key']) ? $input['customer']['key'] : 'customer';
+//
+//            $data[$key] = Customer::with('meterType')
+//                ->where('status', 1)
+//                ->when(isset($array['customer']['meter_type']), function ($q) use ($array) {
+//                    $q->where('meter_type_id', $array['customer']['meter_type']);
+//                })
+//                ->get();
+//        }
+
+        $array = $array ?? [];
+
+        if (isset($input['customer']) || in_array('customer', $input)) {
+            $key = isset($input['customer']['key']) ? $input['customer']['key'] : 'customer';
+
+            $data[$key] = Customer::with('meterType')
+                ->where('status', 1)
                 ->get();
         }
+
+
 
         if (isset($input['users']) || in_array('users', $input)){
             $key = isset($input['users']['key']) ?  isset($input['users']['key']) : 'users';

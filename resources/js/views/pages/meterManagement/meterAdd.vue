@@ -32,9 +32,9 @@
             <tr v-for="(item, index) in dataList.data" :key="item.id">
                 <td>{{index+1}}</td>
                 <td>{{ item.meter_number }}</td>
-                <td>{{ item.customer_id }}</td>
+                <td>{{ item.customer ? item.customer.name : '-' }}</td>
                 <td>{{ item.connection_date }}</td>
-                <td>{{ item.meter_type }}</td>
+                <td>{{ item.meter_type ? item.meter_type.name : '-' }}</td>
                 <td><a @click="changeStatus({obj:item})" class="pointer" v-html="statusBadge(item.status)"></a></td>
 
                 <td>
@@ -66,8 +66,8 @@
                 <div class="col-md-8">
                     <select v-model="formObject.customer_id" class="form-control" v-validate="'required'">
                         <option value="">Select</option>
-                        <template v-for="role in pageDependencies.roles">
-                            <option :value="role.id">{{role.name}}</option>
+                        <template v-for="item in pageDependencies.customer">
+                            <option :value="item.id">{{item.name}}</option>
                         </template>
                     </select>
                 </div>
@@ -81,14 +81,20 @@
             <div class="row mb-2">
                 <label class="col-md-4"><strong>Meter Type : </strong></label>
                 <div class="col-md-8">
-                    <select  v-model="formObject.meter_type" class="form-control" v-validate="'required'">
+                    <select v-model="formObject.meter_type" class="form-control" v-validate="'required'">
                         <option value="">Select</option>
-                        <template v-for="type in pageDependencies.meter_type">
-                            <option :value="type.id">{{type.name}}</option>
+                        <template v-for="customer in pageDependencies.customer">
+                            <option
+                                    v-if="customer.id === formObject.customer_id && customer.meter_type"
+                                    :key="customer.meter_type.id"
+                                    :value="customer.meter_type.id">
+                                {{ customer.meter_type.name }}
+                            </option>
                         </template>
                     </select>
                 </div>
             </div>
+
         </fromModal>
     </dataTable>
 
