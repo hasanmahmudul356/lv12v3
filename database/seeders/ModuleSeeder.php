@@ -26,21 +26,18 @@ class ModuleSeeder extends Seeder
 
         $modules = [
             [
-                'display_name' => 'Dashboard',
                 'name' => 'dashboard',
                 'link' => '/dashboard',
                 'permissions' => ['view', 'report', 'print'],
                 'icon' => 'bx bx-home-alt',
             ],
             [
-                'display_name' => 'RBAC Accesses',
                 'name' => 'accesses',
                 'link' => '#',
                 'permissions' => ['show'],
                 'icon' => 'bx bx-lock',
                 'submenus' => [
                     [
-                        'display_name' => 'Users',
                         'name' => 'users',
                         'link' => '/users',
                         'permissions' => array_merge($resourcePermissions, []),
@@ -48,34 +45,36 @@ class ModuleSeeder extends Seeder
                         'submenus' => []
                     ],
                     [
-                        'display_name' => 'Modules',
                         'name' => 'modules',
                         'link' => '/modules',
                         'permissions' => array_merge($resourcePermissions, []),
                         'icon' => 'bx bx-radio-circle',
                     ],
                     [
-                        'display_name' => 'Roles',
                         'name' => 'roles',
                         'link' => '/roles',
                         'permissions' => array_merge($resourcePermissions, []),
                         'icon' => 'bx bx-radio-circle',
                     ],
                     [
-                        'display_name' => 'Module Permissions',
                         'name' => 'module_permissions',
                         'link' => '/module_permissions',
                         'permissions' => array_merge($resourcePermissions, []),
                         'icon' => 'bx bx-radio-circle',
                     ],
                     [
-                        'display_name' => 'Role Permissions',
                         'name' => 'role_permissions',
                         'link' => '/role_permissions',
                         'permissions' => array_merge($resourcePermissions, []),
                         'icon' => 'bx bx-radio-circle',
                     ],
                 ]
+            ],
+            [
+                'name' => 'app_settings',
+                'link' => '/app_settings',
+                'permissions' => array_merge($resourcePermissions, []),
+                'icon' => 'bx bx-radio-circle',
             ],
         ];
 

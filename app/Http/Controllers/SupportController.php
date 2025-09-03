@@ -78,6 +78,85 @@ class SupportController extends Controller
         }
         return response()->json(json_encode($locals));
     }
+    public function getRoutes(){
+        $route = [
+            [
+                "path" => "/",
+                "name" => "app",
+                "component" => "views/layouts/AppLayouts.vue",
+                "children" =>
+
+                    $routes = [
+                        [
+                            "path" => "",
+                            "name" => "dashboard",
+                            "component" => "views/pages/Dashboard.vue",
+                        ],
+                        [
+                            "path" => "profile",
+                            "name" => "profile",
+                            "component" => "views/pages/users/profile.vue",
+                            "meta" => [
+                                "dataUrl" => "api/profile",
+                                "title" => "Profile",
+                                "listPage" => false,
+                            ],
+                        ],
+                        [
+                            "path" => "dashboard",
+                            "name" => "dashboard-alt",
+                            "component" => "views/pages/Dashboard.vue",
+                        ],
+                        [
+                            "path" => "users",
+                            "name" => "users",
+                            "component" => "views/pages/users/userList.vue",
+                            "meta" => [
+                                "dataUrl" => "api/users",
+                                "title" => "Users",
+                            ],
+                        ],
+                        [
+                            "path" => "modules",
+                            "name" => "modules",
+                            "component" => "views/pages/rbac/Module.vue",
+                            "meta" => [
+                                "dataUrl" => "api/modules",
+                                "title" => "Module",
+                            ],
+                        ],
+                        [
+                            "path" => "roles",
+                            "name" => "role",
+                            "component" => "views/pages/rbac/Module.vue",
+                            "meta" => [
+                                "dataUrl" => "api/modules",
+                                "title" => "Roles",
+                            ],
+                        ],
+                        [
+                            "path" => "module_permissions",
+                            "name" => "module_permission",
+                            "component" => "views/pages/rbac/Module.vue",
+                            "meta" => [
+                                "dataUrl" => "api/module_permissions",
+                                "title" => "Module",
+                            ],
+                        ],
+                        [
+                            "path" => "role_permissions",
+                            "name" => "role_permission",
+                            "component" => "views/pages/rbac/Module.vue",
+                            "meta" => [
+                                "dataUrl" => "api/role_permissions",
+                                "title" => "Module",
+                            ],
+                        ],
+                    ]
+            ],
+        ];
+        return response()->json($route);
+    }
 
     public function getGeneralData(){
         $input = request()->all();
