@@ -29,7 +29,7 @@ export const backend = [
             {
                 path: 'roles', name: 'role',
                 component: () => import('@/views/pages/rbac/Module.vue'),
-                meta: {dataUrl: 'api/modules', title: 'Module'}
+                meta: {dataUrl: 'api/modules', title: 'Roles'}
             },
             {
                 path: 'module_permissions', name: 'module_permission',

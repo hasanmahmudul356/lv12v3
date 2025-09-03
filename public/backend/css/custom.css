@@ -141,6 +141,9 @@ h2#swal2-title {
 .bg-theme .page_loader{
     background: rgba(255, 255, 255, 0.2);
 }
+.bg-theme .header-notifications-list {
+    background: #000;
+}
 .page_loader {
     position: absolute;
     top: 0;
