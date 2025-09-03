@@ -19,14 +19,14 @@
 
     onMounted(() => {
         getDataList();
-        getDependency({dependency : ['roles']});
+        getDependency({dependency : ['meter_num']});
     });
 </script>
 
 <template>
     <dataTable :headings="tableHeaders" :setting="true">
         <template v-slot:tableTop>
-            <tableTop :defaultObject="{role_id:''}"></tableTop>
+            <tableTop :defaultObject="{meter_id:''}"></tableTop>
         </template>
         <template v-slot:topRight v-if="dataList.data !== undefined">
             <a class="btn btn-sm btn-outline-danger radius-30 text-uppercase" @click="deleteAllRecords({dataObject:dataList.data})" v-if="dataList.data.some(each => parseInt(each.checked) === 1)">Delete All</a>
@@ -35,7 +35,7 @@
             <tr v-for="(item, index) in dataList.data" :key="item.id">
                 <td>{{index+1}}</td>
                 <td class="checkbox"><input :checked="item.checked" @change="handleSelectAll($event, [item])" class="form-check-input me-3 pointer" type="checkbox"/></td>
-                <td>{{ item.meter_no }}</td>
+                <td>{{ item.meter_number }}</td>
                 <td>{{ item.billing_month }}</td>
                 <td>{{ item.start_reading }}</td>
                 <td>{{ item.end_reading }}</td>
@@ -61,9 +61,14 @@
             }
         })">
             <div class="row mb-2">
-                <label class="col-md-4"><strong>Meter No : </strong></label>
+                <label class="col-md-4"><strong>Meter Number : </strong></label>
                 <div class="col-md-8">
-                    <input type="text" v-model="formObject.meter_no" class="form-control"/>
+                  <select v-model="formObject.meter_id" class="form-control" v-validate="'required'">
+                    <option value="">Select</option>
+                    <template v-for="type in pageDependencies.meter_num">
+                      <option :value="type.id">{{type.meter_number}}</option>
+                    </template>
+                  </select>
                 </div>
             </div>
             <div class="row mb-2">

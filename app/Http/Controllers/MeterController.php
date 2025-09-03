@@ -21,7 +21,7 @@ class MeterController extends Controller
         try {
             $keyword = request()->input('keyword');
             $data = $this->model
-                ->with('customer', 'meterType')
+                ->with(['customer', 'meterType','customer.customer_area'])
                 ->when($keyword, function ($query) use ($keyword) {
                     $query->where('name', 'Like', "%$keyword%");
                 })->paginate(input('perPage'));

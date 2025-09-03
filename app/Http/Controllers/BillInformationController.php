@@ -20,9 +20,12 @@ class BillInformationController extends Controller
         try {
             $keyword = request()->input('keyword');
             $data = $this->model
+                ->leftJoin('meters', 'bill_informations.meter_id', '=', 'meters.id')
                 ->when($keyword, function ($query) use ($keyword) {
                     $query->where('name', 'Like', "%$keyword%");
-                })->paginate(input('perPage'));
+                })
+                ->select('bill_informations.*','meters.meter_number')
+                ->paginate(input('perPage'));
 
             return returnData(2000, $data);
         } catch (\Exception $exception) {
@@ -44,6 +47,11 @@ class BillInformationController extends Controller
             $validate = $this->model->validate($input);
             if ($validate->fails()) {
                 return returnData(2000, $validate->errors());
+            }
+
+            $exist= $this->model->where('meter_id', $input['meter_id'])->where('billing_month', $input['billing_month'])->first();
+            if ($exist) {
+                return returnData(5000, null,'Already Bill Generate');
             }
 
             $this->model->fill($input);

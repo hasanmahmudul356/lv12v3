@@ -14,14 +14,14 @@ class BillInformation extends Model
     use ModelScopes;
     use HasFactory;
 
-    protected $fillable = ['user_id','meter_no','billing_month','start_reading','end_reading','units_consumed','bill_amount'];
+    protected $fillable = ['user_id','meter_id','billing_month','start_reading','end_reading','units_consumed','bill_amount'];
 
 
     public function validate($input = [])
     {
         $validate = Validator::make($input, [
             'user_id' => '',
-            'meter_no' => '',
+            'meter_id' => '',
             'billing_month' => '',
             'start_reading' => '',
             'end_reading' => '',

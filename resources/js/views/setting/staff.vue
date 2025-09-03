@@ -5,7 +5,7 @@
     const store = useStore();
     import {useBase, useHttp, appStore} from '@/lib';
 
-    const {getDependency, submitForm, editData, deleteRecord} = {...useHttp()};
+    const {submitForm, editData, deleteRecord} = {...useHttp()};
     const {changeStatus, statusBadge, formFilter, formObject, openModal, closeModal, useGetters, dataList, httpRequest, pageDependencies, updateId} = {
         ...useBase(),
         ...useHttp(),
@@ -13,14 +13,12 @@
         ...appStore().useGetters('dataList', 'httpRequest', 'pageDependencies', 'updateId')
     };
 
-    const tableHeaders = ref(["#", "Area Name", "Area Code", "Zone", "City", "Officer Name", "Status", "Actions"]);
+    const tableHeaders = ref(["#", "Name", "Email", "Phone", "Address", "Status", "Actions"]);
     const {getDataList, httpReq} = useHttp();
 
     onMounted(() => {
         getDataList();
-        getDependency({dependency : ['officer']});
     });
-
 </script>
 
 <template>
@@ -32,10 +30,9 @@
             <tr v-for="(item, index) in dataList.data" :key="item.id">
                 <td>{{index+1}}</td>
                 <td>{{item.name}}</td>
-                <td>{{item.code}}</td>
-                <td>{{item.zone}}</td>
-                <td>{{item.city}}</td>
-                <td>{{item.area_staff ? item.area_staff.name : '-'}}</td>
+                <td>{{item.email}}</td>
+                <td>{{item.phone}}</td>
+                <td>{{item.address}}</td>
                 <td>
                     <a @click="changeStatus({obj:item})" class="pointer" v-html="statusBadge(item.status)"></a>
                 </td>
@@ -58,38 +55,27 @@
             }
         })">
             <div class="row mb-2">
-                <label class="col-md-4"><strong>Area Name : </strong></label>
+                <label class="col-md-4"><strong>Name : </strong></label>
                 <div class="col-md-8">
                     <input type="text" v-model="formObject.name" class="form-control"/>
                 </div>
             </div>
             <div class="row mb-2">
-                <label class="col-md-4"><strong>Area Code : </strong></label>
+                <label class="col-md-4"><strong>email : </strong></label>
                 <div class="col-md-8">
-                    <input type="text" v-model="formObject.code" class="form-control"/>
+                    <input type="email" v-model="formObject.email" class="form-control"/>
                 </div>
             </div>
             <div class="row mb-2">
-                <label class="col-md-4"><strong>Zone : </strong></label>
+                <label class="col-md-4"><strong>phone : </strong></label>
                 <div class="col-md-8">
-                    <input type="text" v-model="formObject.zone" class="form-control"/>
+                    <input type="text" v-model="formObject.phone" class="form-control"/>
                 </div>
             </div>
             <div class="row mb-2">
-                <label class="col-md-4"><strong>City : </strong></label>
+                <label class="col-md-4"><strong>Address : </strong></label>
                 <div class="col-md-8">
-                    <input type="text" v-model="formObject.city" class="form-control"/>
-                </div>
-            </div>
-            <div class="row mb-2">
-                <label class="col-md-4"><strong>Area Officer: </strong></label>
-                <div class="col-md-8">
-                    <select v-model="formObject.officer_id" class="form-control" v-validate="'required'">
-                        <option value="">Select</option>
-                        <template v-for="item in pageDependencies.officer">
-                            <option :value="item.id">{{item.name}}</option>
-                        </template>
-                    </select>
+                    <input type="text" v-model="formObject.address" class="form-control"/>
                 </div>
             </div>
         </fromModal>

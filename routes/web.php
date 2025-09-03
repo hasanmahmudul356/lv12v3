@@ -13,6 +13,8 @@ Route::middleware(\App\Http\Middleware\AuthCheckMiddleware::class)->group(functi
     Route::get('/app/{any?}', [\App\Http\Controllers\Backend\DashboardController::class, 'singleApp'])
         ->where('any', '.*')->name('home');
     Route::get('logout', [\App\Http\Controllers\Backend\AuthController::class, 'logout'])->name('logout');
+    Route::get('/billing_info',[\App\Http\Controllers\BillingController::class, 'getBillingInfo']);
+
 
     Route::prefix('api')->group(function (){
         Route::post('general', [\App\Http\Controllers\SupportController::class, 'getGeneralData']);
@@ -30,10 +32,12 @@ Route::middleware(\App\Http\Middleware\AuthCheckMiddleware::class)->group(functi
         Route::resource('customer_area',\App\Http\Controllers\AreaController::class);
         Route::resource('solar_plant',\App\Http\Controllers\SolarPlantController::class);
         Route::resource('generator',\App\Http\Controllers\GeneratorController::class);
-        Route::resource('manual_bill_entry',\App\Http\Controllers\ManualBillEntryController::class);
-        Route::resource('bulk_bill_generation',\App\Http\Controllers\BulkBillGenerationController::class);
+        Route::resource('manual_bill_entry',\App\Http\Controllers\BillInformationController::class);
+        Route::resource('bulk_bill_generation',\App\Http\Controllers\BillInformationController::class);
         Route::resource('add_meter',\App\Http\Controllers\MeterController::class);
         Route::resource('add_meter',\App\Http\Controllers\MeterController::class);
         Route::resource('tariff_rate',\App\Http\Controllers\TariffAndRateController::class);
+        Route::resource('tariff_rate',\App\Http\Controllers\TariffAndRateController::class);
+        Route::resource('staff',\App\Http\Controllers\StaffController::class);
     });
 });

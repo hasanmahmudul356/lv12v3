@@ -3,18 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
-use App\Http\Controllers\Controller;
-use App\Models\BulkBillGeneration;
+use App\Models\SolarPlant;
+use App\Models\Staff;
 use Illuminate\Http\Request;
 
-class BulkBillGenerationController extends Controller
+class StaffController extends Controller
 {
     use Helper;
 
     public function __construct()
     {
-        $this->model = new BulkBillGeneration();
+//        if (!can(request()->route()->action['as'])) {
+//            return returnData(5001, null, 'You are not authorized to access this page');
+//        }
+        $this->model = new Staff();
     }
+
 
     public function index()
     {
@@ -29,18 +33,22 @@ class BulkBillGenerationController extends Controller
         } catch (\Exception $exception) {
             return returnData(5000, $exception->getMessage(), 'Whoops, Something Went Wrong..!!');
         }
-
     }
+
 
     public function create()
     {
         //
     }
 
+
     public function store(Request $request)
     {
         try {
             $input = $request->all();
+
+            // logged in user id insert
+            $input['user_id'] = auth()->id();
 
             $validate = $this->model->validate($input);
             if ($validate->fails()) {
@@ -48,7 +56,6 @@ class BulkBillGenerationController extends Controller
             }
 
             $this->model->fill($input);
-            $this->model->user_id = auth()->user()->id;
             $this->model->save();
 
             return returnData(2000, null, 'Successfully Inserted');
@@ -56,48 +63,56 @@ class BulkBillGenerationController extends Controller
         } catch (\Exception $exception) {
             return returnData(5000, $exception->getMessage(), 'Whoops, Something Went Wrong..!!');
         }
-
     }
 
-    public function show($id)
+
+    public function show(string $id)
     {
         //
     }
 
-    public function edit($id)
+
+    public function edit(string $id)
     {
         //
     }
+
 
     public function update(Request $request, $id)
     {
-        $validator = $this->model->validate($request->all());
+        try {
+            $input = $request->all();
 
-        if ($validator->fails()) {
-            return response()->json(['result' => $validator->errors(), 'status' => 3000], 200);
+            // logged in user_id override
+            $input['user_id'] = auth()->id();
+
+            $validation = $this->model->validate($input);
+            if ($validation->fails()) {
+                return response()->json(['status' => 2000, 'errors' => $validation->errors()], 200);
+            }
+            $data = $this->model->find($id);
+            if ($data) {
+                $data->update($input);
+                return returnData(2000, null, 'Successfully Updated');
+            }
+            return returnData(5000, null, 'Data Not found');
+        } catch (\Exception $exception) {
+            return returnData(5000, $exception->getMessage(), 'Whoops, Something Went Wrong..!!');
         }
-
-        $data = $this->model->where('id', $request->input('id'))->first();
-
-        if ($data) {
-            $data->fill($request->all());
-            $data->user_id = auth()->user()->id;
-            $data->update();
-            return returnData(2000, null, 'Successfully Updated');
-        }
-
-        return returnData(2000, null, 'Unsuccessful Updated');
     }
 
     public function destroy($id)
     {
+
         try {
             $data = $this->model->where('id', $id)->first();
-            if ($data) {
-                $data->delete();
-                return returnData(2000, $data, 'Successfully Deleted');
+            if (!$data) {
+                return returnData(5000, null, 'Data Not found');
             }
-            return returnData(5000, null, 'Data Not found');
+
+            $data->delete();
+
+            return returnData(2000, $data, 'Successfully Deleted');
 
         } catch (\Exception $exception) {
             return returnData(5000, $exception->getMessage(), 'Whoops, Something Went Wrong..!!');

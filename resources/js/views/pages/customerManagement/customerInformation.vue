@@ -14,19 +14,19 @@
         ...appStore().useGetters('dataList', 'httpRequest', 'pageDependencies', 'updateId')
     };
 
-    const tableHeaders = ref(['#', {name: '', listObject: dataList}, "Name", "Email", "Phone", "Address","Meter Type", "House Holding No","Birthday", "Image","Status","Actions"]);
+    const tableHeaders = ref(['#', {name: '', listObject: dataList}, "Name", "Email", "Phone", "Address", "Area","Meter Type", "House Holding No","Birthday", "Image","Status","Actions"]);
     const {getDataList, httpReq} = useHttp();
 
     onMounted(() => {
         getDataList();
-        getDependency({dependency : ['meter_type']});
+        getDependency({dependency : ['meter_type','customer_area']});
     });
 </script>
 
 <template>
     <dataTable :headings="tableHeaders" :setting="true">
         <template v-slot:tableTop>
-            <tableTop :defaultObject="{meter_type:''}"></tableTop>
+            <tableTop :defaultObject="{meter_type_id:'', area_id: ''}"></tableTop>
         </template>
         <template v-slot:topRight v-if="dataList.data !== undefined">
             <a class="btn btn-sm btn-outline-danger radius-30 text-uppercase" @click="deleteAllRecords({dataObject:dataList.data})" v-if="dataList.data.some(each => parseInt(each.checked) === 1)">Delete All</a>
@@ -39,6 +39,7 @@
                 <td>{{ item.email }}</td>
                 <td>{{ item.phone_number }}</td>
                 <td>{{ item.address }}</td>
+                <td>{{ item.area_name}}</td>
                 <td>{{ item.meter_name }}</td>
                 <td>{{ item.house_holding_no }}</td>
                 <td>{{ item.dob }}</td>
@@ -68,42 +69,54 @@
                     <input type="text" v-validate="'required'" v-model="formObject.name" class="form-control"/>
                 </div>
             </div>
+
+            <div class="row mb-2">
+                <label class="col-md-4"><strong>Date of Birth : </strong></label>
+                <div class="col-md-8">
+                    <input type="date" v-model="formObject.dob" class="form-control"/>
+                </div>
+            </div>
+
             <div class="row mb-2">
                 <label class="col-md-4"><strong>Email : </strong></label>
                 <div class="col-md-8">
                     <input type="email" v-model="formObject.email" class="form-control"/>
                 </div>
             </div>
+
             <div class="row mb-2">
                 <label class="col-md-4"><strong>Phone Number : </strong></label>
                 <div class="col-md-8">
                     <input type="tel" v-model="formObject.phone_number" class="form-control"/>
                 </div>
             </div>
+
             <div class="row mb-2">
                 <label class="col-md-4"><strong>Address : </strong></label>
                 <div class="col-md-8">
                     <input type="text" v-model="formObject.address" class="form-control"/>
                 </div>
             </div>
+
             <div class="row mb-2">
                 <label class="col-md-4"><strong>House Holding No : </strong></label>
                 <div class="col-md-8">
                     <input type="text" v-model="formObject.house_holding_no" class="form-control"/>
                 </div>
             </div>
+
             <div class="row mb-2">
-                <label class="col-md-4"><strong>Area : </strong></label>
+                <label class="col-md-4"><strong>Area: </strong></label>
                 <div class="col-md-8">
-                    <input type="text" v-model="formObject.area" class="form-control"/>
+                    <select v-model="formObject.area_id" class="form-control" v-validate="'required'">
+                        <option value="">Select</option>
+                        <template v-for="type in pageDependencies.customer_area">
+                            <option :value="type.id">{{type.name}}</option>
+                        </template>
+                    </select>
                 </div>
             </div>
-            <div class="row mb-2">
-                <label class="col-md-4"><strong>Birthday : </strong></label>
-                <div class="col-md-8">
-                    <input type="date" v-model="formObject.dob" class="form-control"/>
-                </div>
-            </div>
+
             <div class="row mb-2">
                 <label class="col-md-4"><strong>Meter Type: </strong></label>
                 <div class="col-md-8">
@@ -115,12 +128,14 @@
                     </select>
                 </div>
             </div>
+
             <div class="row mb-2">
                 <label class="col-md-4"><strong>Image : </strong></label>
                 <div class="col-md-8">
                     <input type="text" v-model="formObject.image" class="form-control"/>
                 </div>
             </div>
+
 
         </fromModal>
     </dataTable>

@@ -2,21 +2,21 @@
 
 namespace App\Models;
 
-use function Carbon\this;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 
-class area extends Model
+class Staff extends Model
 {
     use HasFactory;
 
-    protected $fillable =[
+    protected $table = 'staffs';
+
+    protected $fillable = [
         'name',
-        'code',
-        'zone',
-        'city',
-        'officer_id',
+        'email',
+        'phone',
+        'address',
         'status',
         'user_id'
     ];
@@ -25,16 +25,12 @@ class area extends Model
 
         $validate = Validator::make($input, [
             'name' => 'required',
-            'code' => 'required',
-            'zone' => 'required',
-            'city' => 'required',
-            'officer_id' => 'required',
+            'email' => 'required',
+            'phone' => 'required',
+            'address' => 'required',
+            'user_id' => 'required',
         ]);
 
         return $validate;
-    }
-
-    public function areaStaff(){
-        return $this->belongsTo(Staff::class, 'officer_id', 'id');
     }
 }
