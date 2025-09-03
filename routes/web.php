@@ -12,6 +12,8 @@ Route::middleware(\App\Http\Middleware\AuthCheckMiddleware::class)->group(functi
     Route::get('/app/{any?}', [\App\Http\Controllers\Backend\DashboardController::class, 'singleApp'])
         ->where('any', '.*')->name('home');
     Route::get('logout', [\App\Http\Controllers\Backend\AuthController::class, 'logout'])->name('logout');
+    Route::get('/billing_info',[\App\Http\Controllers\BillingController::class, 'getBillingInfo']);
+
 
     Route::prefix('api')->group(function (){
         Route::post('general', [\App\Http\Controllers\SupportController::class, 'getGeneralData']);

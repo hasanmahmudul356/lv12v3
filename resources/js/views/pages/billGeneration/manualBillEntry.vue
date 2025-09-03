@@ -23,22 +23,33 @@
     });
 
     watch(
-        () => [formObject.value.start_reading, formObject.value.end_reading, formObject.value.unit_rate],
-        ([start, end, rate]) => {
+        () => [formObject.value.meter_id, formObject.value.billing_month],
+        async ([meter_id, billing_month]) => {
+            if (!meter_id || !billing_month) return;
 
-            if (start !== null && end !== null && end >= start) {
-                formObject.value.units_consumed = end - start;
-            } else {
-                formObject.value.units_consumed = null;
-            }
+            const response = await httpReq({
+                url: '/billing_info',
+                method: 'get',
+                params: { meter_id, billing_month },
+            });
 
-            if (formObject.value.units_consumed !== null && rate) {
-                formObject.value.bill_amount = formObject.value.units_consumed * rate;
-            } else {
-                formObject.value.bill_amount = null;
+            if (response) {
+                formObject.value.start_reading = response.start_reading;
+                formObject.value.unit_rate = response.unit_rate;
+                formObject.value.end_reading = response.end_reading;
+
+                if (response.end_reading !== null) {
+                    formObject.value.units_consumed =
+                        response.end_reading - response.start_reading;
+                    formObject.value.bill_amount = formObject.value.units_consumed * response.unit_rate;
+
+                } else {
+                    formObject.value.units_consumed = 0;
+                }
             }
         }
     );
+
 
 
 </script>
@@ -108,14 +119,14 @@
             <div class="row mb-2">
                 <label class="col-md-4"><strong>Start Reading (kWh) : </strong></label>
                 <div class="col-md-8">
-                    <input type="number" v-model="formObject.start_reading" class="form-control"/>
+                    <input type="number" v-model="formObject.start_reading" class="form-control" readonly/>
                 </div>
             </div>
 
             <div class="row mb-2">
                 <label class="col-md-4"><strong>End Reading (kWh) : </strong></label>
                 <div class="col-md-8">
-                    <input type="number" v-model="formObject.end_reading" class="form-control"/>
+                    <input type="number" v-model="formObject.end_reading" class="form-control" readonly/>
                 </div>
             </div>
 
@@ -126,32 +137,31 @@
                 </div>
             </div>
 
-<!--            <div class="row mb-2">-->
-<!--                <label class="col-md-4"><strong>Per Unit Rate (৳) : </strong></label>-->
-<!--                <div class="col-md-8">-->
-<!--                    <input type="number" step="0.01" v-model="formObject.unit_rate" class="form-control"/>-->
-<!--                </div>-->
-<!--            </div>-->
-
+            <div class="row mb-2">
+                <label class="col-md-4"><strong>Per Unit Rate (Tk) : </strong></label>
+                <div class="col-md-8">
+                    <input type="number" step="0.01" v-model="formObject.unit_rate" class="form-control" readonly/>
+                </div>
+            </div>
 
             <div class="row mb-2">
                 <label class="col-md-4"><strong>Bill Amount : </strong></label>
                 <div class="col-md-8">
-                    <input type="number" step="0.01" v-model="formObject.bill_amount" class="form-control"/>
+                    <input type="number" step="0.01" v-model="formObject.bill_amount" class="form-control" readonly/>
                 </div>
             </div>
 
-            <div class="row mb-2">
-                <label class="col-md-4"><strong>Bill Status : </strong></label>
-                <div class="col-md-8">
-                    <select v-model="formObject.bill_status" class="form-control">
-                        <option value="">Select</option>
-                        <option value="0">Unpaid</option>
-                        <option value="1">Paid</option>
-                        <option value="2">Pending</option>
-                    </select>
-                </div>
-            </div>
+<!--            <div class="row mb-2">-->
+<!--                <label class="col-md-4"><strong>Bill Status : </strong></label>-->
+<!--                <div class="col-md-8">-->
+<!--                    <select v-model="formObject.bill_status" class="form-control">-->
+<!--                        <option value="">Select</option>-->
+<!--                        <option value="0">Unpaid</option>-->
+<!--                        <option value="1">Paid</option>-->
+<!--                        <option value="2">Pending</option>-->
+<!--                    </select>-->
+<!--                </div>-->
+<!--            </div>-->
 
         </fromModal>
     </dataTable>
