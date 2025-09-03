@@ -49,6 +49,11 @@ class BillInformationController extends Controller
                 return returnData(2000, $validate->errors());
             }
 
+            $exist= $this->model->where('meter_id', $input['meter_id'])->where('billing_month', $input['billing_month'])->first();
+            if ($exist) {
+                return returnData(5000, null,'Already Bill Generate');
+            }
+
             $this->model->fill($input);
             $this->model->user_id = auth()->user()->id;
             $this->model->save();

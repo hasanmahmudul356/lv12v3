@@ -151,17 +151,17 @@
                 </div>
             </div>
 
-<!--            <div class="row mb-2">-->
-<!--                <label class="col-md-4"><strong>Bill Status : </strong></label>-->
-<!--                <div class="col-md-8">-->
-<!--                    <select v-model="formObject.bill_status" class="form-control">-->
-<!--                        <option value="">Select</option>-->
-<!--                        <option value="0">Unpaid</option>-->
-<!--                        <option value="1">Paid</option>-->
-<!--                        <option value="2">Pending</option>-->
-<!--                    </select>-->
-<!--                </div>-->
-<!--            </div>-->
+            <div class="row mb-2">
+                <label class="col-md-4"><strong>Bill Status : </strong></label>
+                <div class="col-md-8">
+                    <select v-model="formObject.bill_status" class="form-control">
+                        <option value="">Select</option>
+                        <option value="0">Unpaid</option>
+                        <option value="1">Paid</option>
+                        <option value="2">Pending</option>
+                    </select>
+                </div>
+            </div>
 
         </fromModal>
     </dataTable>
