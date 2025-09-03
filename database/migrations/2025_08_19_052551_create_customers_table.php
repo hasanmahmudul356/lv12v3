@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->string('address');
             $table->string('house_holding_no');
-            $table->string('area');
+            $table->integer('area_id');
             $table->date('dob');
             $table->integer('meter_type_id');
             $table->integer('status')->default(1)->comment('1=Active, 0=InActive');

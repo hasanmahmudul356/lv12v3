@@ -21,11 +21,15 @@ class CustomerController extends Controller
             $keyword = request()->input('keyword');
             $data = $this->model
                 ->leftJoin('meter_types', 'customers.meter_type_id', '=', 'meter_types.id')
+                ->leftJoin('areas', 'customers.area_id', '=', 'areas.id')
                 ->when($keyword, function ($query) use ($keyword) {
                     $query->where('customers.name', 'LIKE', "%$keyword%");
                 })
+
                 ->select(
-                    'customers.*', 'meter_types.name as meter_name'
+                    'customers.*',
+                    'meter_types.name as meter_name',
+                    'areas.name as area_name'
                 )
                 ->paginate(input('perPage'));
 

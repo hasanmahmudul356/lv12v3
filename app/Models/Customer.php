@@ -15,7 +15,7 @@ class Customer extends Model
 
     use HasFactory;
 
-    protected $fillable = ['user_id','name', 'email','phone_number','image','address','house_holding_no','area','dob','meter_type_id',];
+    protected $fillable = ['user_id','name', 'email','phone_number','image','address','house_holding_no','area_id','dob','meter_type_id',];
 
     public function validate($input = [])
     {
@@ -27,7 +27,7 @@ class Customer extends Model
             'image' => '',
             'address' => '',
             'house_holding_no' => '',
-            'area' => '',
+            'area_id' => '',
             'dob' => '',
             'meter_type_id' => '',
             'status' => ''
@@ -39,6 +39,11 @@ class Customer extends Model
     public function meterType()
     {
         return $this->hasOne(MeterType::class, 'id', 'meter_type_id');
+    }
+
+    public function customer_area()
+    {
+        return $this->belongsTo(area::class,'area_id');
     }
 
 }

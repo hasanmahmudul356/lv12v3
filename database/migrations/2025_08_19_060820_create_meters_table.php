@@ -17,7 +17,9 @@ return new class extends Migration
             $table->id();
             $table->integer('meter_number');
             $table->integer('customer_id');
+            $table->integer('area_id');
             $table->date('connection_date');
+            $table->date('due_date');
             $table->integer('meter_type');
             $table->integer('status')->default(1)->comment('active=1,panding=0');
             $table->integer('user_id');
