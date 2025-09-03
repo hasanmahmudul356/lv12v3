@@ -261,6 +261,12 @@ class ModuleSeeder extends Seeder
                         'permissions' => array_merge($resourcePermissions, []),
                     ],
                     [
+                        'display_name' => 'Staff',
+                        'name' => 'staff',
+                        'link' => '/staff',
+                        'permissions' => array_merge($resourcePermissions, []),
+                    ],
+                    [
                         'display_name' => 'Generator',
                         'name' => 'generator',
                         'link' => '/generator',

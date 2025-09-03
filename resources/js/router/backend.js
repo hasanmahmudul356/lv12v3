@@ -101,6 +101,11 @@ export const backend = [
                 component: () => import('@/views/pages/tariffAndRate.vue'),
                 meta: {dataUrl: 'api/tariff_rate', title: 'Tariff Rate'}
             },
+            {
+                path: 'staff', name: 'staff',
+                component: () => import('@/views/setting/staff.vue'),
+                meta: {dataUrl: 'api/staff', title: 'Staff Member'}
+            },
         ]
     }
 ];
