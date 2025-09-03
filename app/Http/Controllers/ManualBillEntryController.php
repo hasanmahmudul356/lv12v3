@@ -21,9 +21,12 @@ class ManualBillEntryController extends Controller
         try {
             $keyword = request()->input('keyword');
             $data = $this->model
+                ->leftJoin('meters', 'manual_bill_entries.meter_id', '=', 'meters.id')
                 ->when($keyword, function ($query) use ($keyword) {
                     $query->where('name', 'Like', "%$keyword%");
-                })->paginate(input('perPage'));
+                })
+                ->select('manual_bill_entries.*', 'meters.meter_number')
+                ->paginate(input('perPage'));
 
             return returnData(2000, $data);
         } catch (\Exception $exception) {
@@ -46,6 +49,12 @@ class ManualBillEntryController extends Controller
             if ($validate->fails()) {
                 return returnData(2000, $validate->errors());
             }
+
+            $exist= $this->model->where('id', $input['meter_id'])->where('billing_month', $input['billing_month'])->first();
+            if ($exist) {
+                return returnData(5000, null,'Already Bill Generate');
+            }
+
 
             $this->model->fill($input);
             $this->model->user_id = auth()->user()->id;

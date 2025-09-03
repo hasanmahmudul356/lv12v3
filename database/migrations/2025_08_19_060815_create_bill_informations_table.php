@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('bill_informations', function (Blueprint $table) {
             $table->id();
-            $table->string('meter_no');
+            $table->integer('meter_id');
             $table->string('billing_month', 7)->comment('Format: YYYY-MM');
             $table->integer('start_reading')->comment('(KWh)');
             $table->integer('end_reading')->comment('(KWh)');

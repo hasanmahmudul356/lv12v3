@@ -74,7 +74,7 @@
             <div class="row mb-2">
                 <label class="col-md-4"><strong>Effective From : </strong></label>
                 <div class="col-md-8">
-                    <input type="text" v-model="formObject.effective_from" v-validate="'required'" class="form-control"/>
+                    <input type="date" v-model="formObject.effective_from" v-validate="'required'" class="form-control"/>
                 </div>
             </div>
         </fromModal>

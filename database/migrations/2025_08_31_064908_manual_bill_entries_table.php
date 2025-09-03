@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('manual_bill_entries', function (Blueprint $table) {
             $table->id();
-            $table->string('meter_number');
+            $table->integer('meter_id');
             $table->string('billing_month');
             $table->decimal('start_reading', 10, 2);
             $table->decimal('end_reading', 10, 2);
