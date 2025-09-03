@@ -13,7 +13,7 @@
         ...appStore().useGetters('dataList', 'httpRequest', 'pageDependencies', 'updateId')
     };
 
-    const tableHeaders = ref(["#", "Name", "Code", "Capacity", "Address", "City", "Postal Code", "Status", "Actions"]);
+    const tableHeaders = ref(["#", "Name", "Email", "Phone", "Address", "Status", "Actions"]);
     const {getDataList, httpReq} = useHttp();
 
     onMounted(() => {
@@ -30,11 +30,9 @@
             <tr v-for="(item, index) in dataList.data" :key="item.id">
                 <td>{{index+1}}</td>
                 <td>{{item.name}}</td>
-                <td>{{item.code}}</td>
-                <td>{{item.capacity}}</td>
+                <td>{{item.email}}</td>
+                <td>{{item.phone}}</td>
                 <td>{{item.address}}</td>
-                <td>{{item.city}}</td>
-                <td>{{item.postal_code}}</td>
                 <td>
                     <a @click="changeStatus({obj:item})" class="pointer" v-html="statusBadge(item.status)"></a>
                 </td>
@@ -63,33 +61,21 @@
                 </div>
             </div>
             <div class="row mb-2">
-                <label class="col-md-4"><strong>Code : </strong></label>
+                <label class="col-md-4"><strong>email : </strong></label>
                 <div class="col-md-8">
-                    <input type="text" v-model="formObject.code" class="form-control"/>
+                    <input type="email" v-model="formObject.email" class="form-control"/>
                 </div>
             </div>
             <div class="row mb-2">
-                <label class="col-md-4"><strong>Capacity : </strong></label>
+                <label class="col-md-4"><strong>phone : </strong></label>
                 <div class="col-md-8">
-                    <input type="text" v-model="formObject.capacity" class="form-control"/>
+                    <input type="text" v-model="formObject.phone" class="form-control"/>
                 </div>
             </div>
             <div class="row mb-2">
                 <label class="col-md-4"><strong>Address : </strong></label>
                 <div class="col-md-8">
                     <input type="text" v-model="formObject.address" class="form-control"/>
-                </div>
-            </div>
-            <div class="row mb-2">
-                <label class="col-md-4"><strong>City : </strong></label>
-                <div class="col-md-8">
-                    <input type="text" v-model="formObject.city" class="form-control"/>
-                </div>
-            </div>
-            <div class="row mb-2">
-                <label class="col-md-4"><strong>Postal Code : </strong></label>
-                <div class="col-md-8">
-                    <input type="text" v-model="formObject.postal_code" class="form-control"/>
                 </div>
             </div>
         </fromModal>

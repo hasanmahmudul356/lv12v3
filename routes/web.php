@@ -35,5 +35,7 @@ Route::middleware(\App\Http\Middleware\AuthCheckMiddleware::class)->group(functi
         Route::resource('add_meter',\App\Http\Controllers\MeterController::class);
         Route::resource('add_meter',\App\Http\Controllers\MeterController::class);
         Route::resource('tariff_rate',\App\Http\Controllers\TariffAndRateController::class);
+        Route::resource('tariff_rate',\App\Http\Controllers\TariffAndRateController::class);
+        Route::resource('staff',\App\Http\Controllers\StaffController::class);
     });
 });

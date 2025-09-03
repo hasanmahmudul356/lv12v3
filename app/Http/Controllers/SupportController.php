@@ -8,6 +8,7 @@ use App\Models\MeterType;
 use App\Models\RBAC\Module;
 use App\Models\RBAC\Permission;
 use App\Models\RBAC\Role;
+use App\Models\Staff;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -97,6 +98,10 @@ class SupportController extends Controller
         if (isset($input['meter_type']) || in_array('meter_type', $input)){
             $key = isset($input['meter_type']['key']) ?  isset($input['meter_type']['key']) : 'meter_type';
             $data[$key] =  MeterType::where('status', 1)->get();
+        }
+        if (isset($input['officer']) || in_array('officer', $input)){
+            $key = isset($input['officer']['key']) ?  isset($input['officer']['key']) : 'officer';
+            $data[$key] =  Staff::where('status', 1)->get();
         }
 //        if (isset($input['customer'],$array) || in_array('customer', $input)){
 //            $key = isset($input['customer']['key']) ?  isset($input['customer']['key']) : 'customer';
