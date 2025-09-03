@@ -137,7 +137,7 @@
             <div class="row mb-2">
                 <label class="col-md-4"><strong>Bill Amount : </strong></label>
                 <div class="col-md-8">
-                    <input type="number" step="0.01" v-model="formObject.bill_amount" class="form-control" readonly/>
+                    <input type="number" step="0.01" v-model="formObject.bill_amount" class="form-control"/>
                 </div>
             </div>
 

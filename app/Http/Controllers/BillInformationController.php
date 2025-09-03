@@ -20,9 +20,12 @@ class BillInformationController extends Controller
         try {
             $keyword = request()->input('keyword');
             $data = $this->model
+                ->leftJoin('meters', 'bill_informations.meter_id', '=', 'meters.id')
                 ->when($keyword, function ($query) use ($keyword) {
                     $query->where('name', 'Like', "%$keyword%");
-                })->paginate(input('perPage'));
+                })
+                ->select('bill_informations.*','meters.meter_number')
+                ->paginate(input('perPage'));
 
             return returnData(2000, $data);
         } catch (\Exception $exception) {
