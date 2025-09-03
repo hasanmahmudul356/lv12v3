@@ -104,13 +104,19 @@ class ModuleSeeder extends Seeder
                         'name' => 'bill_information',
                         'link' => '/bill_information',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/Setting.vue",
+                        "component" => "views/pages/customerManagement/billInformation.vue",
+                        'meta' => [
+                            "dataUrl" => "api/bill_information",
+                        ],
                     ],
                     [
                         'name' => 'customer_information',
                         'link' => '/customer_information',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/Setting.vue",
+                        "component" => "views/pages/customerManagement/customerInformation.vue",
+                        'meta' => [
+                            "dataUrl" => "api/customer_information",
+                        ],
                     ],
                 ]
             ],
@@ -124,13 +130,19 @@ class ModuleSeeder extends Seeder
                         'name' => 'add_meter',
                         'link' => '/add_meter',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/Setting.vue",
+                        "component" => "views/pages/meterManagement/meterAdd.vue",
+                        'meta' => [
+                            "dataUrl" => "api/add_meter",
+                        ],
                     ],
                     [
                         'name' => 'meter_reading',
                         'link' => '/meter_reading',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/Setting.vue",
+                        "component" => "views/pages/meterManagement/meterReading.vue",
+                        'meta' => [
+                            "dataUrl" => "api/meter_reading",
+                        ],
                     ],
                     [
                         'name' => 'meter_history',
@@ -150,16 +162,21 @@ class ModuleSeeder extends Seeder
                         'name' => 'manual_bill_entry',
                         'link' => '/manual_bill_entry',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/Setting.vue",
+                        "component" => "views/pages/billGeneration/manualBillEntry.vue",
+                        'meta' => [
+                            "dataUrl" => "api/manual_bill_entry",
+                        ],
                     ],
                     [
                         'name' => 'bulk_bill_generation',
                         'link' => '/bulk_bill_generation',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/Setting.vue",
+                        "component" => "views/pages/billGeneration/bulkBillGeneration.vue",
+                        'meta' => [
+                            "dataUrl" => "api/bulk_bill_generation",
+                        ],
                     ],
                 ]
-
             ],
             [
                 'name' => 'payment_management',
@@ -191,7 +208,10 @@ class ModuleSeeder extends Seeder
                 'name' => 'tariff_rate',
                 'link' => '/tariff_rate',
                 'permissions' => array_merge($resourcePermissions, []),
-                "component" => "views/pages/Setting.vue",
+                "component" => "views/pages/tariffAndRate.vue",
+                'meta' => [
+                    "dataUrl" => "api/tariff_rate",
+                ],
                 'icon' => 'bx bx-calculator'
             ],
             [
@@ -204,7 +224,10 @@ class ModuleSeeder extends Seeder
                         'name' => 'overdue_bills',
                         'link' => '/overdue_bills',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/Setting.vue",
+                        "component" => "views/pages/duePenaltyManagement/overdueBills.vue",
+                        'meta' => [
+                            "dataUrl" => "api/overdue_bills",
+                        ],
                     ],
                     [
                         'name' => 'penalty_calculation',
@@ -256,31 +279,46 @@ class ModuleSeeder extends Seeder
                         'name' => 'meter_type',
                         'link' => '/meter_type',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/Setting.vue",
+                        "component" => "views/setting/meterType.vue",
+                        'meta' => [
+                            "dataUrl" => "api/meter_type",
+                        ],
                     ],
                     [
                         'name' => 'customer_area',
                         'link' => '/customer_area',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/Setting.vue",
+                        "component" => "views/setting/customerArea.vue",
+                        'meta' => [
+                            "dataUrl" => "api/customer_area",
+                        ],
                     ],
                     [
                         'name' => 'solar_plant',
                         'link' => '/solar_plant',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/Setting.vue",
+                        "component" => "views/setting/solarPlant.vue",
+                        'meta' => [
+                            "dataUrl" => "api/solar_plant",
+                        ],
                     ],
                     [
                         'name' => 'staff',
                         'link' => '/staff',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/Setting.vue",
+                        "component" => "views/setting/staff.vue",
+                        'meta' => [
+                            "dataUrl" => "api/staff",
+                        ],
                     ],
                     [
                         'name' => 'generator',
                         'link' => '/generator',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/Setting.vue",
+                        "component" => "views/setting/generator.vue",
+                        'meta' => [
+                            "dataUrl" => "api/generator",
+                        ],
                     ],
                     [
                         'name' => 'notification_settings',
@@ -328,7 +366,6 @@ class ModuleSeeder extends Seeder
                 'permissions' => array_merge($resourcePermissions, []),
                 "component" => "views/pages/Setting.vue",
                 'icon' => 'bx bx-radio-circle',
-                "component" => "views/pages/Setting.vue",
                 'meta' => [
                     "dataUrl" => "api/role_permissions",
                 ]
