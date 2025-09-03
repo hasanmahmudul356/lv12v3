@@ -4,7 +4,8 @@ import { createI18n } from 'vue-i18n';
 import router from './router';
 import App from './App.vue';
 import { store } from './store';
-import { mapBackendRoutes } from './lib/mapRoutes';
+import { useInitials } from './lib/initial';
+const {mapRoutes, loanInitialJson, loadLocaleMessages, loadBackendRoutes} = useInitials();
 
 const app = createApp(App);
 
@@ -27,45 +28,27 @@ app.directive('validate', vValidate);
 import datepicker from "@/plugins/datepicker.vue";
 app.component('datepicker', datepicker);
 
-// 🔹 API loaders
-async function loadLocaleMessages() {
-    const response = await fetch(`${baseUrl}/locale.json`);
-    if (!response.ok) {
-        throw new Error(`Failed to load ${locale} locale`);
-    }
-    return await response.json(); // already parsed
-}
-
-async function loadBackendRoutes() {
-    const response = await fetch(`${baseUrl}/routes.json`);
-    if (!response.ok) {
-        throw new Error(`Failed to load routes`);
-    }
-    return await response.json(); // already parsed
-}
 
 async function bootstrap() {
     try {
-        const enMessages = await loadLocaleMessages();
-        const backendRoutes = await loadBackendRoutes();
+        const initialJson = JSON.parse(await loanInitialJson());
+        // const enMessages = JSON.parse(await loadLocaleMessages());
+        // const backendRoutes = JSON.parse(await loadBackendRoutes());
 
-        const dynamicRoutes = mapBackendRoutes(backendRoutes);
+        const enMessages = initialJson.locale;
+        const backendRoutes = initialJson.routes;
+
+        const dynamicRoutes = mapRoutes(backendRoutes);
 
         dynamicRoutes.forEach(route => {
-            console.log(route);
             router.addRoute(route);
         });
 
-        console.log(router);
-
-        // i18n
         const i18n = createI18n({
             legacy: false,
-            locale,
+            locale: locale,
             fallbackLocale: locale,
-            messages: {
-                [locale]: enMessages
-            }
+            messages: enMessages,
         });
 
         app.use(i18n);
@@ -73,6 +56,7 @@ async function bootstrap() {
         app.use(store);
 
         app.mount('#app');
+
     } catch (err) {
         console.error('Failed to bootstrap app:', err);
     }

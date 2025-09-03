@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/locale.json', [\App\Http\Controllers\SupportController::class, 'getLocalization']);
 Route::get('/routes.json', [\App\Http\Controllers\SupportController::class, 'getRoutes']);
+Route::get('/load.json', [\App\Http\Controllers\SupportController::class, 'loanJson']);
 
 Route::middleware('guest')->group(function (){
     Route::get('/', function (){return redirect(\route('login'));})->name('login');

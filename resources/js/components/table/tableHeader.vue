@@ -1,6 +1,6 @@
 <script setup>
     import {useBase} from "@/lib";
-    const {handleSelectAll} = useBase();
+    const {_l, handleSelectAll} = useBase();
 
     const props = defineProps({
         headings: Array,
@@ -24,7 +24,9 @@
                </th>
             </template>
             <template v-else>
-                <th >{{hading}}</th>
+                <th>
+                    <span v-if="typeof hading !== 'object'">{{_l(hading)}}</span>
+                </th>
             </template>
         </template>
     </template>

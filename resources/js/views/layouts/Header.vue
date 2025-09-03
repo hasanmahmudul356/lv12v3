@@ -43,15 +43,15 @@
                             </a>
                         </li>
                         <li class="nav-item dropdown dropdown-laungauge d-none d-sm-flex">
-                            <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="#" data-bs-toggle="dropdown">
-                                <img :src="localization.find(l => l.locale === dfLocale)?.flag" width="22" />
+                            <a class="nav-link dropdown-toggle dropdown-toggle-nocaret text-uppercase" href="#" data-bs-toggle="dropdown">
+                               <code> {{localization.find(l => l.locale === dfLocale)?.locale}}</code>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <template v-for="(locale, lIndex) in localization">
                                     <li @click="switchLang(locale.locale)">
                                         <a class="dropdown-item d-flex align-items-center py-2" href="#">
-                                            <img :src="locale.flag" width="20" alt="">
-                                            <span class="ms-2">{{locale.name}}</span></a>
+                                            <span class="ms-2">{{locale.name}}</span>
+                                        </a>
                                     </li>
                                 </template>
                             </ul>

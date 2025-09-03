@@ -30,43 +30,67 @@ class ModuleSeeder extends Seeder
                 'link' => '/dashboard',
                 'permissions' => ['view', 'report', 'print'],
                 'icon' => 'bx bx-home-alt',
+                "component" => "views/pages/Dashboard.vue",
+                'meta' => [
+                    "dataUrl" => "api/dashboard",
+                ],
             ],
             [
                 'name' => 'accesses',
-                'link' => '#',
+                'link' => '',
                 'permissions' => ['show'],
                 'icon' => 'bx bx-lock',
+                'meta' => [],
                 'submenus' => [
                     [
                         'name' => 'users',
                         'link' => '/users',
                         'permissions' => array_merge($resourcePermissions, []),
                         'icon' => 'bx bx-user-circle',
-                        'submenus' => []
+                        "component" => "views/pages/users/userList.vue",
+                        'meta' => [
+                            "dataUrl" => "api/users",
+                        ],
                     ],
                     [
                         'name' => 'modules',
                         'link' => '/modules',
                         'permissions' => array_merge($resourcePermissions, []),
                         'icon' => 'bx bx-radio-circle',
+                        "component" => "views/pages/rbac/Module.vue",
+                        'meta' => [
+                            "dataUrl" => "api/modules",
+                        ]
                     ],
                     [
                         'name' => 'roles',
                         'link' => '/roles',
                         'permissions' => array_merge($resourcePermissions, []),
                         'icon' => 'bx bx-radio-circle',
+                        "component" => "views/pages/rbac/Module.vue",
+                        'meta' => [
+                            "dataUrl" => "api/roles",
+                        ]
                     ],
                     [
                         'name' => 'module_permissions',
                         'link' => '/module_permissions',
                         'permissions' => array_merge($resourcePermissions, []),
                         'icon' => 'bx bx-radio-circle',
+                        "component" => "views/pages/rbac/Module.vue",
+                        'meta' => [
+                            "dataUrl" => "api/module_permissions",
+                        ]
                     ],
                     [
                         'name' => 'role_permissions',
                         'link' => '/role_permissions',
                         'permissions' => array_merge($resourcePermissions, []),
                         'icon' => 'bx bx-radio-circle',
+                        "component" => "views/pages/rbac/Module.vue",
+                        'meta' => [
+                            "dataUrl" => "api/role_permissions",
+                        ]
                     ],
                 ]
             ],
@@ -75,6 +99,10 @@ class ModuleSeeder extends Seeder
                 'link' => '/app_settings',
                 'permissions' => array_merge($resourcePermissions, []),
                 'icon' => 'bx bx-radio-circle',
+                "component" => "views/pages/Setting.vue",
+                'meta' => [
+                    "dataUrl" => "api/role_permissions",
+                ]
             ],
         ];
 
@@ -136,7 +164,9 @@ class ModuleSeeder extends Seeder
     {
         $module = new Module();
         $module->fill($data);
+        $module->meta = isset($data['meta']) ? json_encode($data['meta']) : json_encode([]);
         $module->parent_id = $parent_id;
+        $module->component = isset($data['component']) ? $data['component'] : '';
         $module->save();
 
         return $module;

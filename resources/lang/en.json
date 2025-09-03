@@ -56,5 +56,17 @@
   "user_manual": "User Manual",
   "contact_support": "Contact Support",
   "customer_management": "Customer Management",
-  "bill_generation": "Bill Generation"
+  "bill_generation": "Bill Generation",
+
+  "app_settings": "App Settings",
+  "sl": "SL",
+  "display_name": "Display name",
+  "name": "Name",
+  "status": "Status",
+  "action": "Action",
+
+  "loading": "Loading",
+  "add_new": "Add New",
+  "active": "Active",
+  "inactive": "InActive"
 }

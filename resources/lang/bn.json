@@ -56,5 +56,17 @@
   "user_manual": "ব্যবহারকারী ম্যানুয়াল",
   "contact_support": "সাপোর্টের সাথে যোগাযোগ",
   "customer_management": "গ্রাহক ব্যবস্থাপনা",
-  "bill_generation": "বিল জেনারেশন"
+  "bill_generation": "বিল জেনারেশন",
+
+  "app_settings": "অ্যাপ সেটিংস",
+  "sl": "ক্রমিক",
+  "display_name": "প্রদর্শিত নাম",
+  "name": "নাম",
+  "status": "অবস্থা",
+  "action": "অ্যাকশন",
+
+  "loading": "লোড হচ্ছে",
+  "add_new": "নতুন যোগ করুন",
+  "active": "সক্রিয়",
+  "inactive": "নিষ্ক্রিয়"
 }
