@@ -6,7 +6,7 @@
 
     const store = useStore();
 
-    const {_l, formFilter, useGetters, routeMeta, getDataList} = {...useBase(), ...appStore(), ...useHttp()};
+    const {_l, formFilter, useGetters, routeMeta, getDataList, getRoute} = {...useBase(), ...appStore(), ...useHttp()};
     const {dataList} = useGetters('dataList', 'httpRequest');
     const perPage = ref([10,15, 20, 50, 100, 200]);
 
@@ -29,7 +29,7 @@
                 <template v-if="listPage">
                     <li class="breadcrumb-item active" aria-current="page">
                         <select @change="getDataList" class="btn btn-outline-secondary perPage" v-model="formFilter.per_page">
-                            <option v-for="page in perPage" :value="page">{{title}} {{page}}</option>
+                            <option v-for="page in perPage" :value="page">{{_l(getRoute('name'))}} {{page}}</option>
                         </select>
                     </li>
                     <li v-if="dataList.total !== undefined">
@@ -37,7 +37,7 @@
                     </li>
                 </template>
                 <template v-else>
-                    <li class="breadcrumb-item active" aria-current="page">{{title}}</li>
+                    <li class="breadcrumb-item active" aria-current="page">{{_l(getRoute('name'))}}</li>
                 </template>
             </ol>
         </nav>

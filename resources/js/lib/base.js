@@ -35,7 +35,10 @@ export function useBase() {
         (map[type] || map.default)(message);
     };
 
-    const _l = (key) => t(key);
+    const _l = (key) => {
+        console.log(key);
+        return t(key);
+    };
 
     const getImage = (imagePath) => {
         return 'https://static.vecteezy.com/system/resources/thumbnails/057/068/323/small/single-fresh-red-strawberry-on-table-green-background-food-fruit-sweet-macro-juicy-plant-image-photo.jpg';
@@ -146,10 +149,10 @@ export function useBase() {
         }
     };
 
-    const statusBadge = (status, activeText = 'Active', inActiveText = 'Inactive') => {
+    const statusBadge = (status, activeText = 'active', inActiveText = 'inactive') => {
         const isActive = parseInt(status);
         const badgeClass = isActive ? "bg-success" : "bg-warning";
-        const label = isActive ? activeText : inActiveText;
+        const label = isActive ? _l(activeText) : _l(inActiveText);
 
         return `<span class="badge rounded-pill p-2 text-uppercase px-3 ${badgeClass}">
             <i class="bx bxs-circle me-1"></i>

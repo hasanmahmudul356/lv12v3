@@ -5,7 +5,7 @@
         defaultObject: {type: Object, default: () => ({})},
     });
 
-    const {openModal, formFilter, getDataList, httpRequest} = {
+    const {_l, openModal, formFilter, getDataList, httpRequest} = {
         ...useBase(),
         ...appStore(),
         ...useHttp(),
@@ -26,17 +26,17 @@
                     <div class="col-md-2">
                         <button v-if="httpRequest" type="button" class="btn btn-light radius-30">
                             <i class='bx bx-loader bx-spin text-white'></i>
-                            <span class="text-white text-uppercase">Loading..</span>
+                            <span class="text-white text-uppercase">{{_l('loading')}}..</span>
                         </button>
                         <button v-else @click="getDataList()" type="button" class="btn btn-outline-dark radius-30">
                             <i class='bx bx-search text-white'></i>
-                            <span class="text-white text-uppercase">Search</span>
+                            <span class="text-white text-uppercase">{{_l('search')}}</span>
                         </button>
                     </div>
                 </div>
             </div>
             <div class="col-md-3 text-end">
-                <a @click="openModal({defaultObject : defaultObject})" class="btn btn-outline-secondary radius-30 mt-2 mt-lg-0 text-uppercase"><i class="bx bxs-plus-square"></i>Add New</a>
+                <a @click="openModal({defaultObject : defaultObject})" class="btn btn-outline-secondary radius-30 mt-2 mt-lg-0 text-uppercase"><i class="bx bxs-plus-square"></i>{{_l('add_new')}}</a>
             </div>
         </div>
     </div>
