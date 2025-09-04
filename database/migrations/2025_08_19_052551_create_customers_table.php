@@ -24,6 +24,9 @@ return new class extends Migration
             $table->integer('area_id');
             $table->date('dob');
             $table->integer('meter_type_id');
+            $table->integer('nesco')->default(0)->comment('0=No, 1=Yes');
+            $table->integer('solar')->default(0)->comment('0=No, 1=Yes');
+            $table->integer('generator')->default(0)->comment('0=No, 1=Yes');
             $table->integer('status')->default(1)->comment('1=Active, 0=InActive');
             $table->integer('user_id');
             $table->timestamps();
