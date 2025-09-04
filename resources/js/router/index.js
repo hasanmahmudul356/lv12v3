@@ -12,7 +12,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
   history: createWebHistory('/app'),
-  routes: []
+  routes: [],
+  linkActiveClass: '',
+  linkExactActiveClass: ''
 });
 
 export default router
