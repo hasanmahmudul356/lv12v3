@@ -176,6 +176,15 @@ class ModuleSeeder extends Seeder
                             "dataUrl" => "api/bulk_bill_generation",
                         ],
                     ],
+                    [
+                        'name' => 'invoice',
+                        'link' => '/invoice',
+                        'permissions' => array_merge($resourcePermissions, []),
+                        "component" => "views/pages/billGeneration/invoice.vue",
+                        'meta' => [
+                            "dataUrl" => "api/invoice",
+                        ],
+                    ],
                 ]
             ],
             [
