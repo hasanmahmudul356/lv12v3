@@ -8,7 +8,7 @@ use App\Models\RBAC\RolePermission;
 use Illuminate\Database\Seeder;
 use App\Models\RBAC\Module;
 
-class ModuleSeeder extends Seeder
+class ModuleSeederBackup extends Seeder
 {
     /**
      * Run the database seeds.
@@ -26,350 +26,294 @@ class ModuleSeeder extends Seeder
 
         $modules = [
             [
+                'display_name' => 'Dashboard',
                 'name' => 'dashboard',
                 'link' => '/dashboard',
                 'permissions' => ['view', 'report', 'print'],
                 'icon' => 'bx bx-home-alt',
-                "component" => "views/pages/Dashboard.vue",
-                'meta' => [
-                    "dataUrl" => "api/dashboard",
-                ],
             ],
             [
+                'display_name' => 'RBAC Accesses',
                 'name' => 'accesses',
-                'link' => '',
+                'link' => '#',
                 'permissions' => ['show'],
                 'icon' => 'bx bx-lock',
-                'meta' => [],
                 'submenus' => [
                     [
+                        'display_name' => 'Users',
                         'name' => 'users',
                         'link' => '/users',
                         'permissions' => array_merge($resourcePermissions, []),
                         'icon' => 'bx bx-user-circle',
-                        "component" => "views/pages/users/userList.vue",
-                        'meta' => [
-                            "dataUrl" => "api/users",
-                        ],
+                        'submenus' => []
                     ],
                     [
+                        'display_name' => 'Modules',
                         'name' => 'modules',
                         'link' => '/modules',
                         'permissions' => array_merge($resourcePermissions, []),
                         'icon' => 'bx bx-radio-circle',
-                        "component" => "views/pages/rbac/Module.vue",
-                        'meta' => [
-                            "dataUrl" => "api/modules",
-                        ]
                     ],
                     [
+                        'display_name' => 'Roles',
                         'name' => 'roles',
                         'link' => '/roles',
                         'permissions' => array_merge($resourcePermissions, []),
                         'icon' => 'bx bx-radio-circle',
-                        "component" => "views/pages/rbac/Module.vue",
-                        'meta' => [
-                            "dataUrl" => "api/roles",
-                        ]
                     ],
                     [
+                        'display_name' => 'Module Permissions',
                         'name' => 'module_permissions',
                         'link' => '/module_permissions',
                         'permissions' => array_merge($resourcePermissions, []),
                         'icon' => 'bx bx-radio-circle',
-                        "component" => "views/pages/rbac/Module.vue",
-                        'meta' => [
-                            "dataUrl" => "api/module_permissions",
-                        ]
                     ],
                     [
+                        'display_name' => 'Role Permissions',
                         'name' => 'role_permissions',
                         'link' => '/role_permissions',
                         'permissions' => array_merge($resourcePermissions, []),
                         'icon' => 'bx bx-radio-circle',
-                        "component" => "views/pages/rbac/Module.vue",
-                        'meta' => [
-                            "dataUrl" => "api/role_permissions",
-                        ]
                     ],
                 ]
             ],
             [
+                'display_name' => 'Customer Management',
                 'name' => 'customerManagement',
-                'link' => '',
+                'link' => '#',
                 'permissions' => ['view', 'report', 'print'],
                 'icon' => 'bx bx-group',
                 'submenus'=>[
                     [
+                        'display_name' => 'Bill Information',
                         'name' => 'bill_information',
                         'link' => '/bill_information',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/customerManagement/billInformation.vue",
-                        'meta' => [
-                            "dataUrl" => "api/bill_information",
-                        ],
                     ],
                     [
+                        'display_name' => 'Customer Information',
                         'name' => 'customer_information',
                         'link' => '/customer_information',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/customerManagement/customerInformation.vue",
-                        'meta' => [
-                            "dataUrl" => "api/customer_information",
-                        ],
                     ],
                 ]
             ],
             [
+                'display_name' => 'Meter Management',
                 'name' => 'Meter_management',
-                'link' => '',
+                'link' => '#',
                 'permissions' => ['view', 'report', 'print'],
                 'icon' => 'bx bx-tachometer',
                 'submenus'=>[
                     [
+                        'display_name' => 'Add Meter',
                         'name' => 'add_meter',
                         'link' => '/add_meter',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/meterManagement/meterAdd.vue",
-                        'meta' => [
-                            "dataUrl" => "api/add_meter",
-                        ],
                     ],
                     [
+                        'display_name' => 'Meter Reading',
                         'name' => 'meter_reading',
                         'link' => '/meter_reading',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/meterManagement/meterReading.vue",
-                        'meta' => [
-                            "dataUrl" => "api/meter_reading",
-                        ],
                     ],
                     [
+                        'display_name' => 'Meter History',
                         'name' => 'meter_history',
                         'link' => '/meter_history',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/Setting.vue",
                     ],
                 ]
             ],
             [
+                'display_name' => 'Bill Generation',
                 'name' => 'billGeneration',
-                'link' => '',
+                'link' => '#',
                 'permissions' => ['view', 'report', 'print'],
                 'icon' => 'bx bx-receipt',
                 'submenus'=>[
                     [
+                        'display_name' => 'Manual Bill Entry',
                         'name' => 'manual_bill_entry',
                         'link' => '/manual_bill_entry',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/billGeneration/manualBillEntry.vue",
-                        'meta' => [
-                            "dataUrl" => "api/manual_bill_entry",
-                        ],
                     ],
                     [
+                        'display_name' => 'Bulk Bill Generation',
                         'name' => 'bulk_bill_generation',
                         'link' => '/bulk_bill_generation',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/billGeneration/bulkBillGeneration.vue",
-                        'meta' => [
-                            "dataUrl" => "api/bulk_bill_generation",
-                        ],
                     ],
                 ]
+
             ],
             [
+                'display_name' => 'Payment Management',
                 'name' => 'payment_management',
-                'link' => '',
+                'link' => '#',
                 'permissions' => ['view', 'report', 'print'],
                 'icon' => 'bx bx-credit-card',
                 'submenus'=>[
                     [
+                        'display_name' => 'Record Payment',
                         'name' => 'record_payment',
                         'link' => '/record_payment',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/Setting.vue",
                     ],
                     [
+                        'display_name' => 'Payment History',
                         'name' => 'payment_history',
                         'link' => '/payment_history',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/Setting.vue",
                     ],
                     [
+                        'display_name' => 'Generate Receipt',
                         'name' => 'generate_receipt',
                         'link' => '/generate_receipt',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/Setting.vue",
                     ],
                 ]
             ],
             [
+                'display_name' => 'Tariff & Rate',
                 'name' => 'tariff_rate',
                 'link' => '/tariff_rate',
                 'permissions' => array_merge($resourcePermissions, []),
-                "component" => "views/pages/tariffAndRate.vue",
-                'meta' => [
-                    "dataUrl" => "api/tariff_rate",
-                ],
                 'icon' => 'bx bx-calculator'
             ],
             [
+                'display_name' => 'Due & Penalty',
                 'name' => 'due_penalty',
-                'link' => '',
+                'link' => '#',
                 'permissions' => ['view', 'report', 'print'],
                 'icon' => 'bx bx-error',
                 'submenus'=>[
                     [
+                        'display_name' => 'Overdue Bills',
                         'name' => 'overdue_bills',
                         'link' => '/overdue_bills',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/duePenaltyManagement/overdueBills.vue",
-                        'meta' => [
-                            "dataUrl" => "api/overdue_bills",
-                        ],
                     ],
                     [
+                        'display_name' => 'Penalty Calculation',
                         'name' => 'penalty_calculation',
                         'link' => '/penalty_calculation',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/Setting.vue",
                     ],
                     [
+                        'display_name' => 'Customer Notifications',
                         'name' => 'customer_notifications',
                         'link' => '/customer_notifications',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/Setting.vue",
                     ],
                 ]
             ],
             [
+                'display_name' => 'Reports & Analytics',
                 'name' => 'Reports_analytics',
-                'link' => '',
+                'link' => '#',
                 'permissions' => ['view', 'report', 'print'],
                 'icon' => 'bx bx-bar-chart-alt-2',
                 'submenus'=>[
                     [
+                        'display_name' => 'Billing Reports',
                         'name' => 'billing_reports',
                         'link' => '/billing_reports',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/Setting.vue",
                     ],
                     [
+                        'display_name' => 'Collection Reports',
                         'name' => 'collection_reports',
                         'link' => '/collection_reports',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/Setting.vue",
                     ],
                     [
+                        'display_name' => 'Consumption Analysis',
                         'name' => 'consumption_analysis',
                         'link' => '/consumption_analysis',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/Setting.vue",
                     ],
                 ]
             ],
             [
+                'display_name' => 'Settings',
                 'name' => 'settings',
-                'link' => '',
+                'link' => '#',
                 'permissions' => ['view', 'report', 'print'],
                 'icon' => 'bx bx-cog',
                 'submenus'=>[
                     [
+                        'display_name' => 'Meter Type',
                         'name' => 'meter_type',
                         'link' => '/meter_type',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/setting/meterType.vue",
-                        'meta' => [
-                            "dataUrl" => "api/meter_type",
-                        ],
                     ],
                     [
+                        'display_name' => 'Customer Area',
                         'name' => 'customer_area',
                         'link' => '/customer_area',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/setting/customerArea.vue",
-                        'meta' => [
-                            "dataUrl" => "api/customer_area",
-                        ],
                     ],
                     [
+                        'display_name' => 'Solar Plant',
                         'name' => 'solar_plant',
                         'link' => '/solar_plant',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/setting/solarPlant.vue",
-                        'meta' => [
-                            "dataUrl" => "api/solar_plant",
-                        ],
                     ],
                     [
+                        'display_name' => 'Staff',
                         'name' => 'staff',
                         'link' => '/staff',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/setting/staff.vue",
-                        'meta' => [
-                            "dataUrl" => "api/staff",
-                        ],
                     ],
                     [
+                        'display_name' => 'Generator',
                         'name' => 'generator',
                         'link' => '/generator',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/setting/generator.vue",
-                        'meta' => [
-                            "dataUrl" => "api/generator",
-                        ],
                     ],
                     [
+                        'display_name' => 'Notification Settings',
                         'name' => 'notification_settings',
                         'link' => '/notification_settings',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/Setting.vue",
                     ],
                     [
+                        'display_name' => 'Backup & Restore',
                         'name' => 'backup_restore',
                         'link' => '/backup_restore',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/Setting.vue",
                     ],
                 ]
             ],
             [
+                'display_name' => 'Help & Support',
                 'name' => 'help_support',
-                'link' => '',
+                'link' => '#',
                 'permissions' => ['view', 'report', 'print'],
                 'icon' => 'bx bx-help-circle',
                 'submenus'=>[
                     [
+                        'display_name' => 'User Manual',
                         'name' => 'user_manual',
                         'link' => '/user_manual',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/Setting.vue",
                     ],
                     [
+                        'display_name' => 'Contact Support',
                         'name' => 'contact_support',
                         'link' => '/contact_support',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/Setting.vue",
                     ],
                     [
+                        'display_name' => 'Generate Receipt',
                         'name' => 'generate_receipt',
                         'link' => '/generate_receipt',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/Setting.vue",
                     ],
                 ]
             ],
-            [
-                'name' => 'app_settings',
-                'link' => '/app_settings',
-                'permissions' => array_merge($resourcePermissions, []),
-                "component" => "views/pages/Setting.vue",
-                'icon' => 'bx bx-radio-circle',
-                'meta' => [
-                    "dataUrl" => "api/role_permissions",
-                ]
-            ],
+
         ];
 
         foreach ($modules as $data) {
@@ -430,9 +374,7 @@ class ModuleSeeder extends Seeder
     {
         $module = new Module();
         $module->fill($data);
-        $module->meta = isset($data['meta']) ? json_encode($data['meta']) : json_encode([]);
         $module->parent_id = $parent_id;
-        $module->component = isset($data['component']) ? $data['component'] : '';
         $module->save();
 
         return $module;
