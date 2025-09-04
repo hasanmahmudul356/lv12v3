@@ -15,7 +15,7 @@ class Customer extends Model
 
     use HasFactory;
 
-    protected $fillable = ['user_id','name', 'email','phone_number','image','address','house_holding_no','area_id','dob','meter_type_id',];
+    protected $fillable = ['user_id','name', 'email','phone_number','image','address','house_holding_no','area_id','dob','meter_type_id','nesco','solar','generator'];
 
     public function validate($input = [])
     {
@@ -30,6 +30,9 @@ class Customer extends Model
             'area_id' => '',
             'dob' => '',
             'meter_type_id' => '',
+            'nesco' => '',
+            'solar' => '',
+            'generator' => '',
             'status' => ''
         ]);
 

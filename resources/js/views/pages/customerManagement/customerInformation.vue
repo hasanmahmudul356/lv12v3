@@ -26,7 +26,7 @@
 <template>
     <dataTable :headings="tableHeaders" :setting="true">
         <template v-slot:tableTop>
-            <tableTop :defaultObject="{meter_type_id:'', area_id: ''}"></tableTop>
+            <tableTop :defaultObject="{meter_type_id:'', area_id: '',solar:'',generator:'',nesco:''}"></tableTop>
         </template>
         <template v-slot:topRight v-if="dataList.data !== undefined">
             <a class="btn btn-sm btn-outline-danger radius-30 text-uppercase" @click="deleteAllRecords({dataObject:dataList.data})" v-if="dataList.data.some(each => parseInt(each.checked) === 1)">Delete All</a>
@@ -46,6 +46,9 @@
                 <td>{{ item.image }}</td>
                 <td><a @click="changeStatus({obj:item})" class="pointer" v-html="statusBadge(item.status)"></a></td>
                 <td>
+                    <a @click="editData({data:item, id:item.id, modal:'fromModal'})" class="btn btn-outline-secondary action">
+                        <i class='bx bxs-show text-primary'></i>
+                    </a>
                     <a @click="editData({data:item, id:item.id, modal:'fromModal'})" class="btn btn-outline-secondary action">
                         <i class='bx bxs-edit text-warning'></i>
                     </a>
@@ -128,7 +131,36 @@
                     </select>
                 </div>
             </div>
-
+            <div class="row mb-2">
+                <label class="col-md-4"><strong>Nesco</strong></label>
+                <div class="col-md-8">
+                    <select v-model="formObject.nesco" class="form-control">
+                        <option value="">Select</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <label class="col-md-4"><strong>Solar : </strong></label>
+                <div class="col-md-8">
+                    <select v-model="formObject.solar" class="form-control">
+                        <option value="">Select</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <label class="col-md-4"><strong>Generator : </strong></label>
+                <div class="col-md-8">
+                    <select v-model="formObject.generator" class="form-control">
+                        <option value="">Select</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+            </div>
             <div class="row mb-2">
                 <label class="col-md-4"><strong>Image : </strong></label>
                 <div class="col-md-8">
