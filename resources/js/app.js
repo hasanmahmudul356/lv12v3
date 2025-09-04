@@ -4,9 +4,16 @@ import { createI18n } from 'vue-i18n';
 import router from './router';
 import App from './App.vue';
 import { store } from './store';
+import { useInitials } from './lib/initial';
+const {mapRoutes, loanInitialJson, loadLocaleMessages, loadBackendRoutes} = useInitials();
 
 const app = createApp(App);
 
+// 🔹 Make sure these exist (can also come from env/config)
+const baseUrl = window.baseUrl;
+const locale = window.locale;
+
+// Plugins
 import ToastPlugin from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-bootstrap.css';
 app.use(ToastPlugin);
@@ -21,32 +28,38 @@ app.directive('validate', vValidate);
 import datepicker from "@/plugins/datepicker.vue";
 app.component('datepicker', datepicker);
 
-async function loadLocaleMessages() {
-    const response = await fetch(`${baseUrl}/locale.json`);
-    if (!response.ok) {
-        throw new Error(`Failed to load ${locale} locale`);
-    }
-    return await response.json();
-}
 
 async function bootstrap() {
-    const enMessages = await loadLocaleMessages();
+    try {
+        const initialJson = JSON.parse(await loanInitialJson());
+        // const enMessages = JSON.parse(await loadLocaleMessages());
+        // const backendRoutes = JSON.parse(await loadBackendRoutes());
 
-    // Create i18n instance
-    const i18n = createI18n({
-        legacy: false,
-        locale: locale,
-        fallbackLocale: locale,
-        messages: JSON.parse(enMessages),
-    });
+        const enMessages = initialJson.locale;
+        const backendRoutes = initialJson.routes;
 
-    app.use(i18n);
-    app.use(router);
-    app.use(store);
+        const dynamicRoutes = mapRoutes(backendRoutes);
 
-    app.mount('#app');
+        dynamicRoutes.forEach(route => {
+            router.addRoute(route);
+        });
+
+        const i18n = createI18n({
+            legacy: false,
+            locale: locale,
+            fallbackLocale: locale,
+            messages: enMessages,
+        });
+
+        app.use(i18n);
+        app.use(router);
+        app.use(store);
+
+        app.mount('#app');
+
+    } catch (err) {
+        console.error('Failed to bootstrap app:', err);
+    }
 }
 
-bootstrap().catch(err => {
-    console.error('Failed to bootstrap app:', err);
-});
+bootstrap();

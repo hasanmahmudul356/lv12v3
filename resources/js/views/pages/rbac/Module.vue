@@ -9,14 +9,14 @@
     const store  = useStore();
     const router  = useRouter();
 
-    const {useGetters, getDataList, submitForm, editData, deleteRecord, getDependency,changeStatus, openModal, handleSelectAll, statusBadge, deleteAllRecords} = {
+    const {_l, useGetters, getDataList, submitForm, editData, deleteRecord, getDependency,changeStatus, openModal, handleSelectAll, statusBadge, deleteAllRecords} = {
         ...appStore(),
         ...useHttp(),
         ...useBase()
     };
     const { httpRequest, dataList, pageDependencies } = useGetters('httpRequest', 'dataList', 'pageDependencies');
 
-    const tableHeaders = reactive(['#', {name: '', listObject: dataList}, 'Display Name', 'Name', 'Status', 'Action']);
+    const tableHeaders = reactive(['sl', {name: '', listObject: dataList}, 'display_name', 'name', 'status', 'action']);
     const permissions = reactive(['directives.js', 'create', 'store', 'show', 'edit', 'update', 'destroy', 'status']);
 
     onMounted(()=>{
@@ -43,7 +43,7 @@
                     <td>{{index+1}}</td>
                     <td class="checkbox">
                         <input :checked="item.checked" @change="handleSelectAll($event, [item])" class="form-check-input me-3 pointer" type="checkbox"/></td>
-                    <td>{{ item.display_name }}</td>
+                    <td>{{ _l(item.name) }}</td>
                     <td>{{ item.name }}</td>
                     <td><a @click="changeStatus({obj:item})" class="pointer" v-html="statusBadge(item.status)"></a></td>
                     <td>
@@ -59,7 +59,7 @@
                     <tr >
                         <td>{{index+1}}.{{index2+1}} </td>
                         <td><input :checked="subItem.checked" @change="handleSelectAll($event, [subItem])" class="form-check-input me-3 pointer" type="checkbox"></td>
-                        <td>{{ subItem.display_name }}</td>
+                        <td>{{ _l(subItem.name) }}</td>
                         <td>{{ subItem.name }}</td>
                         <td><a @click="changeStatus({obj:subItem})" class="pointer" v-html="statusBadge(subItem.status)"></a></td>
                         <td>

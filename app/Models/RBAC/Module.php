@@ -23,7 +23,7 @@ class Module extends Model
 
     protected $appends = ['checked'];
 
-    protected $fillable = ['id', 'name','icon', 'display_name', 'parent_id', 'link'];
+    protected $fillable = ['id', 'name','icon', 'parent_id','meta', 'link'];
 
     public function validate($input){
 
@@ -46,6 +46,10 @@ class Module extends Model
     {
         return $this->hasMany(Module::class, 'parent_id', 'id');
     }
+    public function children()
+    {
+        return $this->hasMany(Module::class, 'parent_id', 'id');
+    }
 
     public function role_modules()
     {
@@ -56,5 +60,10 @@ class Module extends Model
     public function getCheckedAttribute()
     {
         return false;
+    }
+
+    public function getMetaAttribute($value)
+    {
+        return json_decode($value);
     }
 }

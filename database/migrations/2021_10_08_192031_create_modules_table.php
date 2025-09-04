@@ -15,9 +15,10 @@ class CreateModulesTable extends Migration
     {
         Schema::create('modules', function (Blueprint $table) {
             $table->id();
-            $table->string('display_name', 50)->nullable();
             $table->string('name', 50);
             $table->string('link', 50);
+            $table->string('component', 255);
+            $table->text('meta');
             $table->string('icon', 50)->nullable();
             $table->integer('parent_id')->default(0);
             $table->integer('priority')->default(1);
