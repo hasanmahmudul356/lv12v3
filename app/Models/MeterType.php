@@ -11,14 +11,14 @@ class MeterType extends Model
     use HasFactory;
 
     protected $fillable = [
-        'm_name',
+        'name',
         'user_id'
     ];
 
     public function validate($input){
 
         $validate = Validator::make($input, [
-            'm_name' => 'required',
+            'name' => 'required',
             'user_id' => 'required',
         ]);
 

@@ -95,7 +95,7 @@ class ModuleSeeder extends Seeder
                 ]
             ],
             [
-                'name' => 'customerManagement',
+                'name' => 'customer_management',
                 'link' => '',
                 'permissions' => ['view', 'report', 'print'],
                 'icon' => 'bx bx-group',
@@ -153,7 +153,7 @@ class ModuleSeeder extends Seeder
                 ]
             ],
             [
-                'name' => 'billGeneration',
+                'name' => 'bill_generation',
                 'link' => '',
                 'permissions' => ['view', 'report', 'print'],
                 'icon' => 'bx bx-receipt',
@@ -222,6 +222,16 @@ class ModuleSeeder extends Seeder
                     "dataUrl" => "api/tariff_rate",
                 ],
                 'icon' => 'bx bx-calculator'
+            ],
+            [
+                'name' => 'energy_bill',
+                'link' => '/energy_bill',
+                'permissions' => array_merge($resourcePermissions, []),
+                "component" => "views/pages/energyBills/energyBill.vue",
+                'meta' => [
+                    "dataUrl" => "api/energy_bill",
+                ],
+                'icon' => 'bx bx-bolt-circle'
             ],
             [
                 'name' => 'due_penalty',

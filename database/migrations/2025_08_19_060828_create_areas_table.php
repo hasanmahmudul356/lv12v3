@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('code');
             $table->string('zone')->comment('zone/region');
-            $table->integer('city');
+            $table->string('city');
             $table->integer('officer_id');
             $table->integer('status')->default(1)->comment('active=1,panding=0');
             $table->integer('user_id');
