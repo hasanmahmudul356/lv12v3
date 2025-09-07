@@ -136,7 +136,7 @@
                 <div class="col-md-8">
                     <select v-model="formObject.nesco" class="form-control">
                         <option value="">Select</option>
-                        <option value="1">Yes</option>
+                        <option value="3">Yes</option>
                         <option value="0">No</option>
                     </select>
                 </div>
@@ -146,7 +146,7 @@
                 <div class="col-md-8">
                     <select v-model="formObject.solar" class="form-control">
                         <option value="">Select</option>
-                        <option value="1">Yes</option>
+                        <option value="2">Yes</option>
                         <option value="0">No</option>
                     </select>
                 </div>

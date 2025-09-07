@@ -34,18 +34,12 @@
             });
 
             if (response) {
-                formObject.value.start_reading = response.start_reading;
+                formObject.value = response;
                 formObject.value.unit_rate = response.unit_rate;
                 formObject.value.end_reading = response.end_reading;
-
-                if (response.end_reading !== null) {
-                    formObject.value.units_consumed =
-                        response.end_reading - response.start_reading;
-                    formObject.value.bill_amount = formObject.value.units_consumed * response.unit_rate;
-
-                } else {
-                    formObject.value.units_consumed = 0;
-                }
+                formObject.value.start_reading = response.start_reading;
+                formObject.value.units_consumed = response.units_consumed;
+                formObject.value.bill_amount = response.bill_amount;
             }
         }
     );
