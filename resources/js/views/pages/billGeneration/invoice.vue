@@ -209,6 +209,28 @@
                 </div>
             </div>
 
+            <div class="row mb-4 mt-5">
+                <div class="col-6 text-start">
+                    <span class="border-bottom border-dark px-2">প্রস্তুতকারি</span>
+                </div>
+                <div class="col-6 text-end">
+                    <span class="border-bottom border-dark px-2">লীড ম্যানেজার</span>
+                </div>
+            </div>
+
+            <!-- Notice Section -->
+            <div class="text-center fw-bold">
+                নোটিশঃ
+                <span class="fw-normal">নির্ধারিত তারিখের মধ্যে বিল পরিশোধ না হলে কোন প্রকার পূর্ব নোটিশ ব্যতিরেকেই বিদ্যুৎ সংযোগ বিচ্ছিন্ন করা হবে।</span>
+            </div>
+
+            <!-- Scissor Line -->
+            <div class="d-flex align-items-center">
+                <span class="me-2">✂</span>
+                <hr class="border border-dark border-1 w-100">
+                <span class="ms-2">✂</span>
+            </div>
+
         </div>
     </div>
 </template>
