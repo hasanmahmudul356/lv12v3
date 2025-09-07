@@ -35,19 +35,23 @@ class BillingController extends Controller
         $energy_bill = EnergyBill::whereIn('type', [$customer->solar, $customer->nesco, $customer->generator])->where('billing_month',$billing_month)
             ->get();
 
-//        ddA($energy_bill)
-
-        $energy_bill_calculate = $energy_bill->map(function ($item) {
+        $data['energy_bill_calculates'] = $energy_bill->map(function ($item) {
             return [
                 'id' => $item->id,
                 'type' => $item->type,
                 'billing_month' => $item->billing_month,
                 'customer_unit' => $item->customer_unit,
                 'unit_rate' => $item->unit_rate,
-                'bill_amount' => $item->customer_unit * $item->unit_rate, // আপনার calculation
+                'bill_amount' => $item->customer_unit * $item->unit_rate,
             ];
         });
 
+        $total_bill = 0;
+        $total_unit = 0;
+        foreach ($data['energy_bill_calculates'] as $energy_bill_calculate){
+            $total_bill += $energy_bill_calculate['bill_amount'];
+            $total_unit += $energy_bill_calculate['customer_unit'];
+        }
 
         $last_entry = MeterReading::where('meter_no', $meter_id)
             ->where('reading_date', '<', $month_start)
@@ -72,7 +76,9 @@ class BillingController extends Controller
 
         if ($data['end_reading'] !== null) {
             $data['units_consumed'] = $data['end_reading'] - $data['start_reading'];
-            $data['bill_amount'] = $data['units_consumed'] * $data['unit_rate'];
+            $data['nesco_unit'] = $data['units_consumed']-$total_unit;
+            $data['nesco_bill'] = $data['nesco_unit']*$data['unit_rate'];
+            $data['bill_amount'] = $data['nesco_bill'] + $total_bill;
         } else {
             $data['units_consumed'] = 0;
             $data['bill_amount'] = 0;
