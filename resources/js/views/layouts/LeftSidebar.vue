@@ -1,32 +1,35 @@
 <script setup>
-    import {ref, onMounted, computed, nextTick, watch, reactive} from 'vue';
     import {useStore} from 'vuex';
     const store = useStore();
+    import {ref, onMounted, nextTick, watch} from 'vue';
     import { useBase, useHttp, appStore } from '@/lib';
-
-    const {_l, getImage, allMenus, loadConfigurations, useGetters} = {
-        ...useBase(),
-        ...appStore(),
-        ...useHttp()
-    };
-
+    const {_l, getImage, allMenus, loadConfigurations, useGetters} = {...useBase(), ...appStore(), ...useHttp()};
     const {Config} = useGetters('Config');
 
     onMounted(() => {
         loadConfigurations({
             callback: async (retData) => {
-                await nextTick();
+                await nextTick(() => {
+                    $("#menu").metisMenu();
 
-                $("#menu").metisMenu();
+                    let currentUrl = window.location.href;
+                    let activeItem = $(".metismenu li a").filter(function () {
+                        return this.href === currentUrl;
+                    });
+                    if (activeItem.length) {
+                        let li = activeItem.parent().addClass("mm-show");
 
-                let e = window.location;
-                let o = $(".metismenu li a").filter(function () {
-                    return this.href === e.href;
-                }).parent().addClass("mm-active");
+                        while (li.length) {
+                            let parentUl = li.parent();
+                            if (parentUl.hasClass("metismenu")) break;
 
-                while (o.is("li")) {
-                    o = o.parent().addClass("mm-show").parent().addClass("mm-active");
-                }
+                            parentUl.addClass("mm-show");  // expand submenu
+                            dd(parentUl);
+                            li = parentUl.parent().addClass("mm-active"); // mark parent li active
+                        }
+                    }
+                });
+
             }
         });
     });
@@ -84,8 +87,7 @@
         });
     };
     watch(menu_keyword, (newVal) => {
-        menus.value = []; // reset array properly since menus is a ref([])
-
+        menus.value = [];
         if (newVal !== '') {
             allMenus.value.forEach(pMenu => {
                 addMenu(pMenu);

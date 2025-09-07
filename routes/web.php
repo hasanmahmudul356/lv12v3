@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/locale.json', [\App\Http\Controllers\SupportController::class, 'getLocalization']);
 Route::get('/routes.json', [\App\Http\Controllers\SupportController::class, 'getRoutes']);
-Route::get('/load.json', [\App\Http\Controllers\SupportController::class, 'loanJson']);
+Route::get('/load.json', [\App\Http\Controllers\SupportController::class, 'loadJson']);
 
 Route::middleware('guest')->group(function (){
     Route::get('/', function (){return redirect(\route('login'));})->name('login');
@@ -20,7 +20,7 @@ Route::middleware(\App\Http\Middleware\AuthCheckMiddleware::class)->group(functi
         Route::post('general', [\App\Http\Controllers\SupportController::class, 'getGeneralData']);
         Route::post('configurations', [\App\Http\Controllers\SupportController::class, 'appConfigurations']);
 
-        Route::post('profile', [\App\Http\Controllers\SupportController::class, 'profileUpdate']);
+        Route::resource('profile', \App\Http\Controllers\Backend\AuthController::class);
 
         Route::resource('users', \App\Http\Controllers\Backend\UserController::class);
         Route::resource('modules', \App\Http\Controllers\Backend\RBAC\ModuleController::class);

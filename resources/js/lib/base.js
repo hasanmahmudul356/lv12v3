@@ -36,7 +36,6 @@ export function useBase() {
     };
 
     const _l = (key) => {
-        console.log(key);
         return t(key);
     };
 

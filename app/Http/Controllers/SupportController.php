@@ -11,37 +11,6 @@ use Illuminate\Http\Request;
 
 class SupportController extends Controller
 {
-    public function profileUpdate(Request $request)
-    {
-        $reqFor = $request->input('request');
-
-        $user = User::where('id', auth()->user()->id)->first();
-        if ($user) {
-            if ($reqFor && $reqFor == 'theme') {
-                $user->theme = $request->input('theme');
-                $user->save();
-
-                return returnData(2000, $user, 'Successfully Theme Updated');
-            }
-
-            if ($reqFor && $reqFor == 'locale') {
-                $user->locale = $request->input('locale');
-                $user->save();
-
-                return returnData(2000, $user, 'Successfully locale Updated');
-            }
-
-            $user->name = $request->input('name');
-            $user->email = $request->input('email');
-            $user->phone = $request->input('phone');
-            $user->theme = $request->input('theme');
-            $user->save();
-
-            return returnData(2000, $user, 'Successfully Updated');
-        }
-        return returnData(5000, null, 'User Not Found');
-    }
-
     public function appConfigurations()
     {
         $role_id = auth()->user()->role_id;
@@ -65,17 +34,21 @@ class SupportController extends Controller
         }
         $data['localization'] = $locals;
 
-        $data['menus'] = Module::where('parent_id', 0)
+        $data['menus'] = Module::where('parent_id', 0)->where('is_visible', 1)
             ->whereIn('id', $permittedModules)
             ->with(['submenus' => function ($query) use ($permittedModules) {
-                $query->with('submenus');
+                $query->with('submenus')->where('is_visible', 1);
                 $query->whereIn('id', $permittedModules);
+                $query->with(['submenus' => function ($query) use ($permittedModules) {
+                    $query->with('submenus')->where('is_visible', 1);
+                    $query->whereIn('id', $permittedModules);
+                }]);
             }])->get();
 
         return returnData(2000, $data);
     }
 
-    public function loanJson(){
+    public function loadJson(){
         $jsonData = [
             'locale' => $this->getLocalization(true),
             'routes' => $this->getRoutes(true),
