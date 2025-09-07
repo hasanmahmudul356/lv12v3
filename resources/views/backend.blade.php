@@ -18,6 +18,14 @@
 
     <script>window.baseUrl = '{{url('/')}}'</script>
     <script>window.locale = '{{auth()->user()->locale ? auth()->user()->locale : 'en'}}'</script>
+    <script>
+        function dd(...args) {
+            args.forEach(arg => {
+                console.log(arg);
+            });
+        }
+    </script>
+
 
     @vite('resources/js/app.js')
     <title>Dashtrans - Bootstrap5 Admin Template</title>

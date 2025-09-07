@@ -16,12 +16,12 @@
     };
     const { httpRequest, dataList, pageDependencies } = useGetters('httpRequest', 'dataList', 'pageDependencies');
 
-    const tableHeaders = reactive(['sl', {name: '', listObject: dataList}, 'display_name', 'name', 'status', 'action']);
+    const tableHeaders = reactive(['sl', {name: '', listObject: dataList}, 'display_name', 'name', 'status','visible', 'action']);
     const permissions = reactive(['directives.js', 'create', 'store', 'show', 'edit', 'update', 'destroy', 'status']);
 
     onMounted(()=>{
         getDataList();
-        getDependency({dependency : ['permissions']});
+        getDependency({dependency : ['permissions', 'components', 'icons']});
     });
 
 </script>
@@ -46,6 +46,7 @@
                     <td>{{ _l(item.name) }}</td>
                     <td>{{ item.name }}</td>
                     <td><a @click="changeStatus({obj:item})" class="pointer" v-html="statusBadge(item.status)"></a></td>
+                    <td><a @click="changeStatus({obj:item, column:'is_visible'})" class="pointer" v-html="statusBadge(item.is_visible, 'visible', 'invisible')"></a></td>
                     <td>
                         <a @click="editData({id:item.id, modal:'fromModal'})" class="btn btn-outline-secondary action">
                             <i class='bx bxs-edit text-warning'></i>
@@ -62,8 +63,9 @@
                         <td>{{ _l(subItem.name) }}</td>
                         <td>{{ subItem.name }}</td>
                         <td><a @click="changeStatus({obj:subItem})" class="pointer" v-html="statusBadge(subItem.status)"></a></td>
+                        <td><a @click="changeStatus({obj:item})" class="pointer" v-html="statusBadge(item.is_visible, 'visible', 'invisible')"></a></td>
                         <td>
-                            <a @click="editData(subItem, 'fromModal')" class="btn btn-outline-secondary action">
+                            <a @click="editData({id:subItem.id, modal:'fromModal'})" class="btn btn-outline-secondary action">
                                 <i class='bx bxs-edit text-warning'></i>
                             </a>
                             <a @click="deleteRecord({targetId:subItem.id, listObject:dataList.data})" class="btn btn-outline-secondary action">

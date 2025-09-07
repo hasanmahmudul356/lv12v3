@@ -127,7 +127,7 @@ class ModuleController extends Controller
 
         $validate = $this->model->validate($input);
         if ($validate->fails()) {
-            return returnData(2000, $validate->errors());
+            return returnData(3000, $validate->errors());
         }
 
         $module = $this->model->where('id', $request->id)->first();

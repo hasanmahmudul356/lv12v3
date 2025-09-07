@@ -238,7 +238,7 @@ export function useHttp() {
 
     const changeStatus = async (options = {}) => {
         try {
-            const {obj = {}, permissionName = '', showMessage = true, columnName = false} = options;
+            const {obj = {}, column = false, permissionName = ''} = options;
 
             if (permissionName !== '' && !can(permissionName)) {
                 toast.warning('Not permitted');
@@ -248,8 +248,8 @@ export function useHttp() {
             store.commit('httpRequest', true);
             const dataObject = (typeof obj === 'object') ? obj : {id: obj};
 
-            if (columnName) {
-                dataObject.column = columnName
+            if (column) {
+                dataObject.column = column
             }
 
             const retData = await httpReq({
