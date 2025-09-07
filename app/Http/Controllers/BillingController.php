@@ -17,7 +17,6 @@ class BillingController extends Controller
         $meter_id = $request->meter_id;
         $billing_month = $request->billing_month;
 
-//        ddA($request);
         if (!$meter_id || !$billing_month) {
             return response()->json(['status' => 400, 'message' => 'Meter ID or month missing']);
         }
