@@ -35,7 +35,6 @@ class BillingController extends Controller
         $energy_bill = EnergyBill::whereIn('type', [$customer->solar, $customer->nesco, $customer->generator])->where('billing_month',$billing_month)
             ->get();
 
-//        ddA($energy_bill)
 
         $energy_bill_calculate = $energy_bill->map(function ($item) {
             return [
