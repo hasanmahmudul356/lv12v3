@@ -67,12 +67,12 @@ trait Helper
                 $data->{$column} = 0;
                 $data->save();
 
-                return returnData(2000, 'warning', "Successfully InActivated");
+                return returnData(2000, 'warning', "Successfully $column Changed");
             } else {
                 $data->{$column} = 1;
                 $data->save();
 
-                return returnData(2000, 'success', "Successfully Activated");
+                return returnData(2000, 'success', "Successfully $column Changed");
             }
         } catch (\Exception $exception) {
             return returnData(5000, $exception->getMessage(), 'Not Updated');

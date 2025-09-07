@@ -27,7 +27,7 @@
     };
 </script>
 <template>
-    <div class="modal fade" :id="modalId" tabindex="-1" :aria-labelledby="`${modalId}Label`" aria-hidden="true" aria-modal="true" role="dialog" data-bs-backdrop="static">
+    <div class="modal fade" :id="modalId" tabindex="-1" :aria-labelledby="`${modalId}Label`" aria-modal="true" role="dialog" data-bs-backdrop="static">
         <div class="modal-dialog" :class="modalSize">
             <div class="modal-content">
                 <form @submit.prevent="handleSubmit">

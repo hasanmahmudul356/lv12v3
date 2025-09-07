@@ -68,5 +68,8 @@
   "loading": "Loading",
   "add_new": "Add New",
   "active": "Active",
-  "inactive": "InActive"
+  "inactive": "InActive",
+
+  "visible": "Visible",
+  "invisible": "Invisible"
 }

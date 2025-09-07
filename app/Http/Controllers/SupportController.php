@@ -8,6 +8,7 @@ use App\Models\RBAC\Role;
 use App\Models\User;
 use function Carbon\this;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class SupportController extends Controller
 {
@@ -109,6 +110,37 @@ class SupportController extends Controller
         if (isset($input['roles']) || in_array('roles', $input)) {
             $key = isset($input['roles']['key']) ? isset($input['roles']['key']) : 'roles';
             $data[$key] = Role::where('status', 1)->get();
+        }
+
+        if (isset($input['components']) || in_array('components', $input)) {
+            $files = File::allFiles(resource_path('js/views/pages'));
+            $components = [];
+
+            $basePath = resource_path('js');
+            foreach ($files as $file) {
+                $relativePath = str_replace($basePath . '/', '', $file->getPathname());
+                $components[] = $relativePath;
+            }
+            $data['components'] = $components;
+        }
+
+        if (isset($input['icons']) || in_array('icons', $input)) {
+            $data['icons'] = [
+                'bx bx-home-alt',
+                'bx bx-lock',
+                'bx bx-user-circle',
+                'bx bx-radio-circle',
+                'bx bx-group',
+                'bx bx-tachometer',
+                'bx bx-receipt',
+                'bx bx-credit-card',
+                'bx bx-calculator',
+                'bx bx-bolt-circle',
+                'bx bx-error',
+                'bx bx-bar-chart-alt-2',
+                'bx bx-cog',
+                'bx bx-help-circle',
+            ];
         }
 
         return returnData(2000, $data);
