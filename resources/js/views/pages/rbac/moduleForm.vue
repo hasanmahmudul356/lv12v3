@@ -26,40 +26,50 @@
 </script>
 <template>
     <div class="row mb-2">
-        <label class="col-md-4"><strong>Display Name : </strong></label>
-        <div class="col-md-8">
-            <input type="text" v-validate="'required'" v-model="formObject.name" class="form-control"/>
-<!--            <datepicker validate="required" :value="formObject.date" v-model="formObject.date" class="form-control"/>-->
-        </div>
-    </div>
-    <div class="row mb-2">
-        <label class="col-md-4"><strong>Display Name : </strong></label>
-        <div class="col-md-8">
-            <input type="text" v-validate="'required'" v-model="formObject.display_name" class="form-control"/>
-        </div>
-    </div>
-    <div class="row mb-2">
         <label class="col-md-4"><strong>Name :</strong></label>
         <div class="col-md-8">
-            <input type="text" v-validate="'required'" v-model="formObject.name" class="form-control" />
+            <input v-validate="'required'" v-model="formObject.name" class="form-control" />
         </div>
     </div>
     <div class="row mb-2">
         <label class="col-md-4"><strong>Link : </strong></label>
         <div class="col-md-8">
-            <input type="text" v-validate="'required'" v-model="formObject.link" class="form-control" />
+            <input v-validate="'required'" v-model="formObject.link" name="link" class="form-control" />
+        </div>
+    </div>
+    <div class="row mb-2">
+        <label class="col-md-4"><strong>Component : </strong></label>
+        <div class="col-md-8">
+            <select v-model="formObject.component" name="component" class="form-control">
+                <option value="">Select</option>
+                <option value="#">Parent Menu</option>
+                <template v-for="role in pageDependencies.components">
+                    <option :value="role">{{role}}</option>
+                </template>
+            </select>
         </div>
     </div>
     <div class="row mb-2">
         <label class="col-md-4"><strong>Icon : </strong></label>
         <div class="col-md-8">
-            <select class="form-control" v-validate="'required'" v-model="formObject.icon">
+            <select class="form-control" v-model="formObject.icon">
                 <option value="">Select</option>
-                <option value="bx bx-cookie">bx bx-cookie</option>
-                <option value="bx bx-menu">bx bx-menu</option>
+                <template v-for="role in pageDependencies.icons">
+                    <option :value="role">{{role}}</option>
+                </template>
             </select>
         </div>
     </div>
+    <div class="row mb-2">
+        <label class="col-md-4"><strong>Visibility : </strong></label>
+        <div class="col-md-8">
+            <select v-model="formObject.is_visible" class="form-control">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+        </div>
+    </div>
+
     <hr>
     <div class="row mb-2">
         <label class="col-md-4 pointer" for="allPermissions">
