@@ -252,13 +252,19 @@ class ModuleSeeder extends Seeder
                         'name' => 'penalty_calculation',
                         'link' => '/penalty_calculation',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/Setting.vue",
+                        "component" => "views/pages/duePenaltyManagement/penaltyCalculation.vue",
+                        'meta' => [
+                            "dataUrl" => "api/penalty_calculation",
+                        ],
                     ],
                     [
                         'name' => 'customer_notifications',
                         'link' => '/customer_notifications',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/Setting.vue",
+                        "component" => "views/pages/duePenaltyManagement/customerNotification.vue",
+                        'meta' => [
+                            "dataUrl" => "api/customer_notifications",
+                        ],
                     ],
                 ]
             ],
@@ -272,19 +278,28 @@ class ModuleSeeder extends Seeder
                         'name' => 'billing_reports',
                         'link' => '/billing_reports',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/Setting.vue",
+                        "component" => "views/pages/reportsAnalytics/billingReports.vue",
+                        'meta' => [
+                            "dataUrl" => "api/billing_reports",
+                        ],
                     ],
                     [
                         'name' => 'collection_reports',
                         'link' => '/collection_reports',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/Setting.vue",
+                        "component" => "views/pages/reportsAnalytics/collectionReport.vue",
+                        'meta' => [
+                            "dataUrl" => "api/collection_reports",
+                        ],
                     ],
                     [
                         'name' => 'consumption_analysis',
                         'link' => '/consumption_analysis',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/Setting.vue",
+                        "component" => "views/pages/reportsAnalytics/consumptionAnalysis.vue",
+                        'meta' => [
+                            "dataUrl" => "api/consumption_analysis",
+                        ],
                     ],
                 ]
             ],
@@ -389,6 +404,14 @@ class ModuleSeeder extends Seeder
                     "dataUrl" => "api/role_permissions",
                 ]
             ],
+            [
+                'name' => 'profile',
+                'link' => '/profile',
+                'permissions' => array_merge($resourcePermissions, []),
+                'icon' => 'bx bx-radio-circle',
+                "component" => "views/pages/users/profile.vue",
+                'is_visible' => 0
+            ],
         ];
 
         foreach ($modules as $data) {
@@ -452,6 +475,7 @@ class ModuleSeeder extends Seeder
         $module->meta = isset($data['meta']) ? json_encode($data['meta']) : json_encode([]);
         $module->parent_id = $parent_id;
         $module->component = isset($data['component']) ? $data['component'] : '';
+        $module->is_visible = isset($data['is_visible']) ? $data['is_visible'] : 1;
         $module->save();
 
         return $module;

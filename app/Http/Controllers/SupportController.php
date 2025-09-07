@@ -13,40 +13,10 @@ use App\Models\Staff;
 use App\Models\User;
 use function Carbon\this;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class SupportController extends Controller
 {
-    public function profileUpdate(Request $request)
-    {
-        $reqFor = $request->input('request');
-
-        $user = User::where('id', auth()->user()->id)->first();
-        if ($user) {
-            if ($reqFor && $reqFor == 'theme') {
-                $user->theme = $request->input('theme');
-                $user->save();
-
-                return returnData(2000, $user, 'Successfully Theme Updated');
-            }
-
-            if ($reqFor && $reqFor == 'locale') {
-                $user->locale = $request->input('locale');
-                $user->save();
-
-                return returnData(2000, $user, 'Successfully locale Updated');
-            }
-
-            $user->name = $request->input('name');
-            $user->email = $request->input('email');
-            $user->phone = $request->input('phone');
-            $user->theme = $request->input('theme');
-            $user->save();
-
-            return returnData(2000, $user, 'Successfully Updated');
-        }
-        return returnData(5000, null, 'User Not Found');
-    }
-
     public function appConfigurations()
     {
         $role_id = auth()->user()->role_id;
@@ -70,17 +40,21 @@ class SupportController extends Controller
         }
         $data['localization'] = $locals;
 
-        $data['menus'] = Module::where('parent_id', 0)
+        $data['menus'] = Module::where('parent_id', 0)->where('is_visible', 1)
             ->whereIn('id', $permittedModules)
             ->with(['submenus' => function ($query) use ($permittedModules) {
-                $query->with('submenus');
+                $query->with('submenus')->where('is_visible', 1);
                 $query->whereIn('id', $permittedModules);
+                $query->with(['submenus' => function ($query) use ($permittedModules) {
+                    $query->with('submenus')->where('is_visible', 1);
+                    $query->whereIn('id', $permittedModules);
+                }]);
             }])->get();
 
         return returnData(2000, $data);
     }
 
-    public function loanJson(){
+    public function loadJson(){
         $jsonData = [
             'locale' => $this->getLocalization(true),
             'routes' => $this->getRoutes(true),
@@ -200,6 +174,37 @@ class SupportController extends Controller
         if (isset($input['customer_area']) || in_array('customer_area', $input)){
             $key = isset($input['customer_area']['key']) ?  isset($input['customer_area']['key']) : 'customer_area';
             $data[$key] =  area::where('status', 1)->get();
+        }
+
+        if (isset($input['components']) || in_array('components', $input)) {
+            $files = File::allFiles(resource_path('js/views/pages'));
+            $components = [];
+
+            $basePath = resource_path('js');
+            foreach ($files as $file) {
+                $relativePath = str_replace($basePath . '/', '', $file->getPathname());
+                $components[] = $relativePath;
+            }
+            $data['components'] = $components;
+        }
+
+        if (isset($input['icons']) || in_array('icons', $input)) {
+            $data['icons'] = [
+                'bx bx-home-alt',
+                'bx bx-lock',
+                'bx bx-user-circle',
+                'bx bx-radio-circle',
+                'bx bx-group',
+                'bx bx-tachometer',
+                'bx bx-receipt',
+                'bx bx-credit-card',
+                'bx bx-calculator',
+                'bx bx-bolt-circle',
+                'bx bx-error',
+                'bx bx-bar-chart-alt-2',
+                'bx bx-cog',
+                'bx bx-help-circle',
+            ];
         }
 
         return returnData(2000, $data);

@@ -22,6 +22,7 @@ class CreateModulesTable extends Migration
             $table->string('icon', 50)->nullable();
             $table->integer('parent_id')->default(0);
             $table->integer('priority')->default(1);
+            $table->integer( 'is_visible')->default(1);
             $table->integer('status')->default(1);
             $table->timestamps();
             $table->softDeletes();

@@ -23,14 +23,14 @@ class Module extends Model
 
     protected $appends = ['checked'];
 
-    protected $fillable = ['id', 'name','icon', 'parent_id','meta', 'link'];
+    protected $fillable = ['id', 'name','icon', 'parent_id', 'meta', 'link', 'component', 'is_visible'];
 
     public function validate($input){
 
         $validate = Validator::make($input, [
             'name' => 'required',
-            'display_name' => 'required',
             'link' => 'required',
+            'component' => 'required',
             'permissions' => 'array',
         ]);
 
@@ -64,6 +64,16 @@ class Module extends Model
 
     public function getMetaAttribute($value)
     {
-        return json_decode($value);
+        return $value && is_string($value) ? json_decode($value) : [];
+    }
+
+    public function getLinkAttribute($value)
+    {
+        return ($value == '#') ? '' : $value;
+    }
+
+    public function getComponentAttribute($value)
+    {
+        return ($value == '#') ? '' : $value;
     }
 }
