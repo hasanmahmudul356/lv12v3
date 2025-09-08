@@ -1,6 +1,6 @@
 <script setup>
     import {dataTable, fromModal, tableTop} from "@/components";
-    import {ref, onMounted} from 'vue';
+    import {ref, onMounted, watch} from 'vue';
     import {useStore} from 'vuex';
     const store = useStore();
     import {useBase, useHttp, appStore} from '@/lib';
@@ -21,6 +21,33 @@
         // getDependency({dependency : ['']});
 
     });
+
+   
+
+    watch(
+        () => [formObject.value.meter_no, formObject.value.bill_month],
+        async ([meter_no, bill_month]) => {
+            if (!meter_no || !bill_month) {
+                formObject.value.bill_amount = ''
+                return
+            }
+
+            try {
+                const response = await httpReq({
+                    url: '/billing_info',
+                    method: 'get',
+                    params: { meter_no, bill_month }
+                })
+
+
+                formObject.value.bill_amount = response?.bill_amount || 0
+
+            } catch (e) {
+                console.error(e)
+                formObject.value.bill_amount = ''
+            }
+        }
+    )
 
 </script>
 
@@ -59,7 +86,7 @@
             <div class="row mb-2">
                 <label class="col-md-4"><strong>Meter No: </strong></label>
                 <div class="col-md-8">
-                    <input type="number" v-model="formObject.meter_no" class="form-control"/>
+                    <input type="text" v-model="formObject.meter_no" class="form-control"/>
                 </div>
             </div>
 
