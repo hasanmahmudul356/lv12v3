@@ -13,7 +13,7 @@
     const details = async (id) => {
         try {
             const url = `${urlGenerate()}/${id}`;
-            const retData = await httpReq({ url, method: 'get', loader: true });
+            const retData = await httpReq({url});
             if (retData) {
                 detailsData.value = { ...retData };
             }
