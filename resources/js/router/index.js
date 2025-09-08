@@ -13,7 +13,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 const router = createRouter({
   history: createWebHistory('/app'),
   routes: [],
-  linkActiveClass: '',
+  linkActiveClass: 'mm-active',
   linkExactActiveClass: ''
 });
 

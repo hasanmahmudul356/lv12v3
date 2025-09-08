@@ -377,8 +377,16 @@ class ModuleSeeder extends Seeder
                 "component" => "views/pages/Setting.vue",
                 'icon' => 'bx bx-radio-circle',
                 'meta' => [
-                    "dataUrl" => "api/role_permissions",
+                    "dataUrl" => "api/settings",
                 ]
+            ],
+            [
+                'name' => 'profile',
+                'link' => '/profile',
+                'permissions' => array_merge($resourcePermissions, []),
+                'icon' => 'bx bx-radio-circle',
+                "component" => "views/pages/users/profile.vue",
+                'is_visible' => 0
             ],
         ];
 
@@ -443,6 +451,7 @@ class ModuleSeeder extends Seeder
         $module->meta = isset($data['meta']) ? json_encode($data['meta']) : json_encode([]);
         $module->parent_id = $parent_id;
         $module->component = isset($data['component']) ? $data['component'] : '';
+        $module->is_visible = isset($data['is_visible']) ? $data['is_visible'] : 1;
         $module->save();
 
         return $module;

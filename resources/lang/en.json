@@ -66,5 +66,12 @@
   "loading": "Loading",
   "add_new": "Add New",
   "active": "Active",
-  "inactive": "InActive"
+  "inactive": "InActive",
+
+  "visible": "Visible",
+  "invisible": "Invisible",
+  "general_setting": "General Setting",
+  "other_setting": "Other Setting",
+  "app_name": "App Name",
+  "date": "Date"
 }

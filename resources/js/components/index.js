@@ -1,4 +1,5 @@
 export { default as dataTable } from '@/components/table/dataTable.vue'
+export { default as generalLayout } from '@/components/table/generalLayout.vue'
 export { default as tableHeader } from '@/components/table/tableHeader.vue'
 export { default as tableTop } from '@/components/table/tableTop.vue'
 export { default as pageTop } from '@/components/pageTop.vue'
