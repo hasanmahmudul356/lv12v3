@@ -14,7 +14,7 @@
         ...appStore().useGetters('dataList', 'httpRequest', 'pageDependencies', 'updateId')
     };
 
-    const tableHeaders = ref(['#', {name: '', listObject: dataList}, "Name", "Email", "Phone", "Address", "Area","Meter Type", "House Holding No","Birthday", "Image","Status","Actions"]);
+    const tableHeaders = ref(['#', {name: '', listObject: dataList}, "Name", "Address", "Area","Meter Type", "House Holding No","Status","Actions"]);
     const {getDataList, httpReq} = useHttp();
 
     onMounted(() => {
@@ -36,14 +36,10 @@
                 <td>{{index+1}}</td>
                 <td class="checkbox"><input :checked="item.checked" @change="handleSelectAll($event, [item])" class="form-check-input me-3 pointer" type="checkbox"/></td>
                 <td>{{ item.name }}</td>
-                <td>{{ item.email }}</td>
-                <td>{{ item.phone_number }}</td>
                 <td>{{ item.address }}</td>
                 <td>{{ item.area_name}}</td>
                 <td>{{ item.meter_name }}</td>
                 <td>{{ item.house_holding_no }}</td>
-                <td>{{ item.dob }}</td>
-                <td>{{ item.image }}</td>
                 <td><a @click="changeStatus({obj:item})" class="pointer" v-html="statusBadge(item.status)"></a></td>
                 <td>
                     <router-link :to="{ name: 'customer_show', params: { id: item.id } }" class="btn btn-outline-secondary action">
