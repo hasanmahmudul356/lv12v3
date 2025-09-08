@@ -98,12 +98,8 @@ class ModuleSeeder extends Seeder
                 'name' => 'app_settings',
                 'link' => '/app_settings',
                 'permissions' => array_merge($resourcePermissions, []),
-<<<<<<< Updated upstream
-=======
                 "component" => "views/setting/appSetting.vue",
->>>>>>> Stashed changes
                 'icon' => 'bx bx-radio-circle',
-                "component" => "views/pages/Setting.vue",
                 'meta' => [
                     "dataUrl" => "api/settings",
                 ]
