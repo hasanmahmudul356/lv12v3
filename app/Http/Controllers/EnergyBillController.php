@@ -28,6 +28,7 @@ class EnergyBillController extends Controller
                     $type = null;
                     if(strtolower($keyword) == 'generator') $type = 1;
                     elseif(strtolower($keyword) == 'solar') $type = 2;
+                    elseif(strtolower($keyword) == 'nesco') $type = 3;
                     if($type !== null){
                         $query->where('type', $type);
                     } else {

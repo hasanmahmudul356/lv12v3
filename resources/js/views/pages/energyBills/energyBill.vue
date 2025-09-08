@@ -15,7 +15,7 @@
         ...appStore().useGetters('dataList', 'httpRequest', 'pageDependencies', 'updateId')
     };
 
-    const tableHeaders = ref(["#", "Energy Type","Bill Month", "Unite", "Unite Rate", "Customer Unite", "Status", "Actions"]);
+    const tableHeaders = ref(["#", "Energy Type","Bill Month", "Unit", "Unit Rate", "Customer Unit", "Status", "Actions"]);
     const {getDataList, } = useHttp();
 
     onMounted(() => {
@@ -101,7 +101,7 @@
                 </div>
             </div>
             <div class="row mb-2">
-                <label class="col-md-4"><strong>Customer Unit (Per kwh): </strong></label>
+                <label class="col-md-4"><strong>Customer Unit(kwh): </strong></label>
                 <div class="col-md-8">
                     <input type="text" v-model="formObject.customer_unit" class="form-control" readonly/>
                 </div>
