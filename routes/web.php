@@ -44,6 +44,6 @@ Route::middleware(\App\Http\Middleware\AuthCheckMiddleware::class)->group(functi
         Route::resource('staff',\App\Http\Controllers\StaffController::class);
         Route::resource('energy_bill', \App\Http\Controllers\EnergyBillController::class);
         Route::resource('customer_notifications', \App\Http\Controllers\NotificationController::class);
-
+        Route::resource('record_payment', \App\Http\Controllers\BillPaymentController::class);
     });
 });

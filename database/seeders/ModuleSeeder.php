@@ -118,6 +118,15 @@ class ModuleSeeder extends Seeder
                             "dataUrl" => "api/customer_information",
                         ],
                     ],
+                    [
+                        'name' => 'customer_show',
+                        'link' => '/customer_details/:id?',
+                        'permissions' => array_merge($resourcePermissions, []),
+                        "component" => "views/pages/customerManagement/customerDetails.vue",
+                        'meta' => [
+                            "dataUrl" => "api/customer_information",
+                        ],
+                    ],
                 ]
             ],
             [
@@ -197,19 +206,28 @@ class ModuleSeeder extends Seeder
                         'name' => 'record_payment',
                         'link' => '/record_payment',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/Setting.vue",
+                        "component" => "views/pages/paymentManagement/recordPayment.vue",
+                        'meta' => [
+                            "dataUrl" => "api/record_payment",
+                        ],
                     ],
                     [
                         'name' => 'payment_history',
                         'link' => '/payment_history',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/Setting.vue",
+                        "component" => "views/pages/paymentManagement/paymentHistory.vue",
+                        'meta' => [
+                            "dataUrl" => "api/payment_history",
+                        ],
                     ],
                     [
                         'name' => 'generate_receipt',
                         'link' => '/generate_receipt',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/Setting.vue",
+                        "component" => "views/pages/paymentManagement/generateReceipt.vue",
+                        'meta' => [
+                            "dataUrl" => "api/generate_receipt",
+                        ],
                     ],
                 ]
             ],

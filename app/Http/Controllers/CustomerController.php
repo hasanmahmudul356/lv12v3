@@ -67,10 +67,17 @@ class CustomerController extends Controller
 
     }
 
+
     public function show($id)
     {
-        //
+        try {
+            $data = $this->model->findOrFail($id);
+            return returnData(2000, $data);
+        } catch (\Exception $exception) {
+            return returnData(5000, null, 'Customer not found',404);
+        }
     }
+
 
     public function edit($id)
     {
