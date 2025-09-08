@@ -15,7 +15,7 @@ class CreateModulesTable extends Migration
     {
         Schema::create('modules', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 50);
+            $table->string('name', 50);2
             $table->string('link', 50);
             $table->string('component', 255);
             $table->text('meta');
