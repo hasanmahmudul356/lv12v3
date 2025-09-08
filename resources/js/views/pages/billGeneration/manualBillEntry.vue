@@ -34,6 +34,8 @@
                 params: { meter_id, billing_month },
             });
 
+            console.log(response);
+
             if (response) {
                 enargy_calculate.value = response.energy_bill_calculates;
                 formObject.value = response;
