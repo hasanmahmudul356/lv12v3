@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('settings', function (Blueprint $table) {
-            $table->id();
-            $table->string('key');
-            $table->string('type');
-            $table->string('group');
-            $table->text('value');
+            $table->bigIncrements('id');
+            $table->string('key', 50);
+            $table->string('type', 50);
+            $table->string('setting_type')->nullable();
+            $table->string('value', 100)->charset('utf8')->collation('utf8_general_ci');
             $table->integer('is_visible')->default(1);
             $table->timestamps();
         });

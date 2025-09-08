@@ -113,7 +113,7 @@ class SupportController extends Controller
         }
 
         if (isset($input['components']) || in_array('components', $input)) {
-            $files = File::allFiles(resource_path('js/views/pages'));
+            $files = File::allFiles(resource_path('js/views'));
             $components = [];
 
             $basePath = resource_path('js');

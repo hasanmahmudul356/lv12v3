@@ -19,6 +19,7 @@ Route::middleware(\App\Http\Middleware\AuthCheckMiddleware::class)->group(functi
     Route::prefix('api')->group(function (){
         Route::post('general', [\App\Http\Controllers\SupportController::class, 'getGeneralData']);
         Route::post('configurations', [\App\Http\Controllers\SupportController::class, 'appConfigurations']);
+        Route::resource('settings', \App\Http\Controllers\SettingController::class);
 
         Route::resource('profile', \App\Http\Controllers\Backend\AuthController::class);
 
