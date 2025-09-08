@@ -22,32 +22,28 @@
 
     });
 
-   
+
 
     watch(
         () => [formObject.value.meter_no, formObject.value.bill_month],
+
         async ([meter_no, bill_month]) => {
-            if (!meter_no || !bill_month) {
-                formObject.value.bill_amount = ''
-                return
-            }
+            if (!meter_no || !bill_month) return;
 
-            try {
-                const response = await httpReq({
-                    url: '/billing_info',
-                    method: 'get',
-                    params: { meter_no, bill_month }
-                })
+            const response = await httpReq({
+                url: '/recordPayment',
+                method: 'get',
+                params: {  meter_no, bill_month },
+            });
 
+            console.log('response:', response)
 
-                formObject.value.bill_amount = response?.bill_amount || 0
-
-            } catch (e) {
-                console.error(e)
-                formObject.value.bill_amount = ''
+            if (response) {
+                formObject.value.bill_amount = response.bill_amount
             }
         }
     )
+
 
 </script>
 
@@ -93,14 +89,14 @@
             <div class="row mb-2">
                 <label class="col-md-4"><strong>Bill Month: </strong></label>
                 <div class="col-md-8">
-                    <input type="date" v-model="formObject.bill_month" class="form-control"/>
+                    <input type="month" v-model="formObject.bill_month" class="form-control"/>
                 </div>
             </div>
 
             <div class="row mb-2">
                 <label class="col-md-4"><strong>Bill Amount: </strong></label>
                 <div class="col-md-8">
-                    <input type="text" v-model="formObject.bill_amount" class="form-control"/>
+                    <input type="text" v-model="formObject.bill_amount" class="form-control"  />
                 </div>
             </div>
 

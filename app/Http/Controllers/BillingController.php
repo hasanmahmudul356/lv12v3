@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BillInformation;
 use App\Models\EnergyBill;
 use App\Models\Meter;
 use App\Models\MeterReading;
@@ -89,4 +90,21 @@ class BillingController extends Controller
 
         return returnData(2000, $data);
     }
+
+    public function getRecordPayment(Request $request)
+    {
+        $request->validate([
+            'meter_no' => 'required',
+            'bill_month' => 'required',
+        ]);
+
+        $bill = BillInformation::where('meter_id', $request->meter_no)
+            ->where('billing_month', 'like', $request->bill_month . '%')
+            ->first();
+
+        return response()->json([
+            'bill_amount' => $bill ? $bill->bill_amount : 0,
+        ]);
+    }
+
 }
