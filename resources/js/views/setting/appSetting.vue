@@ -1,0 +1,121 @@
+
+<script setup>
+    import {generalLayout,fromModal,pageTop } from '@/components';
+
+    import {ref, onMounted} from 'vue';
+    import {useStore} from 'vuex';
+    const store = useStore();
+    import {useBase, useHttp, appStore} from '@/lib';
+
+    const {getDependency, submitForm, editData, deleteRecord} = {...useHttp()};
+    const {_l, formFilter, formObject, openModal, closeModal, useGetters, dataList, httpRequest, pageDependencies, updateId} = {
+        ...useBase(),
+        ...appStore(),
+        ...appStore().useGetters('dataList', 'httpRequest', 'pageDependencies', 'updateId')
+    };
+    const {getDataList, httpReq} = useHttp();
+
+    onMounted(() => {
+        getDataList();
+        getDependency({}, {
+            app_details : [{name : 'Name', value : 1}, {name : 'Name', value : 1}]
+        });
+    });
+</script>
+
+<template>
+    <generalLayout>
+        <template v-slot:pageTop>
+            <pageTop :listPage="false"></pageTop>
+        </template>
+        <form @submit.prevent="submitForm({data:dataList, method : 'put', updateId : 1})">
+            <div class="card-body">
+                <div class="col-md-7">
+                    <template v-for="(settingGroup, group) in dataList">
+                        <div class="row">
+                            <h6 class="col-md-12">{{_l(group)}}: <a class="pointer" @click="openModal({
+                            defaultObject:{key : '',type : 'text',setting_type : group, value : '', is_visible : '1' }
+                            })"><i class="bx bxs-plus-square"></i></a> </h6>
+                            <hr>
+                        </div>
+                        <template v-for="setting in settingGroup">
+                            <div class="row mt-2">
+                                <label :for="setting.key" class="col-md-3">{{_l(setting.key)}} [{{setting.key}}]: </label>
+                                <div class="col-md-9">
+                                    <template v-if="setting.type == 'text'">
+                                        <input :id="setting.key" v-model="setting.value" class="form-control" type="text">
+                                    </template>
+                                    <template v-if="setting.type == 'textarea'">
+                                        <input :id="setting.key" v-model="setting.value" class="form-control" type="text">
+                                    </template>
+                                    <template v-if="setting.type == 'date'">
+                                        <datepicker :id="setting.key" :value="setting.value" v-model="setting.value" class="form-control"></datepicker>
+                                    </template>
+                                    <template v-if="setting.type == 'select'">
+                                        <select :id="setting.key" v-model="setting.value" class="form-control">
+                                            <template v-for="(item, index) in pageDependencies[setting.key]">
+                                                <option :value="item.value">{{item.name}}</option>
+                                            </template>
+                                        </select>
+                                    </template>
+                                </div>
+                            </div>
+                        </template>
+                    </template>
+                    <div class="row mt-2">
+                        <div class="col-md-12 text-end">
+                            <button class="btn btn-success" type="submit">Update</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <fromModal @submit="submitForm({
+            modal: 'fromModal',
+            callback: function (retData) {
+                Object.assign(formObject, {});
+                getDataList();
+            }
+        })">
+            <div class="row mt-2">
+                <label class="col-md-3">{{_l('key')}}</label>
+                <div class="col-md-9">
+                    <input class="form-control" type="text" v-model="formObject.key">
+                </div>
+            </div>
+            <div class="row mt-2">
+                <label class="col-md-3">{{_l('type')}}</label>
+                <div class="col-md-9">
+                    <select class="form-control" type="text" v-model="formObject.type">
+                        <option value="text">Text</option>
+                        <option value="textarea">TestArea</option>
+                        <option value="select">Select</option>
+                        <option value="date">Date</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <label class="col-md-3">{{_l('setting_type')}}</label>
+                <div class="col-md-9">
+                    <input class="form-control" type="text" v-model="formObject.setting_type">
+                </div>
+            </div>
+            <div class="row mt-2">
+                <label class="col-md-3">{{_l('value')}}</label>
+                <div class="col-md-9">
+                    <input class="form-control" type="text" v-model="formObject.value">
+                </div>
+            </div>
+            <div class="row mt-2">
+                <label class="col-md-3">{{_l('visibility')}}</label>
+                <div class="col-md-9">
+                    <select class="form-control" type="text" v-model="formObject.is_visible">
+                        <option value="1">Visible</option>
+                        <option value="0">Hidden</option>
+                    </select>
+                </div>
+            </div>
+        </fromModal>
+    </generalLayout>
+</template>
+

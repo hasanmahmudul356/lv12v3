@@ -398,10 +398,10 @@ class ModuleSeeder extends Seeder
                 'name' => 'app_settings',
                 'link' => '/app_settings',
                 'permissions' => array_merge($resourcePermissions, []),
-                "component" => "views/pages/Setting.vue",
+                "component" => "views/setting/appSetting.vue",
                 'icon' => 'bx bx-radio-circle',
                 'meta' => [
-                    "dataUrl" => "api/role_permissions",
+                    "dataUrl" => "api/settings",
                 ]
             ],
             [

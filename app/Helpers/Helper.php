@@ -29,7 +29,7 @@ use PHPUnit\Exception;
 trait Helper
 {
     public $permission = [];
-    public $model = '';
+    public $model;
     public $modelClass = '';
     public $childModel = '';
     public $perPage = 20;
