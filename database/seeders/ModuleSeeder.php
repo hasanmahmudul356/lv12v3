@@ -118,6 +118,15 @@ class ModuleSeeder extends Seeder
                             "dataUrl" => "api/customer_information",
                         ],
                     ],
+                    [
+                        'name' => 'customer_show',
+                        'link' => '/customer_details/:id?',
+                        'permissions' => array_merge($resourcePermissions, []),
+                        "component" => "views/pages/customerManagement/customerDetails.vue",
+                        'meta' => [
+                            "dataUrl" => "api/customer_information",
+                        ],
+                    ],
                 ]
             ],
             [
@@ -176,6 +185,15 @@ class ModuleSeeder extends Seeder
                             "dataUrl" => "api/bulk_bill_generation",
                         ],
                     ],
+                    [
+                        'name' => 'invoice',
+                        'link' => '/invoice',
+                        'permissions' => array_merge($resourcePermissions, []),
+                        "component" => "views/pages/billGeneration/invoice.vue",
+                        'meta' => [
+                            "dataUrl" => "api/invoice",
+                        ],
+                    ],
                 ]
             ],
             [
@@ -188,19 +206,28 @@ class ModuleSeeder extends Seeder
                         'name' => 'record_payment',
                         'link' => '/record_payment',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/Setting.vue",
+                        "component" => "views/pages/paymentManagement/recordPayment.vue",
+                        'meta' => [
+                            "dataUrl" => "api/record_payment",
+                        ],
                     ],
                     [
                         'name' => 'payment_history',
                         'link' => '/payment_history',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/Setting.vue",
+                        "component" => "views/pages/paymentManagement/paymentHistory.vue",
+                        'meta' => [
+                            "dataUrl" => "api/payment_history",
+                        ],
                     ],
                     [
                         'name' => 'generate_receipt',
                         'link' => '/generate_receipt',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/Setting.vue",
+                        "component" => "views/pages/paymentManagement/generateReceipt.vue",
+                        'meta' => [
+                            "dataUrl" => "api/generate_receipt",
+                        ],
                     ],
                 ]
             ],
@@ -243,13 +270,19 @@ class ModuleSeeder extends Seeder
                         'name' => 'penalty_calculation',
                         'link' => '/penalty_calculation',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/Setting.vue",
+                        "component" => "views/pages/duePenaltyManagement/penaltyCalculation.vue",
+                        'meta' => [
+                            "dataUrl" => "api/penalty_calculation",
+                        ],
                     ],
                     [
                         'name' => 'customer_notifications',
                         'link' => '/customer_notifications',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/Setting.vue",
+                        "component" => "views/pages/duePenaltyManagement/customerNotification.vue",
+                        'meta' => [
+                            "dataUrl" => "api/customer_notifications",
+                        ],
                     ],
                 ]
             ],
@@ -263,19 +296,28 @@ class ModuleSeeder extends Seeder
                         'name' => 'billing_reports',
                         'link' => '/billing_reports',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/Setting.vue",
+                        "component" => "views/pages/reportsAnalytics/billingReports.vue",
+                        'meta' => [
+                            "dataUrl" => "api/billing_reports",
+                        ],
                     ],
                     [
                         'name' => 'collection_reports',
                         'link' => '/collection_reports',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/Setting.vue",
+                        "component" => "views/pages/reportsAnalytics/collectionReport.vue",
+                        'meta' => [
+                            "dataUrl" => "api/collection_reports",
+                        ],
                     ],
                     [
                         'name' => 'consumption_analysis',
                         'link' => '/consumption_analysis',
                         'permissions' => array_merge($resourcePermissions, []),
-                        "component" => "views/pages/Setting.vue",
+                        "component" => "views/pages/reportsAnalytics/consumptionAnalysis.vue",
+                        'meta' => [
+                            "dataUrl" => "api/consumption_analysis",
+                        ],
                     ],
                 ]
             ],

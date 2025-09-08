@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BillInformation;
+use App\Models\EnergyBill;
+use App\Models\Meter;
 use App\Models\MeterReading;
+use function Carbon\map;
 use function Illuminate\Cache\table;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -20,6 +24,34 @@ class BillingController extends Controller
 
         $month_start = $billing_month . '-01';
         $month_end = date("Y-m-t", strtotime($month_start));
+
+        $customer = Meter::where('meters.id', $meter_id)
+            ->leftJoin('customers','meters.customer_id','=','customers.id')
+            ->select('customers.*')
+            ->first();
+
+
+
+        $energy_bill = EnergyBill::whereIn('type', [$customer->solar, $customer->nesco, $customer->generator])->where('billing_month',$billing_month)
+            ->get();
+
+        $data['energy_bill_calculates'] = $energy_bill->map(function ($item) {
+            return [
+                'id' => $item->id,
+                'type' => $item->type,
+                'billing_month' => $item->billing_month,
+                'customer_unit' => $item->customer_unit,
+                'unit_rate' => $item->unit_rate,
+                'bill_amount' => $item->customer_unit * $item->unit_rate,
+            ];
+        });
+
+        $total_bill = 0;
+        $total_unit = 0;
+        foreach ($data['energy_bill_calculates'] as $energy_bill_calculate){
+            $total_bill += $energy_bill_calculate['bill_amount'];
+            $total_unit += $energy_bill_calculate['customer_unit'];
+        }
 
         $last_entry = MeterReading::where('meter_no', $meter_id)
             ->where('reading_date', '<', $month_start)
@@ -42,8 +74,37 @@ class BillingController extends Controller
 
         $data['end_reading'] = $current_entry ? $current_entry->current_reading : null;
 
+        if ($data['end_reading'] !== null) {
+            $data['units_consumed'] = $data['end_reading'] - $data['start_reading'];
+            $data['nesco_unit'] = $data['units_consumed']-$total_unit;
+            $data['nesco_bill'] = $data['nesco_unit']*$data['unit_rate'];
+            $data['bill_amount'] = $data['nesco_bill'] + $total_bill;
+        } else {
+            $data['units_consumed'] = 0;
+            $data['bill_amount'] = 0;
+            $data['end_reading'] =0;
+
+        }
+
+
+
         return returnData(2000, $data);
-
-
     }
+
+    public function getRecordPayment(Request $request)
+    {
+        $request->validate([
+            'meter_no' => 'required',
+            'bill_month' => 'required',
+        ]);
+
+        $bill = BillInformation::where('meter_id', $request->meter_no)
+            ->where('billing_month', 'like', $request->bill_month . '%')
+            ->first();
+
+        return response()->json([
+            'bill_amount' => $bill ? $bill->bill_amount : 0,
+        ]);
+    }
+
 }

@@ -21,6 +21,7 @@
         getDataList();
         getDependency({dependency : ['meter_num']});
     });
+    const enargy_calculate=ref('');
 
     watch(
         () => [formObject.value.meter_id, formObject.value.billing_month],
@@ -33,19 +34,18 @@
                 params: { meter_id, billing_month },
             });
 
+            console.log(response);
+
             if (response) {
-                formObject.value.start_reading = response.start_reading;
+                enargy_calculate.value = response.energy_bill_calculates;
+                formObject.value = response;
                 formObject.value.unit_rate = response.unit_rate;
                 formObject.value.end_reading = response.end_reading;
-
-                if (response.end_reading !== null) {
-                    formObject.value.units_consumed =
-                        response.end_reading - response.start_reading;
-                    formObject.value.bill_amount = formObject.value.units_consumed * response.unit_rate;
-
-                } else {
-                    formObject.value.units_consumed = 0;
-                }
+                formObject.value.start_reading = response.start_reading;
+                formObject.value.units_consumed = response.units_consumed;
+                formObject.value.bill_amount = response.bill_amount;
+                formObject.value.nesco_unit = response.nesco_unit;
+                formObject.value.nesco_bill = response.nesco_bill;
             }
         }
     );
@@ -137,12 +137,12 @@
                 </div>
             </div>
 
-            <div class="row mb-2">
-                <label class="col-md-4"><strong>Per Unit Rate (Tk) : </strong></label>
-                <div class="col-md-8">
-                    <input type="number" step="0.01" v-model="formObject.unit_rate" class="form-control" readonly/>
-                </div>
-            </div>
+<!--            <div class="row mb-2">-->
+<!--                <label class="col-md-4"><strong>Per Unit Rate (Tk) : </strong></label>-->
+<!--                <div class="col-md-8">-->
+<!--                    <input type="number" step="0.01" v-model="formObject.unit_rate" class="form-control" readonly/>-->
+<!--                </div>-->
+<!--            </div>-->
 
             <div class="row mb-2">
                 <label class="col-md-4"><strong>Bill Amount : </strong></label>
@@ -150,7 +150,6 @@
                     <input type="number" step="0.01" v-model="formObject.bill_amount" class="form-control" readonly/>
                 </div>
             </div>
-
             <div class="row mb-2">
                 <label class="col-md-4"><strong>Bill Status : </strong></label>
                 <div class="col-md-8">
@@ -162,6 +161,76 @@
                     </select>
                 </div>
             </div>
+            <div class="row mb-2" v-if="formObject.nesco_unit && formObject.unit_rate && formObject.nesco_bill">
+                <label class="col-md-12"><strong>Nesco Information : </strong></label>
+                <div class="col-md-4">
+                    <label ><strong>Nesco Unit: </strong></label>
+                    <input type="number" step="0.01" v-model="formObject.nesco_unit" class="form-control" readonly/>
+                </div>
+                <div class="col-md-4">
+                    <label ><strong> Unit Rate: </strong></label>
+                    <input type="number" step="0.01" v-model="formObject.unit_rate" class="form-control" readonly/>
+                </div>
+                <div class="col-md-4">
+                    <label ><strong> Unit Rate: </strong></label>
+                    <input type="number" step="0.01" v-model="formObject.nesco_bill" class="form-control" readonly/>
+                </div>
+            </div>
+            <template v-for="formObject in enargy_calculate">
+                <div class="row mb-2">
+                    <div class="col-md-12">
+                        <label  v-if="formObject.type === 1">
+                            <strong >Generator Information: </strong>
+                        </label>
+                        <label  v-if="formObject.type === 2">
+                            <strong >Solar Information : </strong>
+                        </label>
+                    </div>
+                    <div class="col-md-4">
+<!--                        <label  v-if="formObject.type === 1">-->
+<!--                            <strong >Generator Bill Unit : </strong>-->
+<!--                        </label>-->
+<!--                        <label  v-if="formObject.type === 2">-->
+<!--                            <strong >Solar Bill Unit : </strong>-->
+<!--                        </label>-->
+                        <label >
+                            <strong > Unit : </strong>
+                        </label>
+                        <input type="number" step="0.01" v-model="formObject.customer_unit" class="form-control" readonly/>
+                    </div>
+                    <div class="col-md-4">
+<!--                        <label v-if="formObject.type === 1">-->
+<!--                            <strong >Generator Unit Rate: </strong>-->
+<!--                        </label>-->
+<!--                        <label  v-if="formObject.type === 2">-->
+<!--                            <strong >Solar Unit Rate : </strong>-->
+<!--                        </label>-->
+<!--                        <label v-if="formObject.type === 3">-->
+<!--                            <strong >Nesco Unit Rate : </strong>-->
+<!--                        </label>-->
+                        <label >
+                            <strong > Unit Rate: </strong>
+                        </label>
+                        <input type="number" step="0.01" v-model="formObject.unit_rate" class="form-control" readonly/>
+                    </div>
+                    <div class="col-md-4">
+<!--                        <label v-if="formObject.type === 1">-->
+<!--                            <strong >Generator Bill Amount : </strong>-->
+<!--                        </label>-->
+<!--                        <label  v-if="formObject.type === 2">-->
+<!--                            <strong >Solar Bill Amount : </strong>-->
+<!--                        </label>-->
+<!--                        <label v-if="formObject.type === 3">-->
+<!--                            <strong >Nesco Bill Amount : </strong>-->
+<!--                        </label>-->
+                        <label >
+                            <strong > Bill Amount: </strong>
+                        </label>
+                        <input type="number" step="0.01" v-model="formObject.bill_amount" class="form-control" readonly/>
+                    </div>
+                </div>
+
+            </template>
 
         </fromModal>
     </dataTable>

@@ -14,7 +14,7 @@
         ...appStore().useGetters('dataList', 'httpRequest', 'pageDependencies', 'updateId')
     };
 
-    const tableHeaders = ref(['#', {name: '', listObject: dataList}, "Name", "Email", "Phone", "Address", "Area","Meter Type", "House Holding No","Birthday", "Image","Status","Actions"]);
+    const tableHeaders = ref(['#', {name: '', listObject: dataList}, "Name", "Address", "Area","Meter Type", "House Holding No","Status","Actions"]);
     const {getDataList, httpReq} = useHttp();
 
     onMounted(() => {
@@ -36,19 +36,15 @@
                 <td>{{index+1}}</td>
                 <td class="checkbox"><input :checked="item.checked" @change="handleSelectAll($event, [item])" class="form-check-input me-3 pointer" type="checkbox"/></td>
                 <td>{{ item.name }}</td>
-                <td>{{ item.email }}</td>
-                <td>{{ item.phone_number }}</td>
                 <td>{{ item.address }}</td>
                 <td>{{ item.area_name}}</td>
                 <td>{{ item.meter_name }}</td>
                 <td>{{ item.house_holding_no }}</td>
-                <td>{{ item.dob }}</td>
-                <td>{{ item.image }}</td>
                 <td><a @click="changeStatus({obj:item})" class="pointer" v-html="statusBadge(item.status)"></a></td>
                 <td>
-                    <a @click="editData({data:item, id:item.id, modal:'fromModal'})" class="btn btn-outline-secondary action">
+                    <router-link :to="{ name: 'customer_show', params: { id: item.id } }" class="btn btn-outline-secondary action">
                         <i class='bx bxs-show text-primary'></i>
-                    </a>
+                    </router-link>
                     <a @click="editData({data:item, id:item.id, modal:'fromModal'})" class="btn btn-outline-secondary action">
                         <i class='bx bxs-edit text-warning'></i>
                     </a>
@@ -136,7 +132,7 @@
                 <div class="col-md-8">
                     <select v-model="formObject.nesco" class="form-control">
                         <option value="">Select</option>
-                        <option value="1">Yes</option>
+                        <option value="3">Yes</option>
                         <option value="0">No</option>
                     </select>
                 </div>
@@ -146,7 +142,7 @@
                 <div class="col-md-8">
                     <select v-model="formObject.solar" class="form-control">
                         <option value="">Select</option>
-                        <option value="1">Yes</option>
+                        <option value="2">Yes</option>
                         <option value="0">No</option>
                     </select>
                 </div>

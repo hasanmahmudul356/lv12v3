@@ -80,8 +80,7 @@
                     <select v-model="formObject.area_id" class="form-control" v-validate="'required'">
                         <option value="">Select</option>
                         <template v-for="item in pageDependencies.customer">
-                            <option
-                                    v-if="item.id === formObject.customer_id && item.customer_area"
+                            <option v-if="item.id === formObject.customer_id && item.customer_area"
                                     :value="item.customer_area.id">
                                 {{ item.customer_area.name }}
                             </option>

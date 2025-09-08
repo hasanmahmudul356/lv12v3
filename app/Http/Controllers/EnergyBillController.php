@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
+use App\Models\Customer;
 use App\Models\EnergyBill;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class EnergyBillController extends Controller
 {
@@ -26,6 +28,7 @@ class EnergyBillController extends Controller
                     $type = null;
                     if(strtolower($keyword) == 'generator') $type = 1;
                     elseif(strtolower($keyword) == 'solar') $type = 2;
+                    elseif(strtolower($keyword) == 'nesco') $type = 3;
                     if($type !== null){
                         $query->where('type', $type);
                     } else {
@@ -49,13 +52,27 @@ class EnergyBillController extends Controller
     {
         try {
             $input = $request->all();
-
             $validate = $this->model->validate($input);
             if ($validate->fails()) {
                 return returnData(2000, $validate->errors());
             }
+            $exgistData = $this->model->where('type',$input['type'])
+                ->where('billing_month',$input['billing_month'])
+                ->where('status',1)->first();
+            if ($exgistData){
+                return returnData(3000, $exgistData, 'AlReady Exist ');
+            }
+            $month =Carbon::createFromFormat('Y-m', $input['billing_month']);
+            $prevMonth = $month->subMonth()->format('Y-m');
+            $previewsUnitRate = $this->model->where('type',$input['type'])
+                ->where('billing_month',$prevMonth)
+                ->where('status',1)->first();
+//            $unitRate = $input['unit_rate'] ? $input['unit_rate']: $previewsUnitRate->unit_rate;
+            $unitRate = $input['unit_rate'] ?? $previewsUnitRate->unit_rate;
 
+//ddA($input['unit_rate']);
             $this->model->fill($input);
+            $this->model->unit_rate = $unitRate;
             $this->model->user_id = auth()->user()->id;
             $this->model->save();
 
@@ -65,6 +82,20 @@ class EnergyBillController extends Controller
             return returnData(5000, $exception->getMessage(), 'Whoops, Something Went Wrong..!!');
         }
 
+    }
+    public function calculateCustomerUnit(Request $request)
+    {
+        $type = (int) $request->type;
+        $unit = $request->unit;
+        if ($type) {
+            $data['totalCustomers'] = Customer::Orwhere('generator', $type)
+                ->Orwhere('solar', $type )
+                ->Orwhere('nesco', $type)->count();
+        }
+
+        $data['customerUnit'] = $data['totalCustomers'] > 0 ? $unit / $data['totalCustomers'] : 0;
+
+        return returnData(2000, $data);
     }
 
     public function show($id)

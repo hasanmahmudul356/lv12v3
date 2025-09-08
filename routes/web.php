@@ -16,6 +16,8 @@ Route::middleware(\App\Http\Middleware\AuthCheckMiddleware::class)->group(functi
         ->where('any', '.*')->name('home');
     Route::get('logout', [\App\Http\Controllers\Backend\AuthController::class, 'logout'])->name('logout');
     Route::get('/billing_info',[\App\Http\Controllers\BillingController::class, 'getBillingInfo']);
+    Route::get('/recordPayment',[\App\Http\Controllers\BillingController::class, 'getRecordPayment']);
+    Route::get('/customerKwh', [\App\Http\Controllers\EnergyBillController::class, 'calculateCustomerUnit']);
 
 
     Route::prefix('api')->group(function (){
@@ -43,5 +45,7 @@ Route::middleware(\App\Http\Middleware\AuthCheckMiddleware::class)->group(functi
         Route::resource('tariff_rate',\App\Http\Controllers\TariffAndRateController::class);
         Route::resource('staff',\App\Http\Controllers\StaffController::class);
         Route::resource('energy_bill', \App\Http\Controllers\EnergyBillController::class);
+        Route::resource('customer_notifications', \App\Http\Controllers\NotificationController::class);
+        Route::resource('record_payment', \App\Http\Controllers\BillPaymentController::class);
     });
 });
