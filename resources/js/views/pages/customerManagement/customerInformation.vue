@@ -46,9 +46,9 @@
                 <td>{{ item.image }}</td>
                 <td><a @click="changeStatus({obj:item})" class="pointer" v-html="statusBadge(item.status)"></a></td>
                 <td>
-                    <a @click="editData({data:item, id:item.id, modal:'fromModal'})" class="btn btn-outline-secondary action">
+                    <router-link :to="{ name: 'customer_show', params: { id: item.id } }" class="btn btn-outline-secondary action">
                         <i class='bx bxs-show text-primary'></i>
-                    </a>
+                    </router-link>
                     <a @click="editData({data:item, id:item.id, modal:'fromModal'})" class="btn btn-outline-secondary action">
                         <i class='bx bxs-edit text-warning'></i>
                     </a>
