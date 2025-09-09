@@ -30,9 +30,9 @@ class MeterReading extends Model
         return $validate;
     }
 
-    public function meter()
-    {
-        return $this->belongsTo(Meter::class, 'meter_no', 'id');
-    }
+//    public function meter()
+//    {
+//        return $this->belongsTo(Meter::class, 'meter_no', 'id');
+//    }
 
 }
