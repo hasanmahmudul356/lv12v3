@@ -1,17 +1,6 @@
 <script setup>
     import {ref} from "vue";
-    const tableHeaders = ref([
-        "#",
-        "Bill Number",
-        "Customer Name",
-        "Billing Month",
-        "Amount",
-        "Penalty",
-        "Total Due",
-        "Payment Status",
-        "Payment Date",
-        "Status",
-    ]);
+    const tableHeaders = ref(["#", "Bill Number", "Customer Name", "Billing Month", "Amount", "Penalty", "Total Due", "Payment Status", "Payment Date", "Status",]);
     const dataList = ref([
         {
             bill_number: "BILL-001",
@@ -56,16 +45,19 @@
     <div class="page-wrapper">
         <div class="page-content">
             <div class="row mb-3 align-items-center">
-                <div class="col-md-3">
-                    <label class="form-label fw-bold">Billing Month</label>
-                    <input type="month" v-model="searchMonth" class="form-control" />
-                </div>
-                <div class="col-md-2 d-flex align-items-end">
-                    <button class="btn btn-primary w-100" @click="searchReport">
-                        <i class="bx bx-search"></i> Search
-                    </button>
+                <div class="row mb-2">
+                    <label class="col-md-1">Billing Month:</label>
+                    <div class="col-md-8">
+                        <input type="month" v-model="searchMonth" class="form-control" />
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-primary w-100" @click="searchReport">
+                            <i class="bx bx-search"></i> Search
+                        </button>
+                    </div>
                 </div>
             </div>
+
             <div v-if="showTable" class="table-responsive shadow-sm border rounded p-3">
                 <table class="table table-bordered table-striped">
                     <thead class="table-light">
@@ -83,23 +75,11 @@
                         <td>{{ item.penalty }}</td>
                         <td>{{ item.total_due }}</td>
                         <td>
-                <span
-                        :class="
-                    item.payment_status === 'Paid'
-                      ? 'badge bg-success'
-                      : 'badge bg-warning'
-                  "
-                >{{ item.payment_status }}</span
-                >
+                            <span :class="item.payment_status === 'Paid'? 'badge rounded-pill p-2 text-uppercase px-3 badge bg-success': 'badge rounded-pill p-2 text-uppercase px-3 badge bg-warning'">  <i class="bx bxs-circle me-1"></i>{{ item.payment_status }}</span>
                         </td>
                         <td>{{ item.payment_date ?? "-" }}</td>
                         <td>
-                <span
-                        :class="
-                    item.status === 1 ? 'badge bg-success' : 'badge bg-danger'
-                  "
-                >{{ item.status === 1 ? "Active" : "Inactive" }}</span
-                >
+                            <span :class="item.status === 1 ? 'badge rounded-pill p-2 text-uppercase px-3 badge bg-success' : 'badge rounded-pill p-2 text-uppercase px-3 badge bg-danger'"> <i class="bx bxs-circle me-1"></i>{{ item.status === 1 ? "Active" : "Inactive" }}</span>
                         </td>
                     </tr>
                     <tr v-if="filteredList.length === 0">
