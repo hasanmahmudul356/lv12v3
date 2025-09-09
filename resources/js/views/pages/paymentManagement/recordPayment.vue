@@ -117,7 +117,7 @@
             <div class="row mb-2">
                 <label class="col-md-4"><strong>Payment Mode: </strong></label>
                 <div class="col-md-8">
-                    <select v-model="formObject.payment_mode" class="form-control">
+                    <select v-model="formObject.payment_method" class="form-control">
                         <option value="">Select</option>
                         <option value="1">Cash</option>
                         <option value="2">Bank</option>
