@@ -5,19 +5,19 @@ namespace App\Http\Controllers;
 use App\Helpers\Helper;
 use App\Models\Customer;
 use App\Models\EnergyBill;
+use App\Models\EnergyBillSource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
-class EnergyBillController extends Controller
+class EnergyBillSourceConttroller extends Controller
 {
-
     use Helper;
     public function __construct()
     {
 //        if (!can(request()->route()->action['as'])) {
 //            return returnData(5001, null, 'You are not authorized to access this page');
 //        }
-        $this->model = new EnergyBill();
+        $this->model = new EnergyBillSource();
     }
 
     public function index(){

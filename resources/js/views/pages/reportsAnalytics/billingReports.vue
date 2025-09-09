@@ -1,70 +1,115 @@
 <script setup>
-    import {dataTable, fromModal, tableTop} from "@/components";
-    import {ref, onMounted} from 'vue';
-    import {useStore} from 'vuex';
-    const store = useStore();
-    import {useBase, useHttp, appStore} from '@/lib';
+    import {ref} from "vue";
+    const tableHeaders = ref([
+        "#",
+        "Bill Number",
+        "Customer Name",
+        "Billing Month",
+        "Amount",
+        "Penalty",
+        "Total Due",
+        "Payment Status",
+        "Payment Date",
+        "Status",
+    ]);
+    const dataList = ref([
+        {
+            bill_number: "BILL-001",
+            customer: "John Doe",
+            billing_month: "2025-09",
+            amount: 2500,
+            penalty: 122,
+            total_due: 2622,
+            payment_status: "Paid",
+            payment_date: "2025-09-02",
+            status: 1,
+        },
+        {
+            bill_number: "BILL-002",
+            customer: "Jane Smith",
+            billing_month: "2025-08",
+            amount: 1800,
+            penalty: 50,
+            total_due: 1850,
+            payment_status: "Unpaid",
+            payment_date: null,
+            status: 0,
+        },
+    ]);
+    const searchMonth = ref("");
+    const filteredList = ref([]);
+    const showTable = ref(false);
 
-    const {getDependency, submitForm, editData, deleteRecord} = {...useHttp()};
-    const {changeStatus, statusBadge, formFilter, formObject, openModal, closeModal, useGetters, dataList, httpRequest, pageDependencies, updateId} = {
-        ...useBase(),
-        ...useHttp(),
-        ...appStore(),
-        ...appStore().useGetters('dataList', 'httpRequest', 'pageDependencies', 'updateId')
+    const searchReport = () => {
+        if (!searchMonth.value) {
+            showTable.value = false;
+            return;
+        }
+        filteredList.value = dataList.value.filter(
+            (item) => item.billing_month === searchMonth.value
+        );
+        showTable.value = true;
     };
-
-    const tableHeaders = ref(["#", "Bill Number", "Customer Name", "Billing Month", "Amount", "Penalty", "Total Due", "Payment Status", "Status", "Actions"]);
-    const {getDataList, httpReq} = useHttp();
-
-    onMounted(() => {
-        getDataList();
-        getDependency({dependency : ['']});
-
-    });
 </script>
 
 <template>
-    <dataTable :headings="tableHeaders" :setting="true">
-        <template v-slot:tableTop>
-            <tableTop></tableTop>
-        </template>
-        <template v-slot:data>
-            <tr  v-for="(item, index) in dataList.data" :key="item.id">
-                <td>{{index+1}}</td>
-                <td>{{ item.meter ? item.meter.meter_number : '-' }}</td>
-                <td>{{item.reading_date}}</td>
-                <td>{{item.current_reading}}</td>
-                <td>
-                    <a @click="changeStatus({obj:item})" class="pointer" v-html="statusBadge(item.status)"></a>
-                </td>
-                <td>
-                    <a @click="editData({data:item, id:item.id, modal:'fromModal'})" class="btn btn-outline-secondary action">
-                        <i class='bx bxs-edit text-warning'></i>
-                    </a>
-                    <a @click="deleteRecord({targetId:item.id,listIndex:index, listObject:dataList.data})" class="btn btn-outline-secondary action">
-                        <i class='bx bxs-trash text-danger'></i>
-                    </a>
-                </td>
-            </tr>
-        </template>
-
-        <fromModal @submit="submitForm({
-            modal: 'fromModal',
-            callback: function (retData) {
-                Object.assign(formObject, {});
-                getDataList();
-            }
-        })">
-            <div class="row mb-2">
-                <label class="col-md-4"><strong>Customer : </strong></label>
-                <div class="col-md-8">
-                    <select v-model="formObject.meter_no" class="form-control" v-validate="'required'">
-                        <option value="">Select</option>
-                    </select>
+    <div class="page-wrapper">
+        <div class="page-content">
+            <div class="row mb-3 align-items-center">
+                <div class="col-md-3">
+                    <label class="form-label fw-bold">Billing Month</label>
+                    <input type="month" v-model="searchMonth" class="form-control" />
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button class="btn btn-primary w-100" @click="searchReport">
+                        <i class="bx bx-search"></i> Search
+                    </button>
                 </div>
             </div>
-
-        </fromModal>
-    </dataTable>
+            <div v-if="showTable" class="table-responsive shadow-sm border rounded p-3">
+                <table class="table table-bordered table-striped">
+                    <thead class="table-light">
+                    <tr>
+                        <th v-for="(head, i) in tableHeaders" :key="i">{{ head }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="(item, index) in filteredList" :key="index">
+                        <td>{{ index + 1 }}</td>
+                        <td>{{ item.bill_number }}</td>
+                        <td>{{ item.customer }}</td>
+                        <td>{{ item.billing_month }}</td>
+                        <td>{{ item.amount }}</td>
+                        <td>{{ item.penalty }}</td>
+                        <td>{{ item.total_due }}</td>
+                        <td>
+                <span
+                        :class="
+                    item.payment_status === 'Paid'
+                      ? 'badge bg-success'
+                      : 'badge bg-warning'
+                  "
+                >{{ item.payment_status }}</span
+                >
+                        </td>
+                        <td>{{ item.payment_date ?? "-" }}</td>
+                        <td>
+                <span
+                        :class="
+                    item.status === 1 ? 'badge bg-success' : 'badge bg-danger'
+                  "
+                >{{ item.status === 1 ? "Active" : "Inactive" }}</span
+                >
+                        </td>
+                    </tr>
+                    <tr v-if="filteredList.length === 0">
+                        <td colspan="10" class="text-center text-muted">
+                            No records found for {{ searchMonth }}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </template>
-
