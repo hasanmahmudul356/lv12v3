@@ -419,7 +419,7 @@ class ModuleSeeder extends Seeder
                 "component" => "views/pages/Setting.vue",
                 'icon' => 'bx bx-radio-circle',
                 'meta' => [
-                    "dataUrl" => "api/role_permissions",
+                    "dataUrl" => "api/settings",
                 ]
             ],
             [

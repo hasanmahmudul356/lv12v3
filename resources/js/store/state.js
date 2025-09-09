@@ -2,6 +2,7 @@ export const state = {
     httpRequest: false,
     dataList: {},
     formObject : {},
+    pageDependencies: {},
     updateId: '',
     detailsData: [],
     authUser: {},
@@ -9,7 +10,6 @@ export const state = {
     allMenus: [],
     Permissions: [],
     isConfigLoaded: false,
-    pageDependencies: {},
     formType: 1,
     formFilter : {
         per_page : 15,

@@ -83,19 +83,27 @@ export function useHttp() {
             toaster('error', error.message);
         }
     };
-    const getDependency = async (options = {}) => {
+    const getDependency = async (options = {}, staticData = {}) => {
         const {
             dependency = [],
             callback = false
         } = options;
-        const retData = await httpReq({
-            method: 'post',
-            url: urlGenerate('api/general'),
-            data: dependency,
-            loader: false
-        });
-        if (retData) {
-            $.each(retData, function (key, value) {
+
+        if (dependency.length > 0){
+            const retData = await httpReq({
+                method: 'post',
+                url: urlGenerate('api/general'),
+                data: dependency,
+                loader: false
+            });
+            if (retData) {
+                $.each(retData, function (key, value) {
+                    store.commit("pageDependencies", {key: key, value})
+                });
+            }
+        }
+        if (Object.keys(staticData).length > 0) {
+            $.each(staticData, function (key, value) {
                 store.commit("pageDependencies", {key: key, value})
             });
         }
@@ -121,13 +129,13 @@ export function useHttp() {
         }
     };
     const submitForm = async (options = {}) => {
-        let {data = {}, modal = false, callback = false, validation = true, url = false, params = {}, method = false, reset = true} = options;
+        let {data = {}, modal = false, callback = false, validation = true, url = false, params = {}, method = false, updateId = false, reset = true} = options;
 
         if (Object.keys(data).length === 0) {
             data = formObject.value;
         }
 
-        const updateIdVal = store.getters.updateId;
+        const updateIdVal = updateId ?? store.getters.updateId;
 
         const isValid = validation ? await validate() : true;
         if (!isValid){
@@ -136,7 +144,7 @@ export function useHttp() {
         }
 
         const retData = await httpReq({
-            method: method || (parseInt(updateIdVal) ? 'put' : 'post'),
+            method: (method || (parseInt(updateIdVal)) ? 'put' : 'post'),
             url: parseInt(updateIdVal) ? `${urlGenerate(url)}/${updateIdVal}` : urlGenerate(url),
             data: data,
             params: params,
