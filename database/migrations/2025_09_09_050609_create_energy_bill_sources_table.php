@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('energy_bills', function (Blueprint $table) {
+        Schema::create('energy_bill_sources', function (Blueprint $table) {
             $table->id();
             $table->integer('type')->comment('1=generator, 2=solar , 3=nesco');
             $table->integer('user_id');
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('energy_bills');
+        Schema::dropIfExists('energy_bill_sources');
     }
 };
