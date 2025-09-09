@@ -58,6 +58,20 @@ class BillInformationController extends Controller
             $this->model->user_id = auth()->user()->id;
             $this->model->save();
 
+            if ($request->has('enargy_calculate') && is_array($request->enargy_calculate)) {
+                foreach ($request->enargy_calculate as $energy) {
+                    if (in_array($energy['type'], [1, 2])) {
+                        $this->model->energyBills()->create([
+                            'meter_no'      => $input['meter_id'],
+                            'type'          => $energy['type'],
+                            'customer_unit' => $energy['customer_unit'],
+                            'unit_rate'     => $energy['unit_rate'],
+                            'bill_amount'   => $energy['bill_amount']
+                        ]);
+                    }
+                }
+            }
+
             return returnData(2000, null, 'Successfully Inserted');
 
         } catch (\Exception $exception) {

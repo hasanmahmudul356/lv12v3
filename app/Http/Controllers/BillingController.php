@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BillInformation;
-use App\Models\EnergyBill;
+use App\Models\EnergyBillSource;
 use App\Models\Meter;
 use App\Models\MeterReading;
 use function Carbon\map;
@@ -32,7 +32,7 @@ class BillingController extends Controller
 
 
 
-        $energy_bill = EnergyBill::whereIn('type', [$customer->solar, $customer->nesco, $customer->generator])->where('billing_month',$billing_month)
+        $energy_bill = EnergyBillSource::whereIn('type', [$customer->solar, $customer->nesco, $customer->generator])->where('billing_month',$billing_month)
             ->get();
 
         $data['energy_bill_calculates'] = $energy_bill->map(function ($item) {

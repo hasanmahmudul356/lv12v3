@@ -37,7 +37,7 @@
             console.log(response);
 
             if (response) {
-                enargy_calculate.value = response.energy_bill_calculates;
+                formObject.value.enargy_calculate = response.energy_bill_calculates;
                 formObject.value = response;
                 formObject.value.unit_rate = response.unit_rate;
                 formObject.value.end_reading = response.end_reading;
@@ -90,7 +90,7 @@
             </tr>
         </template>
 
-        <fromModal @submit="submitForm({
+        <fromModal modal-size="modal-lg" @submit="submitForm({
             modal: 'fromModal',
             callback: function (retData) {
                 Object.assign(formObject, {});
@@ -176,13 +176,13 @@
                     <input type="number" step="0.01" v-model="formObject.nesco_bill" class="form-control" readonly/>
                 </div>
             </div>
-            <template v-for="formObject in enargy_calculate">
+            <template v-for="data in formObject.enargy_calculate">
                 <div class="row mb-2">
                     <div class="col-md-12">
-                        <label  v-if="formObject.type === 1">
+                        <label  v-if="data.type === 1">
                             <strong >Generator Information: </strong>
                         </label>
-                        <label  v-if="formObject.type === 2">
+                        <label  v-if="data.type === 2">
                             <strong >Solar Information : </strong>
                         </label>
                     </div>
@@ -196,7 +196,7 @@
                         <label >
                             <strong > Unit : </strong>
                         </label>
-                        <input type="number" step="0.01" v-model="formObject.customer_unit" class="form-control" readonly/>
+                        <input type="number" step="0.01" v-model="data.customer_unit" class="form-control" readonly/>
                     </div>
                     <div class="col-md-4">
 <!--                        <label v-if="formObject.type === 1">-->
@@ -211,7 +211,7 @@
                         <label >
                             <strong > Unit Rate: </strong>
                         </label>
-                        <input type="number" step="0.01" v-model="formObject.unit_rate" class="form-control" readonly/>
+                        <input type="number" step="0.01" v-model="data.unit_rate" class="form-control" readonly/>
                     </div>
                     <div class="col-md-4">
 <!--                        <label v-if="formObject.type === 1">-->
@@ -226,7 +226,7 @@
                         <label >
                             <strong > Bill Amount: </strong>
                         </label>
-                        <input type="number" step="0.01" v-model="formObject.bill_amount" class="form-control" readonly/>
+                        <input type="number" step="0.01" v-model="data.bill_amount" class="form-control" readonly/>
                     </div>
                 </div>
 

@@ -242,12 +242,12 @@ class ModuleSeeder extends Seeder
                 'icon' => 'bx bx-calculator'
             ],
             [
-                'name' => 'energy_bill',
-                'link' => '/energy_bill',
+                'name' => 'energy_bill_source',
+                'link' => '/energy_bill_source',
                 'permissions' => array_merge($resourcePermissions, []),
-                "component" => "views/pages/energyBills/energyBill.vue",
+                "component" => "views/pages/energyBills/energyBillSources.vue",
                 'meta' => [
-                    "dataUrl" => "api/energy_bill",
+                    "dataUrl" => "api/energy_bill_source",
                 ],
                 'icon' => 'bx bx-bolt-circle'
             ],
