@@ -24,17 +24,16 @@ class MeterReadingController extends Controller
         try {
             $keyword = request()->input('keyword');
             $data = $this->model
-                ->with('meter')
                 ->when($keyword, function ($query) use ($keyword) {
-                    $query->whereHas('meter', function ($q) use ($keyword) {
-                        $q->where('meter_number', 'like', "%$keyword%");
-                    });
-                })->paginate(input('perPage'));
+                    $query->where('meter_no', 'Like', "%$keyword%");
+                })
+                ->paginate(input('perPage'));
 
             return returnData(2000, $data);
         } catch (\Exception $exception) {
             return returnData(5000, $exception->getMessage(), 'Whoops, Something Went Wrong..!!');
         }
+
     }
 
 
