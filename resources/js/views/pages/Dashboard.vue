@@ -104,8 +104,7 @@
         chartOptions: {
             chart: { type: "donut",height: 200, foreColor: "#fff" },
             labels: ["Apples", "Bananas", "Oranges", "Grapes", "Berries"],
-            responsive: [
-                {
+            responsive: [{
                     breakpoint: 480,
                     options: {
                         chart: { width: 200 },

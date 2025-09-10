@@ -44,8 +44,8 @@
                             <a v-if="submitButton" type="button" class="btn btn-success"><i class='bx bx-loader bx-spin text-warning'></i> Submitting...</a>
                         </template>
                         <template v-else>
-                            <a v-if="closeButton" @click="closeModal(modalId)" type="button" class="btn btn-secondary"><i class='bx bx-window-close'></i>Close</a>
-                            <button v-if="submitButton" type="submit" class="btn btn-success" ><i class='bx bx-save'></i>Submit</button>
+                            <a v-if="closeButton" @click="closeModal(modalId)" type="button" class="btn btn-sm btn-secondary"><i class='bx bx-window-close'></i>Close</a>
+                            <button v-if="submitButton" type="submit" class="btn btn-sm btn-success" ><i class='bx bx-save'></i>Submit</button>
                         </template>
                     </div>
                 </form>

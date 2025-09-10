@@ -6,7 +6,7 @@
     const { getImage, formatDate, useGetters, urlGenerate, submitForm } = {...useBase(), ...useHttp(), ...appStore()};
     const { t, locale } = useI18n();
     const user = ref(null);
-    const {localization} = useGetters('localization');
+    const {localization, authUser} = useGetters('localization', 'authUser');
 
     let dfLocale = ref(window.locale || 'en');
     const switchLang = (lang) => {
@@ -82,94 +82,49 @@
                                     </a>
                                     <a class="dropdown-item" href="#">
                                         <div class="d-flex align-items-center">
-                                            <div class="notify bg-light-danger text-danger">dc
+                                            <div class="user-online">
+                                                <img :src="getImage('(backend/images/avatars/avatar-1.png')" class="msg-avatar" alt="user avatar">
                                             </div>
                                             <div class="flex-grow-1">
-                                                <h6 class="msg-name">New Orders <span class="msg-time float-end">2 min
+                                                <h6 class="msg-name">Daisy Anderson<span class="msg-time float-end">5 sec
 												ago</span></h6>
-                                                <p class="msg-info">You have recived new orders</p>
+                                                <p class="msg-info">The standard chunk of lorem</p>
                                             </div>
                                         </div>
                                     </a>
                                     <a class="dropdown-item" href="#">
                                         <div class="d-flex align-items-center">
                                             <div class="user-online">
-                                                <img :src="getImage('(backend/images/avatars/avatar-2.png')" class="msg-avatar" alt="user avatar">
+                                                <img :src="getImage('(backend/images/avatars/avatar-1.png')" class="msg-avatar" alt="user avatar">
                                             </div>
                                             <div class="flex-grow-1">
-                                                <h6 class="msg-name">Althea Cabardo <span class="msg-time float-end">14
-												sec ago</span></h6>
-                                                <p class="msg-info">Many desktop publishing packages</p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <div class="d-flex align-items-center">
-                                            <div class="notify bg-light-success text-success">
-                                                <img :src="getImage('(backend/images/app/outlook.png')" width="25" alt="user avatar">
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <h6 class="msg-name">Account Created<span class="msg-time float-end">28 min
+                                                <h6 class="msg-name">Daisy Anderson<span class="msg-time float-end">5 sec
 												ago</span></h6>
-                                                <p class="msg-info">Successfully created new email</p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <div class="d-flex align-items-center">
-                                            <div class="notify bg-light-info text-info">Ss
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <h6 class="msg-name">New Product Approved <span
-                                                        class="msg-time float-end">2 hrs ago</span></h6>
-                                                <p class="msg-info">Your new product has approved</p>
+                                                <p class="msg-info">The standard chunk of lorem</p>
                                             </div>
                                         </div>
                                     </a>
                                     <a class="dropdown-item" href="#">
                                         <div class="d-flex align-items-center">
                                             <div class="user-online">
-                                                <img :src="getImage('(backend/images/avatars/avatar-4.png')" class="msg-avatar" alt="user avatar">
+                                                <img :src="getImage('(backend/images/avatars/avatar-1.png')" class="msg-avatar" alt="user avatar">
                                             </div>
                                             <div class="flex-grow-1">
-                                                <h6 class="msg-name">Katherine Pechon <span class="msg-time float-end">15
-												min ago</span></h6>
-                                                <p class="msg-info">Making this the first true generator</p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <div class="d-flex align-items-center">
-                                            <div class="notify bg-light-success text-success"><i class='bx bx-check-square'></i>
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <h6 class="msg-name">Your item is shipped <span class="msg-time float-end">5 hrs
+                                                <h6 class="msg-name">Daisy Anderson<span class="msg-time float-end">5 sec
 												ago</span></h6>
-                                                <p class="msg-info">Successfully shipped your item</p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <div class="d-flex align-items-center">
-                                            <div class="notify bg-light-primary">
-                                                <img :src="getImage('(backend/images/app/github.png')" width="25" alt="user avatar">
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <h6 class="msg-name">New 24 authors<span class="msg-time float-end">1 day
-												ago</span></h6>
-                                                <p class="msg-info">24 new authors joined last week</p>
+                                                <p class="msg-info">The standard chunk of lorem</p>
                                             </div>
                                         </div>
                                     </a>
                                     <a class="dropdown-item" href="#">
                                         <div class="d-flex align-items-center">
                                             <div class="user-online">
-                                                <img :src="getImage('(backend/images/avatars/avatar-8.png')" class="msg-avatar" alt="user avatar">
+                                                <img :src="getImage('(backend/images/avatars/avatar-1.png')" class="msg-avatar" alt="user avatar">
                                             </div>
                                             <div class="flex-grow-1">
-                                                <h6 class="msg-name">Peter Costanzo <span class="msg-time float-end">6 hrs
+                                                <h6 class="msg-name">Daisy Anderson<span class="msg-time float-end">5 sec
 												ago</span></h6>
-                                                <p class="msg-info">It was popularised in the 1960s</p>
+                                                <p class="msg-info">The standard chunk of lorem</p>
                                             </div>
                                         </div>
                                     </a>
@@ -187,7 +142,7 @@
                     <a class="d-flex align-items-center nav-link dropdown-toggle gap-3 dropdown-toggle-nocaret" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <img :src="getImage('backend/images/avatars/avatar-2.png')" class="user-img" alt="user avatar">
                         <div class="user-info">
-                            <p class="user-name mb-0">Pauline Seitz</p>
+                            <p class="user-name mb-0">{{authUser.name}}</p>
                             <p class="designattion mb-0">Web Designer</p>
                         </div>
                     </a>

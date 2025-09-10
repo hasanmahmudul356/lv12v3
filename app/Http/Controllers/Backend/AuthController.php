@@ -46,14 +46,18 @@ class AuthController extends Controller
 
         if ($reqFor === 'theme') {
             $request->validate(['theme' => 'required|string']);
-            $user->update(['theme' => $request->input('theme')]);
+            $user->theme = $request->input('theme');
+            $user->save();
+
             return returnData(2000, $user, 'Successfully Theme Updated');
         }
 
         if ($reqFor === 'locale') {
             $request->validate(['locale' => 'required|string|in:en,bn,ar']);
+
             $user->locale = $request->input('locale');
             $user->save();
+
             return returnData(2000, $user, 'Successfully Locale Updated');
         }
 

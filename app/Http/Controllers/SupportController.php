@@ -18,7 +18,7 @@ class SupportController extends Controller
         $user_id = auth()->user()->id;
 
         $data['user'] = User::where('id', $user_id)->first();
-//        $data['config'] = configs(['logo', 'app_name', 'loan_capability']);
+        $data['config'] = configs(['logo', 'app_name']);
 
         $permissions = Permission::whereHas('role_permissions', function ($query) use ($role_id) {
             $query->where('role_id', $role_id);

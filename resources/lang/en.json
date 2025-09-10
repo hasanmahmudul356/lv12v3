@@ -75,5 +75,11 @@
   "general_setting": "General Setting",
   "other_setting": "Other Setting",
   "app_name": "App Name",
-  "date": "Date"
+  "date": "Date",
+  "key": "Key",
+  "value": "Value",
+  "setting_type": "Setting Type",
+  "visibility": "Visibility",
+  "invoice": "Invoice",
+  "customer_show": "Customer Show"
 }

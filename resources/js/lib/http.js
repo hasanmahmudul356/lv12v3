@@ -135,7 +135,7 @@ export function useHttp() {
             data = formObject.value;
         }
 
-        const updateIdVal = updateId ?? store.getters.updateId;
+        const updateIdVal = updateId ? updateId : store.getters.updateId;
 
         const isValid = validation ? await validate() : true;
         if (!isValid){

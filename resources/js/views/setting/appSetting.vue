@@ -14,6 +14,14 @@
         ...appStore().useGetters('dataList', 'httpRequest', 'pageDependencies', 'updateId')
     };
     const {getDataList, httpReq} = useHttp();
+    const confTypes = {
+        text : 'Text',
+        textarea : 'TextArea',
+        select : 'Select',
+        file : 'File',
+        encoded : 'Encoded',
+        youtube : 'Youtube',
+    };
 
     onMounted(() => {
         getDataList();
@@ -64,7 +72,7 @@
                     </template>
                     <div class="row mt-2">
                         <div class="col-md-12 text-end">
-                            <button class="btn btn-success" type="submit">Update</button>
+                            <button class="btn btn-sm btn-success" type="submit">Update</button>
                         </div>
                     </div>
                 </div>
@@ -87,10 +95,7 @@
                 <label class="col-md-3">{{_l('type')}}</label>
                 <div class="col-md-9">
                     <select class="form-control" type="text" v-model="formObject.type">
-                        <option value="text">Text</option>
-                        <option value="textarea">TestArea</option>
-                        <option value="select">Select</option>
-                        <option value="date">Date</option>
+                        <option v-for="(config, cIndex) in confTypes" :value="cIndex">{{config}}</option>
                     </select>
                 </div>
             </div>

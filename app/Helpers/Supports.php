@@ -18,7 +18,6 @@ if (!function_exists('input')) {
         return null;
     }
 }
-
 if (!function_exists('assets')) {
     function assets($path)
     {
@@ -28,7 +27,6 @@ if (!function_exists('assets')) {
         return asset($path);
     }
 }
-
 if (!function_exists('can')) {
     function can($permission)
     {
@@ -118,7 +116,6 @@ if (!function_exists('getData')) {
         return '';
     }
 }
-
 if (!function_exists('storageImage')) {
     function storageImage($path)
     {
@@ -131,14 +128,12 @@ if (!function_exists('storageImage')) {
         return env('UPLOAD_PATH') . '/' . $path;
     }
 }
-
 if (!function_exists('publicImage')) {
     function publicImage($path)
     {
         return env('PUBLIC_PATH') . '/' . $path;
     }
 }
-
 if (!function_exists('returnData')) {
     function returnData($status_code = 2000, $result = null, $message = null, $type = false)
     {
@@ -259,7 +254,7 @@ if (!function_exists('exact_permission')) {
 if (!function_exists('configs')) {
     function configs($keys)
     {
-        $configs = DB::table('configures')->where(function ($query) use ($keys) {
+        $configs = DB::table('settings')->where(function ($query) use ($keys) {
             if (is_array($keys)) {
                 $query->whereIn('key', $keys);
             } else {

@@ -19,7 +19,7 @@
             <div class="col-md-9 text-left">
                 <div class="row">
                     <div class="col-md-3">
-                        <input v-model="formFilter.keyword" type="text" class="form-control radius-30" placeholder="Search Order">
+                        <input v-model="formFilter.keyword" type="text" class="form-control radius-30" placeholder="Search Order"/>
                     </div>
                     <slot></slot>
                     <slot name="filter"></slot>
@@ -28,9 +28,9 @@
                             <i class='bx bx-loader bx-spin text-white'></i>
                             <span class="text-white text-uppercase">{{_l('loading')}}..</span>
                         </button>
-                        <button v-else @click="getDataList()" type="button" class="btn btn-outline-dark radius-30">
-                            <i class='bx bx-search text-white'></i>
-                            <span class="text-white text-uppercase">{{_l('search')}}</span>
+                        <button v-else @click="getDataList()" type="button" class="btn btn-outline-secondary radius-30 mt-2 mt-lg-0 text-uppercase">
+                            <i class='bx bx-search'></i>
+                            <span class="text-uppercase">{{_l('search')}}</span>
                         </button>
                     </div>
                 </div>
