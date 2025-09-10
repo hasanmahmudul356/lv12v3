@@ -7,7 +7,6 @@ use App\Models\BillInformation;
 use App\Models\BillPayment;
 use App\Models\Meter;
 use App\Models\OverdueBill;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class OverdueBillController extends Controller
@@ -62,6 +61,8 @@ class OverdueBillController extends Controller
                 $bill['penalty_due'] = 50;
                 $bill['total_due_bill'] = $bill['due_amount'] + $bill['penalty_due'];
             }
+            $meter = Meter::where('meter_number', $request->meter_no)->first();
+            $bill['due_date'] = $meter->due_date ?? null;
 
             return returnData(2000, $bill);
         }

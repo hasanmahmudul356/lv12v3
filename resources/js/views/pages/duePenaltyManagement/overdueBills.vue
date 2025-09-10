@@ -15,7 +15,7 @@
         ...appStore().useGetters('dataList', 'httpRequest', 'pageDependencies', 'updateId')
     };
 
-    const tableHeaders = ref(["#", "Customer", "Bill Number","Due Date", "Due Amount", "Penalty Amount", "Total Due", "Status", "Actions"]);
+    const tableHeaders = ref(["#", "Meter No","Due Date", "Due Amount", "Penalty Amount", "Total Due", "Status", "Actions"]);
     const {getDataList, httpReq} = useHttp();
 
     onMounted(() => {
@@ -35,6 +35,7 @@
             });
 
             if (response) {
+                formObject.value.due_date = response.due_date;
                 formObject.value.due_amount = response.due_amount;
                 formObject.value.penalty_due = response.penalty_due;
                 formObject.value.total_due = response.total_due_bill;
@@ -56,7 +57,6 @@
             <tr  v-for="(item, index) in dataList.data" :key="item.id">
                 <td>{{index+1}}</td>
                 <td>{{ item.meter_no}}</td>
-                <td></td>
                 <td>{{item.due_date}}</td>
                 <td>{{item.due_amount}}</td>
                 <td>{{item.penalty_due}}</td>
