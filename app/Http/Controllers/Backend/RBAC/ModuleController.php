@@ -153,6 +153,8 @@ class ModuleController extends Controller
             }
 
             Permission::whereNotIn('id', $permissionIds)->where('module_id', $this->model->id)->delete();
+
+            $this->addNotification('sdasdsad', 'asdasds');
         }
 
         return returnData(2000, null, "$module->name Successfully Updated");

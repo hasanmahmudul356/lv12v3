@@ -66,4 +66,10 @@ export const mutations = {
     previousDataData(state, head) {
         state.previousDataData = head;
     },
-}
+    appNotifications(state, data) {
+        state.appNotifications = data;
+    },
+    appConfigs(state, data) {
+        state.appConfigs = data;
+    },
+};

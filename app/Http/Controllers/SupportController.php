@@ -7,6 +7,8 @@ use App\Models\BillInformation;
 use App\Models\Customer;
 use App\Models\Meter;
 use App\Models\MeterType;
+use App\Helpers\Helper;
+use App\Models\AppNotification;
 use App\Models\RBAC\Module;
 use App\Models\RBAC\Permission;
 use App\Models\RBAC\Role;
@@ -14,17 +16,20 @@ use App\Models\Staff;
 use App\Models\User;
 use function Carbon\this;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 
 class SupportController extends Controller
 {
+    use Helper;
+
     public function appConfigurations()
     {
         $role_id = auth()->user()->role_id;
         $user_id = auth()->user()->id;
 
         $data['user'] = User::where('id', $user_id)->first();
-//        $data['config'] = configs(['logo', 'app_name', 'loan_capability']);
+        $data['configs'] = configs(['logo', 'app_name', 'notify_per_minuit']);
 
         $permissions = Permission::whereHas('role_permissions', function ($query) use ($role_id) {
             $query->where('role_id', $role_id);
@@ -54,7 +59,6 @@ class SupportController extends Controller
 
         return returnData(2000, $data);
     }
-
     public function loadJson(){
         $jsonData = [
             'locale' => $this->getLocalization(true),
@@ -219,5 +223,32 @@ class SupportController extends Controller
         }
 
         return returnData(2000, $data);
+    }
+    public function appNotification($isInSide = false, $limit = 5, $skip = 0){
+        $limit = request()->input('limit') ? request()->input('limit') : $limit;
+        $skip = request()->input('skip') ? request()->input('skip') : $skip;
+
+        $notificationData = [
+            'total' => DB::table('app_notifications')->where('status', 0)->count(),
+            'data' => AppNotification::where('status', 0)->limit($limit)->skip($skip)->get(),
+            'limit' => $limit,
+            'skip' => $skip,
+        ];
+
+        if ($isInSide){
+            return $notificationData;
+        }
+
+        return returnData(2000, $notificationData);
+    }
+
+    public function appDashboard(){
+        $dashboard = [];
+        $notifications = $this->appNotification(true);
+
+        return returnData(2000, [
+            'dashboard' => $dashboard,
+            'notifications' => $notifications,
+        ]);
     }
 }
