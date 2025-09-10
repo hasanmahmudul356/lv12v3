@@ -21,8 +21,7 @@ export function useBase() {
         const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1);
         title = title || capitalize(type);
 
-        const formatMessage = (msg, t) =>
-            t ? `<strong>${t}</strong><br><span>${msg}</span>` : `<span>${msg}</span>`;
+        const formatMessage = (msg, t) => t ? `<strong>${t}</strong><br><span>${msg}</span>` : `<span>${msg}</span>`;
 
         const map = {
             success: msg => toast.success(formatMessage(msg, title)),
@@ -35,8 +34,9 @@ export function useBase() {
         (map[type] || map.default)(message);
     };
 
-    const _l = (key) => {
-        return t(key);
+    const _l = (key, fallback = '') => {
+        if (!key) return fallback;
+        return t(key) || fallback;
     };
 
     const getImage = (imagePath) => {

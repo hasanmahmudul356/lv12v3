@@ -49,6 +49,11 @@ export function useHttp() {
             return response.data.result ?? true;
         }
 
+        if (typeof callback === 'function'){
+            console.log(response.data.result);
+            callback(response.data.result);
+        }
+
         toaster('info', response.data.message);
         return false;
     };
@@ -69,6 +74,7 @@ export function useHttp() {
 
             if (retData) {
                 store.commit('Config', retData);
+                store.commit('appConfigs', retData.configs);
                 store.commit('authUser', retData.user);
                 store.commit('allMenus', retData.menus);
                 store.commit('localization', retData.localization);
@@ -135,7 +141,7 @@ export function useHttp() {
             data = formObject.value;
         }
 
-        const updateIdVal = updateId ?? store.getters.updateId;
+        const updateIdVal = updateId ? updateId : store.getters.updateId;
 
         const isValid = validation ? await validate() : true;
         if (!isValid){

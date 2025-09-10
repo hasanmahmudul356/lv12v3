@@ -28,7 +28,6 @@ export function appStore() {
             store.commit('allMenus', value);
         }
     });
-
     const formObject = computed({
         get: () => store.state.formObject,
         set: (val) => store.commit('setForm', val)

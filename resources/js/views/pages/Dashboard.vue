@@ -1,9 +1,9 @@
 <script setup>
-    import {ref} from 'vue'
-    import { useBase } from '@/lib/base';
+    import {ref, onMounted} from 'vue'
+    import { useBase, useHttp, appStore } from '@/lib';
     import VueApexCharts from "vue3-apexcharts";
-    const apexchart = VueApexCharts
-    const { getImage, formatDate } = useBase();
+    const apexchart = VueApexCharts;
+    let { getImage, formatDate, getDataList, assignStore} = {...useBase(), ...useHttp(), ...appStore()};
 
     const barChart = {
         series: [
@@ -98,14 +98,12 @@
         }
     };
 
-    // 🔹 Donut chart expects [number, number, ...]
     const donutChart = {
         series: [44, 55, 41, 17, 15],
         chartOptions: {
             chart: { type: "donut",height: 200, foreColor: "#fff" },
             labels: ["Apples", "Bananas", "Oranges", "Grapes", "Berries"],
-            responsive: [
-                {
+            responsive: [{
                     breakpoint: 480,
                     options: {
                         chart: { width: 200 },
@@ -164,6 +162,14 @@
             }]
         },
     };
+
+    onMounted(()=>{
+        getDataList({
+            callback : (retData) => {
+                assignStore('appNotifications', retData.notifications)
+            }
+        });
+    })
 </script>
 <template>
     <div class="page-wrapper">

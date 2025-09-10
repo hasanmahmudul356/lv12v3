@@ -20,7 +20,7 @@ class UserController extends Controller
     }
 
     public function index(){
-        $data = DB::table('users')->paginate();
+        $data = DB::table('users')->paginate(input('per_page'));
         return returnData(2000, $data);
     }
 

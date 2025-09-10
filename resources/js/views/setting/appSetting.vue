@@ -14,6 +14,14 @@
         ...appStore().useGetters('dataList', 'httpRequest', 'pageDependencies', 'updateId')
     };
     const {getDataList, httpReq} = useHttp();
+    const confTypes = {
+        text : 'Text',
+        textarea : 'TextArea',
+        select : 'Select',
+        file : 'File',
+        encoded : 'Encoded',
+        youtube : 'Youtube',
+    };
 
     onMounted(() => {
         getDataList();
@@ -40,13 +48,13 @@
                         </div>
                         <template v-for="setting in settingGroup">
                             <div class="row mt-2">
-                                <label :for="setting.key" class="col-md-3">{{_l(setting.key)}} [{{setting.key}}]: </label>
+                                <label :for="setting.key" class="col-md-3">{{_l(setting.key)}}: </label>
                                 <div class="col-md-9">
-                                    <template v-if="setting.type == 'text'">
-                                        <input :id="setting.key" v-model="setting.value" class="form-control" type="text">
+                                    <template v-if="['text','number'].includes(setting.type)">
+                                        <input :id="setting.key" v-model="setting.value" class="form-control" :type="setting.type">
                                     </template>
                                     <template v-if="setting.type == 'textarea'">
-                                        <input :id="setting.key" v-model="setting.value" class="form-control" type="text">
+                                        <textarea :id="setting.key" v-model="setting.value" rows="2" class="form-control"></textarea>
                                     </template>
                                     <template v-if="setting.type == 'date'">
                                         <datepicker :id="setting.key" :value="setting.value" v-model="setting.value" class="form-control"></datepicker>
@@ -64,7 +72,7 @@
                     </template>
                     <div class="row mt-2">
                         <div class="col-md-12 text-end">
-                            <button class="btn btn-success" type="submit">Update</button>
+                            <button class="btn btn-sm btn-success" type="submit">Update</button>
                         </div>
                     </div>
                 </div>
@@ -86,11 +94,8 @@
             <div class="row mt-2">
                 <label class="col-md-3">{{_l('type')}}</label>
                 <div class="col-md-9">
-                    <select class="form-control" type="text" v-model="formObject.type">
-                        <option value="text">Text</option>
-                        <option value="textarea">TestArea</option>
-                        <option value="select">Select</option>
-                        <option value="date">Date</option>
+                    <select class="form-control" v-model="formObject.type">
+                        <option v-for="(config, cIndex) in confTypes" :value="cIndex">{{config}}</option>
                     </select>
                 </div>
             </div>
@@ -109,7 +114,7 @@
             <div class="row mt-2">
                 <label class="col-md-3">{{_l('visibility')}}</label>
                 <div class="col-md-9">
-                    <select class="form-control" type="text" v-model="formObject.is_visible">
+                    <select class="form-control" v-model="formObject.is_visible">
                         <option value="1">Visible</option>
                         <option value="0">Hidden</option>
                     </select>

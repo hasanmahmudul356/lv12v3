@@ -37,10 +37,6 @@ select.btn.perPage{
     margin-right: 2px;
 }
 
-.page-content {
-    min-height: 89vh !important;
-}
-
 .pointer {
     cursor: pointer;
 }
@@ -112,6 +108,10 @@ h2#swal2-title {
 .bg-default .modal_loader{
     background: rgba(0, 0, 0, 0.3);
 }
+.bg-default .dropdown-large .msg-info,
+.bg-default .dropdown-large .msg-name {
+    color: #000;
+}
 .bg-theme .modal_loader{
     background: rgba(255, 255, 255, 0.2);
 }
@@ -123,17 +123,21 @@ h2#swal2-title {
     bottom: 0;
     width: 100%;
     height: 100%;
-    display: flex;               /* center contents */
+    display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 10;                 /* make sure it's above modal content */
+    z-index: 10;
 }
 .modal_loader i {
-    font-size: 2rem;             /* adjust size if needed */
+    font-size: 2rem;
 }
 
 .page-content {
     position: relative;
+    min-height: 89vh !important;
+}
+.bg-default .page-content{
+    background: rgba(255,255,255,0.2);
 }
 .bg-default .page_loader{
     background: rgba(0, 0, 0, 0.4);
@@ -143,6 +147,26 @@ h2#swal2-title {
 }
 .bg-theme .header-notifications-list {
     background: #000;
+}
+.bg-default .breadcrumb-item.active {
+    color: #FFF;
+}
+.bg-theme .btn{
+    color: var(--bs-btn-active-color);
+    border-color: var(--bs-btn-active-border-color);
+}
+.bg-default a.btn, .bg-default button.btn{
+    color: var(--bs-dark);
+    border-color: var(--bs-gray-600);
+}
+.bg-default .breadcrumb-item a {
+    color: #FFF;
+}
+.bg-default .breadcrumb-item a {
+    color: #FFF;
+}
+.bg-default .form-control{
+    border: var(--bs-border-width) solid var(--bs-gray-800);
 }
 .page_loader {
     position: absolute;
@@ -176,4 +200,8 @@ table.data_table td:last-child {
 
 .form-control.is-invalid, .was-validated .form-control:invalid {
     border-color: var(--bs-danger) !important;
+}
+
+.header-notifications-list {
+    height: auto;
 }

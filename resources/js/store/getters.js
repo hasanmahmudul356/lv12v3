@@ -72,4 +72,10 @@ export const getters = {
     currentDateTime(state) {
         return state.currentDateTime;
     },
+    appNotifications(state) {
+        return state.appNotifications;
+    },
+    appConfigs(state) {
+        return state.appConfigs;
+    },
 };
