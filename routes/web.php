@@ -11,16 +11,18 @@ Route::middleware('guest')->group(function (){
     Route::get('login', [\App\Http\Controllers\Backend\AuthController::class, 'login'])->name('login');
     Route::post('login', [\App\Http\Controllers\Backend\AuthController::class, 'doLogin'])->name('login.submit');
 });
-Route::middleware(\App\Http\Middleware\AuthCheckMiddleware::class)->group(function (){
+Route::middleware([\App\Http\Middleware\AuthMiddleware::class, \App\Http\Middleware\LogActivity::class])->group(function (){
     Route::get('/app/{any?}', [\App\Http\Controllers\Backend\DashboardController::class, 'singleApp'])
         ->where('any', '.*')->name('home');
     Route::get('logout', [\App\Http\Controllers\Backend\AuthController::class, 'logout'])->name('logout');
 
     Route::prefix('api')->group(function (){
+        Route::post('file_upload', [\App\Http\Controllers\FileController::class, 'fileUpload']);
         Route::post('general', [\App\Http\Controllers\SupportController::class, 'getGeneralData']);
         Route::post('configurations', [\App\Http\Controllers\SupportController::class, 'appConfigurations']);
         Route::get('app_notification', [\App\Http\Controllers\SupportController::class, 'appNotification']);
         Route::get('dashboard', [\App\Http\Controllers\SupportController::class, 'appDashboard']);
+        Route::get('activities', [\App\Http\Controllers\SupportController::class, 'userActivities']);
 
         Route::resource('settings', \App\Http\Controllers\SettingController::class);
         Route::resource('profile', \App\Http\Controllers\Backend\AuthController::class);

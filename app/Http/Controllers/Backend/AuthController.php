@@ -68,7 +68,9 @@ class AuthController extends Controller
             'theme' => 'nullable|string',
         ]);
 
-        $user->update($request->only(['name','email','phone','theme']));
+        $user->fill($request->all());
+        $user->save();
+
         return returnData(2000, $user, 'Successfully Updated');
     }
 

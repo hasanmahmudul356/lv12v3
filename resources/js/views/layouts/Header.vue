@@ -5,7 +5,7 @@
     const { t, locale } = useI18n();
     const user = ref(null);
 
-    const { getImage,httpReq, formatDate, useGetters, urlGenerate, submitForm, assignStore } = {...useBase(), ...useHttp(), ...appStore()};
+    const {_l,  getImage,httpReq, formatDate, useGetters, urlGenerate, submitForm, assignStore } = {...useBase(), ...useHttp(), ...appStore()};
     const {localization, authUser, appNotifications, appConfigs} = useGetters('localization', 'authUser','appNotifications', 'appConfigs');
 
     let dfLocale = ref(window.locale || 'en');
@@ -94,7 +94,7 @@
                             <div class="dropdown-menu dropdown-menu-end">
                                 <a href="#">
                                     <div class="msg-header">
-                                        <p class="msg-header-title">Notifications</p>
+                                        <p class="msg-header-title">{{_l('notification')}}s</p>
                                         <p class="msg-header-badge">{{appNotifications.total}} New</p>
                                     </div>
                                 </a>
@@ -103,7 +103,7 @@
                                         <a class="dropdown-item" v-for="item in appNotifications.data" href="#">
                                             <div class="d-flex align-items-center">
                                                 <div class="user-online">
-                                                    <img :src="getImage('(backend/images/avatars/avatar-1.png')" class="msg-avatar" alt="user avatar">
+                                                    <img :src="getImage(null, 'backend/images/avatars/notification.png')" class="msg-avatar" alt="user avatar">
                                                 </div>
                                                 <div class="flex-grow-1">
                                                     <h6 class="msg-name">{{item.title}}<span class="msg-time float-end">{{item.created_at}}</span></h6>
@@ -124,10 +124,10 @@
                 </div>
                 <div class="user-box dropdown px-3">
                     <a class="d-flex align-items-center nav-link dropdown-toggle gap-3 dropdown-toggle-nocaret" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img :src="getImage('backend/images/avatars/avatar-2.png')" class="user-img" alt="user avatar">
+                        <img :src="getImage(authUser.image, 'backend/images/avatars/avatar-26.png')" class="user-img" alt="user avatar">
                         <div class="user-info">
                             <p class="user-name mb-0">{{authUser.name}}</p>
-                            <p class="designattion mb-0">Web Designer</p>
+                            <p class="designattion mb-0">{{authUser.designation}}</p>
                         </div>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
@@ -138,7 +138,7 @@
                             <a class="dropdown-item d-flex align-items-center" href="#"><i class="bx bx-cog fs-5"></i><span>Settings</span></a>
                         </li>
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="#"><i class="bx bx-home-circle fs-5"></i><span>Dashboard</span></a>
+                            <router-link class="dropdown-item d-flex align-items-center" to="/activities"><i class="bx bx-home-circle fs-5"></i><span>Activities</span></router-link>
                         </li>
                         <li>
                             <a class="dropdown-item d-flex align-items-center" href="#"><i class="bx bx-dollar-circle fs-5"></i><span>Earnings</span></a>

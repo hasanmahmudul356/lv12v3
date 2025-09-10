@@ -39,10 +39,13 @@ export function useBase() {
         return t(key) || fallback;
     };
 
-    const getImage = (imagePath) => {
-        return 'https://static.vecteezy.com/system/resources/thumbnails/057/068/323/small/single-fresh-red-strawberry-on-table-green-background-food-fruit-sweet-macro-juicy-plant-image-photo.jpg';
-        if (!imagePath) return '/images/default.png'; // fallback image
-        return `/storage/${imagePath}`;
+    const getImage = (imagePath = null, alternative = false) => {
+        if (imagePath !== undefined && imagePath !== '' && imagePath !== null) {
+            return `${uploadPath}/${imagePath}`;
+        }
+        if (alternative) {
+            return `${publicPath}/${alternative}`;
+        }
     };
     const openFile = (url, title = '', customWidth = false, customHeight = false) => {
         const dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : window.screenX;
@@ -159,6 +162,10 @@ export function useBase() {
         </span>`;
     };
 
+    const clickFile = (inputId) => {
+        $(`#${inputId}`).click();
+    };
+
     return {
         _l,
         getImage,
@@ -169,5 +176,6 @@ export function useBase() {
         handelConfirm,
         handleSelectAll,
         statusBadge,
+        clickFile
     };
 }

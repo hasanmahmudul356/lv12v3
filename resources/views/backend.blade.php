@@ -17,6 +17,8 @@
     <link href="{{assets('backend/css/icons.css')}}" rel="stylesheet">
 
     <script>window.baseUrl = '{{url('/')}}'</script>
+    <script>window.uploadPath = '{{env('UPLOAD_PATH')}}'</script>
+    <script>window.publicPath = '{{env('PUBLIC_PATH')}}'</script>
     <script>window.locale = '{{auth()->user()->locale ? auth()->user()->locale : 'en'}}'</script>
     <script>
         function dd(...args) {
@@ -26,8 +28,6 @@
         }
     </script>
 
-
-    @vite('resources/js/app.js')
     <title>Dashtrans - Bootstrap5 Admin Template</title>
 </head>
 
@@ -43,5 +43,7 @@
 <script src="{{assets('backend/plugins/datatable/js/jquery.dataTables.min.js')}}"></script>
 <script src="{{assets('backend/plugins/datatable/js/dataTables.bootstrap5.min.js')}}"></script>
 <script src="{{assets('backend/js/app.js')}}"></script>
+
+    @vite('resources/js/app.js')
 </body>
 </html>

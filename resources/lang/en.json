@@ -85,5 +85,7 @@
   "invoice": "Invoice",
   "customer_show": "Customer Show",
   "notify_per_minuit": "Notification Check (Per Minuit)",
-  "notifications": "Notifications"
+  "notifications": "Notifications",
+  "app_logo": "Application Logo",
+  "notification": "Notification"
 }

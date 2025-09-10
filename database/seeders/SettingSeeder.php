@@ -26,6 +26,13 @@ class SettingSeeder extends Seeder
                 'is_visible'=>1,
             ],
             [
+                'key'=>'app_logo',
+                'type'=>'file',
+                'setting_type'=>'general_setting',
+                'value'=>null,
+                'is_visible'=>1,
+            ],
+            [
                 'key'=>'notify_per_minuit',
                 'type'=>'number',
                 'setting_type'=>'notification_setting',

@@ -11,7 +11,7 @@ export function useHttp() {
     const route = useRoute();
     const { validate, reset } = useValidator();
 
-    const {can, toaster, closeModal, openModal, handelConfirm, useGetters} = {...useBase(), ...appStore()};
+    const {can, toaster, closeModal, openModal, handelConfirm, useGetters, assignStore} = {...useBase(), ...appStore()};
 
     const {formFilter, formObject} = useGetters('formFilter', 'formObject');
     const uploadProgress = ref(0);
@@ -148,9 +148,8 @@ export function useHttp() {
             toaster('warning', 'Please fill all field properly the submit again', 'Validation Failed');
             return false;
         }
-
         const retData = await httpReq({
-            method: (method || (parseInt(updateIdVal)) ? 'put' : 'post'),
+            method: method ? method : (parseInt(updateIdVal) ? 'put' : 'post'),
             url: parseInt(updateIdVal) ? `${urlGenerate(url)}/${updateIdVal}` : urlGenerate(url),
             data: data,
             params: params,
@@ -283,17 +282,16 @@ export function useHttp() {
             toaster('error', error.message);
         }
     };
-    const uploadFile = async (options = {}) => {
-        const {event, imageObject = {}, dataModel = null, callback = false, url = false, onlyUrl = false} = options;
+    const uploadFile = async (event, options = {}) => {
+        const {imageObject = {}, dataModel = 'file', callback = false, url = false, onlyUrl = true} = options;
         try {
             const input = event.target.files[0];
             const formData = new FormData();
-            formData.append("type", imageObject.type);
-            formData.append("file_type", 1);
             formData.append("file", input);
+            formData.append("only_url", 1);
 
-            if (onlyUrl) {
-                formData.append("only_url", 'yes')
+            if (!onlyUrl) {
+                formData.append("only_url", 1)
             }
 
             const URL = url ? urlGenerate(url) : urlGenerate('api/file_upload');
@@ -306,7 +304,6 @@ export function useHttp() {
                     store.commit('uploadProgress', percentCompleted)
                 }
             };
-
             const response = await axios.post(URL, formData, config);
             store.commit('httpRequest', false);
 

@@ -31,20 +31,17 @@ class ModuleController extends Controller
         $data = $this->model->where('parent_id', 0)
             ->when($keyword, function ($query) use ($keyword) {
                 $query->where('name', 'Like', "%$keyword%");
-                $query->orWhere('display_name', 'Like', "%$keyword%");
             })
             ->with('permissions')
             ->with(['submenus' => function ($query) use ($keyword) {
                 $query->when($keyword, function ($query) use ($keyword) {
                     $query->where('name', 'Like', "%$keyword%");
-                    $query->orWhere('display_name', 'Like', "%$keyword%");
                 });
                 $query->with('permissions');
 
                 $query->with(['submenus' => function ($query) use ($keyword) {
                     $query->when($keyword, function ($query) use ($keyword) {
                         $query->where('name', 'Like', "%$keyword%");
-                        $query->orWhere('display_name', 'Like', "%$keyword%");
                     });
                     $query->with('permissions');
                 }]);

@@ -12,7 +12,7 @@
 
     const props = defineProps({
         headings: Array,
-        loader: Boolean,
+        loader: {type:Boolean, default:true},
         defaultPagination: {type: Boolean, default: true},
         defaultObject: {type: Object, default: () => ({})},
     });

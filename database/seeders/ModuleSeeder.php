@@ -110,7 +110,21 @@ class ModuleSeeder extends Seeder
                 'permissions' => array_merge($resourcePermissions, []),
                 'icon' => 'bx bx-radio-circle',
                 "component" => "views/pages/users/profile.vue",
-                'is_visible' => 0
+                'is_visible' => 0,
+                'meta' => [
+                    "dataUrl" => "api/profile",
+                ]
+            ],
+            [
+                'name' => 'activities',
+                'link' => '/activities',
+                'permissions' => array_merge($resourcePermissions, []),
+                'icon' => 'bx bx-radio-circle',
+                "component" => "views/pages/users/userActivity.vue",
+                'is_visible' => 0,
+                'meta' => [
+                    "dataUrl" => "api/activities",
+                ]
             ],
         ];
 
