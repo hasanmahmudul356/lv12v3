@@ -5,6 +5,7 @@ export const state = {
     pageDependencies: {},
     updateId: '',
     authUser: {},
+    appNotifications : {},
     detailsData: [],
     Config: [],
     allMenus: [],

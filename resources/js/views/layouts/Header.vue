@@ -1,12 +1,12 @@
 <script setup>
-    import { ref, onMounted } from 'vue';
+    import { ref, onMounted, onBeforeUnmount } from 'vue';
     import { useBase, useHttp, appStore } from '@/lib';
     import { useI18n } from 'vue-i18n'
 
-    const { getImage, formatDate, useGetters, urlGenerate, submitForm } = {...useBase(), ...useHttp(), ...appStore()};
+    const { getImage,httpReq, formatDate, useGetters, urlGenerate, submitForm } = {...useBase(), ...useHttp(), ...appStore()};
     const { t, locale } = useI18n();
     const user = ref(null);
-    const {localization, authUser} = useGetters('localization', 'authUser');
+    const {localization, authUser, appNotifications} = useGetters('localization', 'authUser','appNotifications');
 
     let dfLocale = ref(window.locale || 'en');
     const switchLang = (lang) => {
@@ -20,6 +20,28 @@
             }
         });
     };
+
+    let intervalId = null;
+    onMounted(()=>{
+        intervalId = setInterval(() => {
+            const notificationData = appNotifications.value;
+            console.log(notificationData);
+            if (Object.keys(notificationData).length > 0) {
+                httpReq({
+                    method : 'get',
+                    url : urlGenerate('api/app_notification'),
+                    params : {limit:parseInt(notificationData.limit), skip:parseInt(notificationData.skip)+1},
+                    callback : (retData) => {
+                        console.log(retData);
+                        assignStore('appNotifications', retData.notifications)
+                    }
+                });
+            }
+        }, 3000);
+    });
+    onBeforeUnmount(() => {
+        if (intervalId) clearInterval(intervalId)
+    })
 
 
 </script>

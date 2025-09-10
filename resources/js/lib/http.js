@@ -49,6 +49,11 @@ export function useHttp() {
             return response.data.result ?? true;
         }
 
+        if (typeof callback === 'function'){
+            console.log(response.data.result);
+            callback(response.data.result);
+        }
+
         toaster('info', response.data.message);
         return false;
     };

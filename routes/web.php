@@ -19,10 +19,11 @@ Route::middleware(\App\Http\Middleware\AuthCheckMiddleware::class)->group(functi
     Route::prefix('api')->group(function (){
         Route::post('general', [\App\Http\Controllers\SupportController::class, 'getGeneralData']);
         Route::post('configurations', [\App\Http\Controllers\SupportController::class, 'appConfigurations']);
+        Route::get('app_notification', [\App\Http\Controllers\SupportController::class, 'appNotification']);
+        Route::get('dashboard', [\App\Http\Controllers\SupportController::class, 'appDashboard']);
+
         Route::resource('settings', \App\Http\Controllers\SettingController::class);
-
         Route::resource('profile', \App\Http\Controllers\Backend\AuthController::class);
-
         Route::resource('users', \App\Http\Controllers\Backend\UserController::class);
         Route::resource('modules', \App\Http\Controllers\Backend\RBAC\ModuleController::class);
     });
