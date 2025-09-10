@@ -2,11 +2,11 @@
     import { ref, onMounted, onBeforeUnmount } from 'vue';
     import { useBase, useHttp, appStore } from '@/lib';
     import { useI18n } from 'vue-i18n'
-
-    const { getImage,httpReq, formatDate, useGetters, urlGenerate, submitForm } = {...useBase(), ...useHttp(), ...appStore()};
     const { t, locale } = useI18n();
     const user = ref(null);
-    const {localization, authUser, appNotifications} = useGetters('localization', 'authUser','appNotifications');
+
+    const { getImage,httpReq, formatDate, useGetters, urlGenerate, submitForm, assignStore } = {...useBase(), ...useHttp(), ...appStore()};
+    const {localization, authUser, appNotifications, appConfigs} = useGetters('localization', 'authUser','appNotifications', 'appConfigs');
 
     let dfLocale = ref(window.locale || 'en');
     const switchLang = (lang) => {
@@ -21,23 +21,32 @@
         });
     };
 
+    const loadNotifications = async () =>{
+        const notificationData = appNotifications.value;
+        let data = await httpReq({
+            method : 'get',
+            url : urlGenerate('api/app_notification'),
+            params : {
+                limit:notificationData.limit,
+                skip:notificationData.skip
+            }
+        });
+        if (data){
+            assignStore('appNotifications', data)
+        }
+    };
+
     let intervalId = null;
     onMounted(()=>{
-        intervalId = setInterval(() => {
-            const notificationData = appNotifications.value;
-            console.log(notificationData);
-            if (Object.keys(notificationData).length > 0) {
-                httpReq({
-                    method : 'get',
-                    url : urlGenerate('api/app_notification'),
-                    params : {limit:parseInt(notificationData.limit), skip:parseInt(notificationData.skip)+1},
-                    callback : (retData) => {
-                        console.log(retData);
-                        assignStore('appNotifications', retData.notifications)
-                    }
-                });
-            }
-        }, 3000);
+        let configValue = appConfigs.value;
+        loadNotifications();
+
+        const intervalMs = parseInt(configValue.notify_per_minuit) * 60 * 1000;
+        if (intervalMs > 0){
+            intervalId = setInterval(async () => {
+                loadNotifications();
+            }, intervalMs);
+        }
     });
     onBeforeUnmount(() => {
         if (intervalId) clearInterval(intervalId)
@@ -79,77 +88,30 @@
                             </ul>
                         </li>
                         <li class="nav-item dropdown dropdown-large">
-                            <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" href="#" data-bs-toggle="dropdown"><span class="alert-count">7</span>
+                            <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" href="#" data-bs-toggle="dropdown"><span class="alert-count">{{appNotifications.total}}</span>
                                 <i class='bx bx-bell'></i>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end">
                                 <a href="#">
                                     <div class="msg-header">
                                         <p class="msg-header-title">Notifications</p>
-                                        <p class="msg-header-badge">8 New</p>
+                                        <p class="msg-header-badge">{{appNotifications.total}} New</p>
                                     </div>
                                 </a>
                                 <div class="header-notifications-list">
-                                    <a class="dropdown-item" href="#">
-                                        <div class="d-flex align-items-center">
-                                            <div class="user-online">
-                                                <img :src="getImage('(backend/images/avatars/avatar-1.png')" class="msg-avatar" alt="user avatar">
+                                    <template v-if="appNotifications.data !== undefined">
+                                        <a class="dropdown-item" v-for="item in appNotifications.data" href="#">
+                                            <div class="d-flex align-items-center">
+                                                <div class="user-online">
+                                                    <img :src="getImage('(backend/images/avatars/avatar-1.png')" class="msg-avatar" alt="user avatar">
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <h6 class="msg-name">{{item.title}}<span class="msg-time float-end">{{item.created_at}}</span></h6>
+                                                    <p class="msg-info">The standard chunk of lorem</p>
+                                                </div>
                                             </div>
-                                            <div class="flex-grow-1">
-                                                <h6 class="msg-name">Daisy Anderson<span class="msg-time float-end">5 sec
-												ago</span></h6>
-                                                <p class="msg-info">The standard chunk of lorem</p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <div class="d-flex align-items-center">
-                                            <div class="user-online">
-                                                <img :src="getImage('(backend/images/avatars/avatar-1.png')" class="msg-avatar" alt="user avatar">
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <h6 class="msg-name">Daisy Anderson<span class="msg-time float-end">5 sec
-												ago</span></h6>
-                                                <p class="msg-info">The standard chunk of lorem</p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <div class="d-flex align-items-center">
-                                            <div class="user-online">
-                                                <img :src="getImage('(backend/images/avatars/avatar-1.png')" class="msg-avatar" alt="user avatar">
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <h6 class="msg-name">Daisy Anderson<span class="msg-time float-end">5 sec
-												ago</span></h6>
-                                                <p class="msg-info">The standard chunk of lorem</p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <div class="d-flex align-items-center">
-                                            <div class="user-online">
-                                                <img :src="getImage('(backend/images/avatars/avatar-1.png')" class="msg-avatar" alt="user avatar">
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <h6 class="msg-name">Daisy Anderson<span class="msg-time float-end">5 sec
-												ago</span></h6>
-                                                <p class="msg-info">The standard chunk of lorem</p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <div class="d-flex align-items-center">
-                                            <div class="user-online">
-                                                <img :src="getImage('(backend/images/avatars/avatar-1.png')" class="msg-avatar" alt="user avatar">
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <h6 class="msg-name">Daisy Anderson<span class="msg-time float-end">5 sec
-												ago</span></h6>
-                                                <p class="msg-info">The standard chunk of lorem</p>
-                                            </div>
-                                        </div>
-                                    </a>
+                                        </a>
+                                    </template>
                                 </div>
                                 <a href="#">
                                     <div class="text-center msg-footer">

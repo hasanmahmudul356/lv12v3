@@ -5,7 +5,10 @@ export const state = {
     pageDependencies: {},
     updateId: '',
     authUser: {},
-    appNotifications : {},
+    appNotifications : {limit : 5, skip : 0, data : [], total : 0},
+    appConfigs : {
+        notify_per_minuit : 1
+    },
     detailsData: [],
     Config: [],
     allMenus: [],

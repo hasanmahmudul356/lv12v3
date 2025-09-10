@@ -73,13 +73,17 @@
   "visible": "Visible",
   "invisible": "Invisible",
   "general_setting": "General Setting",
+  "notification_setting": "Notification Setting",
   "other_setting": "Other Setting",
   "app_name": "App Name",
   "date": "Date",
   "key": "Key",
+  "type": "Type",
   "value": "Value",
   "setting_type": "Setting Type",
   "visibility": "Visibility",
   "invoice": "Invoice",
-  "customer_show": "Customer Show"
+  "customer_show": "Customer Show",
+  "notify_per_minuit": "Notification Check (Per Minuit)",
+  "notifications": "Notifications"
 }

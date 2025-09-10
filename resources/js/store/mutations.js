@@ -69,4 +69,7 @@ export const mutations = {
     appNotifications(state, data) {
         state.appNotifications = data;
     },
+    appConfigs(state, data) {
+        state.appConfigs = data;
+    },
 };

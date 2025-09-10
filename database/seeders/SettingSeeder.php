@@ -25,6 +25,13 @@ class SettingSeeder extends Seeder
                 'value'=>'App Boilerplate',
                 'is_visible'=>1,
             ],
+            [
+                'key'=>'notify_per_minuit',
+                'type'=>'number',
+                'setting_type'=>'notification_setting',
+                'value'=>1,
+                'is_visible'=>1,
+            ],
         ];
 
         Setting::insert($users);

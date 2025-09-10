@@ -75,4 +75,7 @@ export const getters = {
     appNotifications(state) {
         return state.appNotifications;
     },
+    appConfigs(state) {
+        return state.appConfigs;
+    },
 };
