@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('overdue_bills', function (Blueprint $table) {
             $table->id();
-            $table->integer('customer_id');
-            $table->integer('bill_id');
+            $table->integer('meter_no');
+            $table->string('billing_month', 7)->comment('Format: YYYY-MM');
             $table->integer('penalty_due');
             $table->integer('due_amount');
             $table->integer('total_due');
