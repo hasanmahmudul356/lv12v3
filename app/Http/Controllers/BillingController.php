@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BillInformation;
-use App\Models\EnergyBill;
+use App\Models\EnergyBillSource;
 use App\Models\Meter;
 use App\Models\MeterReading;
 use function Carbon\map;
@@ -15,24 +15,24 @@ class BillingController extends Controller
 {
     public function getBillingInfo(Request $request)
     {
-        $meter_id = $request->meter_id;
+        $meter_no = $request->meter_no;
         $billing_month = $request->billing_month;
 
-        if (!$meter_id || !$billing_month) {
+        if (!$meter_no || !$billing_month) {
             return response()->json(['status' => 400, 'message' => 'Meter ID or month missing']);
         }
 
         $month_start = $billing_month . '-01';
         $month_end = date("Y-m-t", strtotime($month_start));
 
-        $customer = Meter::where('meters.id', $meter_id)
+        $customer = Meter::where('meters.meter_number', $meter_no)
             ->leftJoin('customers','meters.customer_id','=','customers.id')
             ->select('customers.*')
             ->first();
 
 
 
-        $energy_bill = EnergyBill::whereIn('type', [$customer->solar, $customer->nesco, $customer->generator])->where('billing_month',$billing_month)
+        $energy_bill = EnergyBillSource::whereIn('type', [$customer->solar, $customer->nesco, $customer->generator])->where('billing_month',$billing_month)
             ->get();
 
         $data['energy_bill_calculates'] = $energy_bill->map(function ($item) {
@@ -53,23 +53,22 @@ class BillingController extends Controller
             $total_unit += $energy_bill_calculate['customer_unit'];
         }
 
-        $last_entry = MeterReading::where('meter_no', $meter_id)
+        $last_entry = MeterReading::where('meter_no', $meter_no)
             ->where('reading_date', '<', $month_start)
             ->orderBy('reading_date', 'desc')
             ->first();
 
         $data['start_reading'] = $last_entry ? $last_entry->current_reading : 0;
 
-        $current_entry = MeterReading::where('meter_no', $meter_id)
+        $current_entry = MeterReading::where('meter_no', $meter_no)
             ->whereBetween('reading_date', [$month_start, $month_end])
             ->orderBy('reading_date', 'desc')
             ->first();
 
         $data['unit_rate'] = DB::table('meters')
-            ->where('meters.id', $meter_id)
+            ->where('meters.meter_number', $meter_no)
             ->leftJoin('tariff_and_rates', 'meters.meter_type', '=', 'tariff_and_rates.meter_type')
-            ->select('tariff_and_rates.unit_rate')
-            ->value('unit_rate');
+            ->value('tariff_and_rates.unit_rate');
 
 
         $data['end_reading'] = $current_entry ? $current_entry->current_reading : null;
@@ -98,13 +97,14 @@ class BillingController extends Controller
             'bill_month' => 'required',
         ]);
 
-        $bill = BillInformation::where('meter_id', $request->meter_no)
+        $bill = BillInformation::where('meter_no', $request->meter_no)
             ->where('billing_month', 'like', $request->bill_month . '%')
             ->first();
 
-        return response()->json([
-            'bill_amount' => $bill ? $bill->bill_amount : 0,
-        ]);
+        $data['bill_amount'] = $bill->bill_amount;
+
+
+        return returnData(2000, $data);
     }
 
 }

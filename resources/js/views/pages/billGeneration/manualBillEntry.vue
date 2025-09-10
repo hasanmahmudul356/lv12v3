@@ -24,21 +24,20 @@
     const enargy_calculate=ref('');
 
     watch(
-        () => [formObject.value.meter_id, formObject.value.billing_month],
-        async ([meter_id, billing_month]) => {
-            if (!meter_id || !billing_month) return;
+        () => [formObject.value.meter_no, formObject.value.billing_month],
+        async ([meter_no, billing_month]) => {
+            if (!meter_no || !billing_month) return;
 
             const response = await httpReq({
                 url: '/billing_info',
                 method: 'get',
-                params: { meter_id, billing_month },
+                params: { meter_no, billing_month },
             });
 
             console.log(response);
 
             if (response) {
-                enargy_calculate.value = response.energy_bill_calculates;
-                formObject.value = response;
+                formObject.value.enargy_calculate = response.energy_bill_calculates;
                 formObject.value.unit_rate = response.unit_rate;
                 formObject.value.end_reading = response.end_reading;
                 formObject.value.start_reading = response.start_reading;
@@ -52,12 +51,13 @@
 
 
 
+
 </script>
 
 <template>
     <dataTable :headings="tableHeaders" :setting="true">
         <template v-slot:tableTop>
-            <tableTop :defaultObject="{bill_status:'',meter_id: ''}"></tableTop>
+            <tableTop :defaultObject="{bill_status:'',meter_no: ''}"></tableTop>
         </template>
         <template v-slot:topRight v-if="dataList.data !== undefined">
             <a class="btn btn-sm btn-outline-danger radius-30 text-uppercase" @click="deleteAllRecords({dataObject:dataList.data})" v-if="dataList.data.some(each => parseInt(each.checked) === 1)">Delete All</a>
@@ -66,7 +66,7 @@
             <tr v-for="(item, index) in dataList.data" :key="item.id">
                 <td>{{index+1}}</td>
                 <td class="checkbox"><input :checked="item.checked" @change="handleSelectAll($event, [item])" class="form-check-input me-3 pointer" type="checkbox"/></td>
-                <td>{{ item.meter_number }}</td>
+                <td>{{ item.meter_no }}</td>
                 <td>{{ item.billing_month }}</td>
                 <td>{{ item.start_reading }}</td>
                 <td>{{ item.end_reading }}</td>
@@ -90,7 +90,7 @@
             </tr>
         </template>
 
-        <fromModal @submit="submitForm({
+        <fromModal modal-size="modal-lg" @submit="submitForm({
             modal: 'fromModal',
             callback: function (retData) {
                 Object.assign(formObject, {});
@@ -98,14 +98,15 @@
             }
         })">
             <div class="row mb-2">
-                <label class="col-md-4"><strong>Meter Number: </strong></label>
+                <label class="col-md-4"><strong>Meter Number : </strong></label>
                 <div class="col-md-8">
-                    <select v-model="formObject.meter_id" class="form-control" v-validate="'required'">
+                    <select v-model="formObject.meter_no" class="form-control" v-validate="'required'">
                         <option value="">Select</option>
-                        <template v-for="type in pageDependencies.meter_num">
-                            <option :value="type.id">{{type.meter_number}}</option>
+                        <template v-for="meter_no in pageDependencies.meter_num" :key="meter_no.id">
+                            <option :value="meter_no.meter_number">{{ meter_no.meter_number }}</option>
                         </template>
                     </select>
+
                 </div>
             </div>
 
@@ -137,13 +138,6 @@
                 </div>
             </div>
 
-<!--            <div class="row mb-2">-->
-<!--                <label class="col-md-4"><strong>Per Unit Rate (Tk) : </strong></label>-->
-<!--                <div class="col-md-8">-->
-<!--                    <input type="number" step="0.01" v-model="formObject.unit_rate" class="form-control" readonly/>-->
-<!--                </div>-->
-<!--            </div>-->
-
             <div class="row mb-2">
                 <label class="col-md-4"><strong>Bill Amount : </strong></label>
                 <div class="col-md-8">
@@ -172,67 +166,40 @@
                     <input type="number" step="0.01" v-model="formObject.unit_rate" class="form-control" readonly/>
                 </div>
                 <div class="col-md-4">
-                    <label ><strong> Unit Rate: </strong></label>
+                    <label ><strong> Bill Amount: </strong></label>
                     <input type="number" step="0.01" v-model="formObject.nesco_bill" class="form-control" readonly/>
                 </div>
             </div>
-            <template v-for="formObject in enargy_calculate">
+            <template v-for="data in formObject.enargy_calculate">
                 <div class="row mb-2">
                     <div class="col-md-12">
-                        <label  v-if="formObject.type === 1">
+                        <label  v-if="data.type === 1">
                             <strong >Generator Information: </strong>
                         </label>
-                        <label  v-if="formObject.type === 2">
+                        <label  v-if="data.type === 2">
                             <strong >Solar Information : </strong>
                         </label>
                     </div>
                     <div class="col-md-4">
-<!--                        <label  v-if="formObject.type === 1">-->
-<!--                            <strong >Generator Bill Unit : </strong>-->
-<!--                        </label>-->
-<!--                        <label  v-if="formObject.type === 2">-->
-<!--                            <strong >Solar Bill Unit : </strong>-->
-<!--                        </label>-->
                         <label >
                             <strong > Unit : </strong>
                         </label>
-                        <input type="number" step="0.01" v-model="formObject.customer_unit" class="form-control" readonly/>
+                        <input type="number" step="0.01" v-model="data.customer_unit" class="form-control" readonly/>
                     </div>
                     <div class="col-md-4">
-<!--                        <label v-if="formObject.type === 1">-->
-<!--                            <strong >Generator Unit Rate: </strong>-->
-<!--                        </label>-->
-<!--                        <label  v-if="formObject.type === 2">-->
-<!--                            <strong >Solar Unit Rate : </strong>-->
-<!--                        </label>-->
-<!--                        <label v-if="formObject.type === 3">-->
-<!--                            <strong >Nesco Unit Rate : </strong>-->
-<!--                        </label>-->
                         <label >
                             <strong > Unit Rate: </strong>
                         </label>
-                        <input type="number" step="0.01" v-model="formObject.unit_rate" class="form-control" readonly/>
+                        <input type="number" step="0.01" v-model="data.unit_rate" class="form-control" readonly/>
                     </div>
                     <div class="col-md-4">
-<!--                        <label v-if="formObject.type === 1">-->
-<!--                            <strong >Generator Bill Amount : </strong>-->
-<!--                        </label>-->
-<!--                        <label  v-if="formObject.type === 2">-->
-<!--                            <strong >Solar Bill Amount : </strong>-->
-<!--                        </label>-->
-<!--                        <label v-if="formObject.type === 3">-->
-<!--                            <strong >Nesco Bill Amount : </strong>-->
-<!--                        </label>-->
                         <label >
                             <strong > Bill Amount: </strong>
                         </label>
-                        <input type="number" step="0.01" v-model="formObject.bill_amount" class="form-control" readonly/>
+                        <input type="number" step="0.01" v-model="data.bill_amount" class="form-control" readonly/>
                     </div>
                 </div>
-
             </template>
-
         </fromModal>
     </dataTable>
-
 </template>

@@ -18,6 +18,7 @@ class BillPayment extends Model
         'payment_amount',
         'payment_date',
         'payment_method',
+        'payment_status',
         'status',
         'user_id'
     ];
@@ -31,6 +32,7 @@ class BillPayment extends Model
             'payment_amount' => 'required',
             'payment_date' => 'required',
             'payment_method' => 'required',
+            'payment_status' => 'required',
         ]);
 
         return $validate;

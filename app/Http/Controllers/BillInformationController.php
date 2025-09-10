@@ -20,11 +20,9 @@ class BillInformationController extends Controller
         try {
             $keyword = request()->input('keyword');
             $data = $this->model
-                ->leftJoin('meters', 'bill_informations.meter_id', '=', 'meters.id')
                 ->when($keyword, function ($query) use ($keyword) {
                     $query->where('name', 'Like', "%$keyword%");
                 })
-                ->select('bill_informations.*','meters.meter_number')
                 ->paginate(input('perPage'));
 
             return returnData(2000, $data);
@@ -49,7 +47,7 @@ class BillInformationController extends Controller
                 return returnData(2000, $validate->errors());
             }
 
-            $exist= $this->model->where('meter_id', $input['meter_id'])->where('billing_month', $input['billing_month'])->first();
+            $exist= $this->model->where('meter_no', $input['meter_no'])->where('billing_month', $input['billing_month'])->first();
             if ($exist) {
                 return returnData(5000, null,'Already Bill Generate');
             }
@@ -57,6 +55,20 @@ class BillInformationController extends Controller
             $this->model->fill($input);
             $this->model->user_id = auth()->user()->id;
             $this->model->save();
+
+            if ($request->has('enargy_calculate') && is_array($request->enargy_calculate)) {
+                foreach ($request->enargy_calculate as $energy) {
+                    if (in_array($energy['type'], [1, 2])) {
+                        $this->model->energyBills()->create([
+                            'meter_no'      => $input['meter_no'],
+                            'type'          => $energy['type'],
+                            'customer_unit' => $energy['customer_unit'],
+                            'unit_rate'     => $energy['unit_rate'],
+                            'bill_amount'   => $energy['bill_amount']
+                        ]);
+                    }
+                }
+            }
 
             return returnData(2000, null, 'Successfully Inserted');
 

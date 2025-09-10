@@ -31,7 +31,7 @@
         <template v-slot:data>
             <tr  v-for="(item, index) in dataList.data" :key="item.id">
                 <td>{{index+1}}</td>
-                <td>{{ item.meter ? item.meter.meter_number : '-' }}</td>
+                <td>{{ item.meter_no}}</td>
                 <td>{{item.reading_date}}</td>
                 <td>{{item.current_reading}}</td>
                 <td>
@@ -60,10 +60,11 @@
                 <div class="col-md-8">
                     <select v-model="formObject.meter_no" class="form-control" v-validate="'required'">
                         <option value="">Select</option>
-                        <template v-for="meter_no in pageDependencies.meter_num">
-                            <option :value="meter_no.id">{{meter_no.meter_number}}</option>
+                        <template v-for="meter_no in pageDependencies.meter_num" :key="meter_no.id">
+                            <option :value="meter_no.meter_number">{{ meter_no.meter_number }}</option>
                         </template>
                     </select>
+
                 </div>
             </div>
             <div class="row mb-2">

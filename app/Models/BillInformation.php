@@ -14,19 +14,22 @@ class BillInformation extends Model
     use ModelScopes;
     use HasFactory;
 
-    protected $fillable = ['user_id','meter_id','billing_month','start_reading','end_reading','units_consumed','bill_amount'];
+    protected $fillable = ['user_id','meter_no','billing_month','start_reading','end_reading','units_consumed','bill_amount','nesco_unit','unit_rate','nesco_bill'];
 
 
     public function validate($input = [])
     {
         $validate = Validator::make($input, [
             'user_id' => '',
-            'meter_id' => '',
+            'meter_no' => '',
             'billing_month' => '',
             'start_reading' => '',
             'end_reading' => '',
             'units_consumed' => '',
             'bill_amount' => '',
+            'nesco_unit' => '',
+            'unit_rate' => '',
+            'nesco_bill' => '',
             'status' => ''
         ]);
 
@@ -34,4 +37,16 @@ class BillInformation extends Model
     }
 
 
+    public function energyBills()
+    {
+        return $this->hasMany(EnergyBill::class, 'bill_information_id');
+    }
+
+
+    protected static function booted()
+    {
+        static::deleting(function ($bill) {
+            $bill->energyBills()->delete();
+        });
+    }
 }

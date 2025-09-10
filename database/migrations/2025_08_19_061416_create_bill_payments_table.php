@@ -16,13 +16,14 @@ return new class extends Migration
         Schema::create('bill_payments', function (Blueprint $table) {
             $table->id();
             $table->integer('meter_no');
-            $table->date('receipt_no');
+            $table->integer('receipt_no');
             $table->date('bill_month');
-            $table->integer('bill_amount');
-            $table->integer('payment_amount');
+            $table->decimal('bill_amount');
+            $table->decimal('payment_amount');
             $table->date('payment_date');
             $table->string('payment_method')->comment('cash,bkash,nagad,rocket,bank');
-            $table->integer('status')->comment('active=1,panding=0');
+            $table->string('payment_status')->comment('unpaid','partial','paid');
+            $table->integer('status')->default(1)->comment('active=1,panding=0');
             $table->integer('user_id');
             $table->timestamps();
         });

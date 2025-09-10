@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\area;
+use App\Models\BillInformation;
 use App\Models\Customer;
 use App\Models\Meter;
 use App\Models\MeterType;
@@ -177,6 +178,16 @@ class SupportController extends Controller
             $key = isset($input['meter_num']['key']) ?  isset($input['meter_num']['key']) : 'meter_num';
             $data[$key] =  Meter::where('status', 1)->get();
         }
+        if (isset($input['bill_info']) || in_array('bill_info', $input)){
+            $key = isset($input['bill_info']['key']) ? $input['bill_info']['key'] : 'bill_info';
+            $data[$key] = BillInformation::where('status', 1)->get();
+        }
+
+        if (isset($input['meter']) || in_array('meter', $input)){
+            $key = isset($input['meter']['key']) ? $input['meter']['key'] : 'meter';
+            $data[$key] = Meter::where('status', 1)->get();
+        }
+
 
         if (isset($input['customer_area']) || in_array('customer_area', $input)){
             $key = isset($input['customer_area']['key']) ?  isset($input['customer_area']['key']) : 'customer_area';
