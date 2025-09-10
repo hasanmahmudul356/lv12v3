@@ -201,7 +201,21 @@ table.data_table td:last-child {
 .form-control.is-invalid, .was-validated .form-control:invalid {
     border-color: var(--bs-danger) !important;
 }
-
 .header-notifications-list {
     height: auto;
+}
+.drop_zone {
+    height: 120px;
+    width: 100%;
+    background: #ddd;
+}
+input.file_upload{
+    display: none;
+}
+.drop_zone.pointer {
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    border: 1px solid #FFF;
+    border-radius: 4px;
 }

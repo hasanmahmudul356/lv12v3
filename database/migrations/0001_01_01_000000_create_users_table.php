@@ -18,9 +18,11 @@ return new class extends Migration
             $table->string('username');
             $table->string('email')->unique();
             $table->bigInteger('phone')->nullable();
+            $table->string('designation')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->integer('status')->default(1)->comment('1=Active, 0=InActive');
             $table->string('password');
+            $table->string('image')->nullable();
             $table->string('locale')->default('en');
             $table->string('theme')->default('bg-theme bg-theme2');
             $table->rememberToken();

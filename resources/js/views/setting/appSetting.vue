@@ -1,14 +1,14 @@
 
 <script setup>
-    import {generalLayout,fromModal,pageTop } from '@/components';
+    import {generalLayout,fromModal,pageTop, fileUpload } from '@/components';
 
     import {ref, onMounted} from 'vue';
     import {useStore} from 'vuex';
     const store = useStore();
     import {useBase, useHttp, appStore} from '@/lib';
 
-    const {getDependency, submitForm, editData, deleteRecord} = {...useHttp()};
-    const {_l, formFilter, formObject, openModal, closeModal, useGetters, dataList, httpRequest, pageDependencies, updateId} = {
+    const {getDependency, submitForm, editData, deleteRecord, uploadFile} = {...useHttp()};
+    const {_l, formFilter, formObject, openModal, closeModal, useGetters, dataList, httpRequest, pageDependencies, updateId, clickFile} = {
         ...useBase(),
         ...appStore(),
         ...appStore().useGetters('dataList', 'httpRequest', 'pageDependencies', 'updateId')
@@ -65,6 +65,9 @@
                                                 <option :value="item.value">{{item.name}}</option>
                                             </template>
                                         </select>
+                                    </template>
+                                    <template v-if="setting.type === 'file'">
+                                        <fileUpload :object="setting" :column="'value'" />
                                     </template>
                                 </div>
                             </div>

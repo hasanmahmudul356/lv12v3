@@ -4,7 +4,7 @@
     import {ref, onMounted, nextTick, watch} from 'vue';
     import { useBase, useHttp, appStore } from '@/lib';
     const {_l, getImage, allMenus, loadConfigurations, useGetters} = {...useBase(), ...appStore(), ...useHttp()};
-    const {Config} = useGetters('Config');
+    const {Config, appConfigs} = useGetters('Config', 'appConfigs');
 
     onMounted(() => {
         loadConfigurations({
@@ -117,10 +117,10 @@
     <div class="sidebar-wrapper" data-simplebar="true">
         <div class="sidebar-header">
             <div>
-                <img :src="getImage('backend/images/logo-icon.png')" class="logo-icon" alt="logo icon">
+                <img :src="appConfigs.app_logo" class="logo-icon" alt="logo icon">
             </div>
             <div>
-                <h4 class="logo-text">Dashtrans</h4>
+                <h4 class="logo-text">{{appConfigs.app_name}}</h4>
             </div>
             <div class="toggle-icon ms-auto"><i class='bx bx-arrow-back'></i>
             </div>

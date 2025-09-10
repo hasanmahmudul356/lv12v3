@@ -10,6 +10,7 @@ use App\Models\Meter;
 use App\Models\MeterType;
 
 use App\Helpers\Helper;
+use App\Models\ActivityLog;
 use App\Models\AppNotification;
 
 use App\Models\RBAC\Module;
@@ -32,7 +33,7 @@ class SupportController extends Controller
         $user_id = auth()->user()->id;
 
         $data['user'] = User::where('id', $user_id)->first();
-        $data['configs'] = configs(['logo', 'app_name', 'notify_per_minuit']);
+        $data['configs'] = configs(['logo', 'app_name','app_logo', 'notify_per_minuit']);
 
         $permissions = Permission::whereHas('role_permissions', function ($query) use ($role_id) {
             $query->where('role_id', $role_id);
@@ -253,5 +254,9 @@ class SupportController extends Controller
             'dashboard' => $dashboard,
             'notifications' => $notifications,
         ]);
+    }
+    public function userActivities(){
+        $data = ActivityLog::orderBy('id', 'DESC')->with('user')->paginate(input('per_page'));
+        return returnData(2000, $data);
     }
 }
