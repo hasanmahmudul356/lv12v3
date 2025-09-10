@@ -22,7 +22,18 @@ class BillPaymentController extends Controller
 
     public function index()
     {
-        //
+        try {
+            $keyword = request()->input('keyword');
+            $data = $this->model
+                ->when($keyword, function ($query) use ($keyword) {
+                    $query->where('name', 'Like', "%$keyword%");
+                })->paginate(input('perPage'));
+
+
+            return returnData(2000, $data);
+        } catch (\Exception $exception) {
+            return returnData(5000, $exception->getMessage(), 'Whoops, Something Went Wrong..!!');
+        }
     }
 
 
@@ -41,7 +52,7 @@ class BillPaymentController extends Controller
             $input['user_id'] = auth()->id();
 
             $now = Carbon::now('Asia/Dhaka');
-            $input['receipt_no'] = $now->format('dmyHi');
+            $input['receipt_no'] = 'REC-' . $now->format('dmyHi');
 
             $validate = $this->model->validate($input);
             if ($validate->fails()) {

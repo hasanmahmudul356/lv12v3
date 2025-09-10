@@ -26,23 +26,24 @@
 
     watch(
         () => [formObject.value.meter_no, formObject.value.bill_month],
-
         async ([meter_no, bill_month]) => {
             if (!meter_no || !bill_month) return;
 
             const response = await httpReq({
                 url: '/recordPayment',
                 method: 'get',
-                params: {  meter_no, bill_month },
+                params: { meter_no, bill_month },
             });
 
-            console.log('response:', response)
+            // console.log('response:', response);
 
-            if (response) {
-                formObject.value.bill_amount = response.bill_amount
+            if (response && response.bill_amount) {
+                formObject.value.bill_amount = response.bill_amount;
             }
         }
-    )
+    );
+
+
 
 
 </script>
@@ -55,9 +56,13 @@
         <template v-slot:data>
             <tr  v-for="(item, index) in dataList.data" :key="item.id">
                 <td>{{index+1}}</td>
-                <td>{{ item.meter ? item.meter.meter_number : '-' }}</td>
-                <td>{{item.reading_date}}</td>
-                <td>{{item.current_reading}}</td>
+                <td>{{ item.meter_no}}</td>
+                <td>{{item.bill_month}}</td>
+                <td>{{item.bill_amount}}</td>
+                <td>{{item.payment_amount}}</td>
+                <td>{{item.payment_date}}</td>
+                <td>{{item.payment_method}}</td>
+                <td>{{item.payment_status}}</td>
                 <td>
                     <a @click="changeStatus({obj:item})" class="pointer" v-html="statusBadge(item.status)"></a>
                 </td>
@@ -96,7 +101,7 @@
             <div class="row mb-2">
                 <label class="col-md-4"><strong>Bill Amount: </strong></label>
                 <div class="col-md-8">
-                    <input type="text" v-model="formObject.bill_amount" class="form-control"  />
+                    <input type="text" v-model="formObject.bill_amount" class="form-control" readonly />
                 </div>
             </div>
 
@@ -122,6 +127,18 @@
                         <option value="1">Cash</option>
                         <option value="2">Bank</option>
                         <option value="3">Card</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                <label class="col-md-4"><strong>Payment Status: </strong></label>
+                <div class="col-md-8">
+                    <select v-model="formObject.payment_status" class="form-control">
+                        <option value="">Select</option>
+                        <option value="1">Paid</option>
+                        <option value="2">Partially Paid</option>
+                        <option value="3">Unpaid</option>
                     </select>
                 </div>
             </div>

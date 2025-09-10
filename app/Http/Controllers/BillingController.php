@@ -97,13 +97,14 @@ class BillingController extends Controller
             'bill_month' => 'required',
         ]);
 
-        $bill = BillInformation::where('meter_id', $request->meter_no)
+        $bill = BillInformation::where('meter_no', $request->meter_no)
             ->where('billing_month', 'like', $request->bill_month . '%')
             ->first();
 
-        return response()->json([
-            'bill_amount' => $bill ? $bill->bill_amount : 0,
-        ]);
+        $data['bill_amount'] = $bill->bill_amount;
+
+
+        return returnData(2000, $data);
     }
 
 }
