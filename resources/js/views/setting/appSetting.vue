@@ -14,6 +14,7 @@
         ...appStore().useGetters('dataList', 'httpRequest', 'pageDependencies', 'updateId')
     };
     const {getDataList, httpReq} = useHttp();
+<<<<<<< Updated upstream
     const confTypes = {
         text : 'Text',
         textarea : 'TextArea',
@@ -22,6 +23,8 @@
         encoded : 'Encoded',
         youtube : 'Youtube',
     };
+=======
+>>>>>>> Stashed changes
 
     onMounted(() => {
         getDataList();

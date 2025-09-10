@@ -75,6 +75,7 @@
   "general_setting": "General Setting",
   "other_setting": "Other Setting",
   "app_name": "App Name",
+<<<<<<< Updated upstream
   "date": "Date",
   "key": "Key",
   "value": "Value",
@@ -82,4 +83,7 @@
   "visibility": "Visibility",
   "invoice": "Invoice",
   "customer_show": "Customer Show"
+=======
+  "date": "Date"
+>>>>>>> Stashed changes
 }
