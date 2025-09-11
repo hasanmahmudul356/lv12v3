@@ -16,7 +16,7 @@
     };
     const { httpRequest, dataList, pageDependencies } = useGetters('httpRequest', 'dataList', 'pageDependencies');
 
-    const tableHeaders = reactive(['sl', 'User','Controller','Action','Route','IP','Date','Action']);
+    const tableHeaders = reactive(['sl', 'user','controller','method','route','ip','date','action']);
     const permissions = reactive(['directives.js', 'create', 'store', 'show', 'edit', 'update', 'destroy', 'status']);
 
     const detailsData = (data) =>{

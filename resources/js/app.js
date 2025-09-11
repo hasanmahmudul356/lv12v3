@@ -50,7 +50,9 @@ async function bootstrap() {
             fallbackLocale: locale,
             messages: enMessages,
             missing: async (locale, key) => {
-                await addLocaleToJson(key);
+                if (locale === 'en'){
+                    await addLocaleToJson(key);
+                }
                 return `missing:${key}`
             }
         });
