@@ -86,12 +86,17 @@
     "app_logo": "Application Logo",
     "notification": "Notification",
     "activities": "Activities",
+    "energy_bill_source": "Energy Bill Source",
+    "staff": "Staff",
     "User": "User",
     "Controller": "Controller",
     "Action": "Action",
     "Route": "Route",
     "IP": "IP",
     "Date": "Date",
-    "energy_bill_source": "Energy Bill Source",
-    "staff": "Staff"
+    "user": "User",
+    "controller": "Controller",
+    "method": "Method",
+    "route": "Route",
+    "ip": "Ip"
 }
