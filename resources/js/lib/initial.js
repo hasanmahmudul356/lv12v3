@@ -6,6 +6,10 @@ export function useInitials(routes) {
         }
         return await response.json();
     };
+    const addLocaleToJson  = async (item) => {
+        const response = await fetch(`${baseUrl}/update.json?item=${item}`);
+        return await response.json();
+    };
 
     const loadBackendRoutes = async () => {
         const response = await fetch(`${baseUrl}/routes.json`);
@@ -48,5 +52,6 @@ export function useInitials(routes) {
         loadBackendRoutes,
         loanInitialJson,
         mapRoutes,
+        addLocaleToJson
     }
 }

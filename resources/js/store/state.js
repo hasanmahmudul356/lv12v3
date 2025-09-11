@@ -9,7 +9,7 @@ export const state = {
     appConfigs : {
         notify_per_minuit : 1
     },
-    detailsData: [],
+    detailsData: {},
     Config: [],
     allMenus: [],
     Permissions: [],

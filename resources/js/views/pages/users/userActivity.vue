@@ -3,21 +3,30 @@
     import {useStore} from 'vuex'
     import {useRouter} from 'vue-router'
 
-    import {dataTable, tableTop, fromModal, pageTop} from '@/components'
+    import {dataTable, tableTop, detailsModal, pageTop} from '@/components'
     import moduleForm from "@/views/pages/rbac/moduleForm.vue";
     import {appStore, useHttp, useBase} from "@/lib";
     const store  = useStore();
     const router  = useRouter();
 
-    const {_l, useGetters, getDataList, submitForm, editData, deleteRecord, getDependency,changeStatus, openModal, handleSelectAll, statusBadge, deleteAllRecords} = {
+    const {_l, useGetters, getDataList, submitForm, editData, deleteRecord, getDependency,changeStatus, openModal, handleSelectAll, statusBadge, deleteAllRecords, assignStore} = {
         ...appStore(),
         ...useHttp(),
         ...useBase()
     };
     const { httpRequest, dataList, pageDependencies } = useGetters('httpRequest', 'dataList', 'pageDependencies');
 
-    const tableHeaders = reactive(['sl', 'User','Controller','Action','Route','IP','Date']);
+    const tableHeaders = reactive(['sl', 'User','Controller','Action','Route','IP','Date','Action']);
     const permissions = reactive(['directives.js', 'create', 'store', 'show', 'edit', 'update', 'destroy', 'status']);
+
+    const detailsData = (data) =>{
+        openModal({
+            modalId:'detailsModal',
+            callback : () =>{
+                assignStore('detailsData', data);
+            }
+        });
+    };
 
     onMounted(()=>{
         getDataList();
@@ -39,10 +48,16 @@
                     <td>{{ log.route_name }}</td>
                     <td>{{ log.ip_address }}</td>
                     <td>{{ new Date(log.created_at).toLocaleString() }}</td>
+                    <td>
+                        <a @click="detailsData(log)" class="btn btn-outline-secondary action">
+                            <i class='bx bxs-show text-warning'></i>
+                        </a>
+                    </td>
                 </tr>
             </template>
         </template>
     </dataTable>
+    <detailsModal modalId="detailsModal" title="Details"></detailsModal>
 </template>
 
 <style scoped>
