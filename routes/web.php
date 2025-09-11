@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/locale.json', [\App\Http\Controllers\SupportController::class, 'getLocalization']);
+Route::get('/update.json', [\App\Http\Controllers\SupportController::class, 'addLocalization']);
 Route::get('/routes.json', [\App\Http\Controllers\SupportController::class, 'getRoutes']);
 Route::get('/load.json', [\App\Http\Controllers\SupportController::class, 'loadJson']);
 

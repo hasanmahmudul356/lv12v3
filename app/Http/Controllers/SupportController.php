@@ -62,6 +62,24 @@ class SupportController extends Controller
         return response()->json(json_encode($jsonData));
     }
 
+    public function addLocalization(Request $request){
+        $item = $request->input('item');
+        if ($item){
+            try{
+                $string = str_replace('_', ' ', $item);
+                $file = resource_path('lang/en.json');
+                $json = file_get_contents($file);
+                $data = json_decode($json, true);
+                $data[$item] = ucwords($string);
+                $newJson = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+                file_put_contents($file, $newJson);
+                return true;
+            }catch (\Exception $exception){
+                return false;
+            }
+
+        }
+    }
     public function getLocalization($inSide = false)
     {
         $locals = [];
@@ -178,7 +196,9 @@ class SupportController extends Controller
         ]);
     }
     public function userActivities(){
-        $data = ActivityLog::orderBy('id', 'DESC')->with('user')->paginate(input('per_page'));
+        $data = ActivityLog::orderBy('id', 'DESC')->with('user:id,name')
+            ->paginate(input('per_page'));
+
         return returnData(2000, $data);
     }
 }

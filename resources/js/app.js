@@ -5,7 +5,7 @@ import router from './router';
 import App from './App.vue';
 import { store } from './store';
 import { useInitials } from './lib/initial';
-const {mapRoutes, loanInitialJson, loadLocaleMessages, loadBackendRoutes} = useInitials();
+const {mapRoutes, loanInitialJson, addLocaleToJson, loadLocaleMessages, loadBackendRoutes} = useInitials();
 
 const app = createApp(App);
 
@@ -49,6 +49,10 @@ async function bootstrap() {
             locale: locale,
             fallbackLocale: locale,
             messages: enMessages,
+            missing: async (locale, key) => {
+                await addLocaleToJson(key);
+                return `missing:${key}`
+            }
         });
 
         app.use(i18n);
