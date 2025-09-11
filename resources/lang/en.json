@@ -98,5 +98,22 @@
     "controller": "Controller",
     "method": "Method",
     "route": "Route",
-    "ip": "Ip"
+    "ip": "Ip",
+    "Name": "Name",
+    "Email": "Email",
+    "Username": "Username",
+    "Phone": "Phone",
+    "Opening Date": "Opening Date",
+    "Actions": "Actions",
+    "Super Admin": "Super Admin",
+    "current_page": "Current Page",
+    "data": "Data",
+    "first_page_url": "First Page Url",
+    "from": "From",
+    "last_page": "Last Page",
+    "last_page_url": "Last Page Url",
+    "links": "Links",
+    "next_page_url": "Next Page Url",
+    "path": "Path",
+    "prev_page_url": "Prev Page Url"
 }
