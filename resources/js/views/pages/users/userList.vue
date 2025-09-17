@@ -85,7 +85,7 @@
             <div class="row mb-2">
                 <label class="col-md-4"><strong>Role : </strong></label>
                 <div class="col-md-8">
-                    <select type="text" v-model="formObject.role_id" class="form-control">
+                    <select v-model="formObject.role_id" class="form-control">
                         <option value="">Select</option>
                         <template v-for="role in pageDependencies.roles">
                             <option :value="role.id">{{role.name}}</option>

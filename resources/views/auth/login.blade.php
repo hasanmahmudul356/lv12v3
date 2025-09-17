@@ -50,8 +50,10 @@
                                         <div class="col-12">
                                             <label for="inputChoosePassword" class="form-label">Password</label>
                                             <div class="input-group" id="show_hide_password">
-                                                <input type="password" name="password" class="form-control border-end-0" id="password"  placeholder="Enter Password">
-                                                    <a onclick="togglePassword()" id="toggleBtn" class="input-group-text bg-transparent">Show</a>
+                                                <input type="password" name="password" class="form-control border-end-0" id="password" placeholder="Enter Password">
+                                                <a onclick="togglePassword()" id="toggleBtn" class="input-group-text bg-transparent pointer">
+                                                    <i class="bx bxs-show"></i>
+                                                </a>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -100,10 +102,10 @@
 
         if (passwordField.type === "password") {
             passwordField.type = "text";
-            toggleBtn.textContent = "Hide";
+            toggleBtn.innerHTML = "<i class='bx bxs-hide'></i>";
         } else {
             passwordField.type = "password";
-            toggleBtn.textContent = "Show";
+            toggleBtn.innerHTML = "<i class='bx bxs-show'></i>";
         }
     }
 </script>

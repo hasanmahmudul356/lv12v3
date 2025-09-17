@@ -7,8 +7,7 @@ export function useInitials(routes) {
         return await response.json();
     };
     const addLocaleToJson  = async (item) => {
-        const response = await fetch(`${baseUrl}/update.json?item=${item}`);
-        return await response.json();
+        return await fetch(`${baseUrl}/update.json?item=${item}`);
     };
 
     const loadBackendRoutes = async () => {
@@ -35,7 +34,7 @@ export function useInitials(routes) {
                 meta: route.meta || {},
             };
             if (route.component) {
-                newRoute.component = () => import(`/resources/js/${route.component}`);
+                newRoute.component = () => import(/* @vite-ignore */ `/resources/js/${route.component}`);
             }
             if (route.alias) {
                 newRoute.alias = route.alias;

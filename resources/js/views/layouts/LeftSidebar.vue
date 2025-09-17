@@ -122,7 +122,8 @@
             <div>
                 <h4 class="logo-text">{{appConfigs.app_name}}</h4>
             </div>
-            <div class="toggle-icon ms-auto"><i class='bx bx-arrow-back'></i>
+            <div class="toggle-icon ms-auto">
+                <i class='bx bx-arrow-back'></i>
             </div>
         </div>
         <div class="search-bar flex-grow-1">

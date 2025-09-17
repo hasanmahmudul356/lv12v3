@@ -22,7 +22,7 @@ class SettingSeeder extends Seeder
                 'key'=>'app_name',
                 'type'=>'text',
                 'setting_type'=>'general_setting',
-                'value'=>'App Boilerplate',
+                'value'=>'BOILERPLATE',
                 'is_visible'=>1,
             ],
             [
