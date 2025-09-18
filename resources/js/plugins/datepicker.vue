@@ -53,7 +53,7 @@
         },
     });
 
-    const emit = defineEmits(['update:modelValue']);
+    const emit = defineEmits(['update:value']);
 
     const inputId = ref('');
     const inputValue = ref('');
@@ -73,7 +73,7 @@
     };
 
     const dateInputed = (event) => {
-        emit('update:modelValue', event.target.value);
+        emit('update:value', event.target.value);
         emit('input', event.target.value);
     };
 
@@ -97,12 +97,12 @@
                     $(document).on('focusin.bs.modal');
                 },
                 onSelect: function (dateText) {
-                    emit('update:modelValue', dateText);
+                    emit('update:value', dateText);
                 }
             });
         });
         if (props.modelValue) {
-            emit('update:modelValue', props.modelValue);
+            emit('update:value', props.modelValue);
         }
     });
 </script>
