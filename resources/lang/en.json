@@ -115,5 +115,6 @@
     "links": "Links",
     "next_page_url": "Next Page Url",
     "path": "Path",
-    "prev_page_url": "Prev Page Url"
+    "prev_page_url": "Prev Page Url",
+    "bill_entry": "Bill Entry"
 }

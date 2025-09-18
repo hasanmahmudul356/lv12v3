@@ -26,6 +26,9 @@ export function useInitials(routes) {
         return await response.json();
     };
 
+    // Glob all Vue files in your views folder
+    const modules = import.meta.glob('/resources/js/views/**/*.vue');
+
     const mapRoutes = (routes) => {
         return routes.map(route => {
             const newRoute = {
@@ -34,7 +37,10 @@ export function useInitials(routes) {
                 meta: route.meta || {},
             };
             if (route.component) {
-                newRoute.component = () => import(/* @vite-ignore */ `/resources/js/${route.component}`);
+                const key = `/resources/js/${route.component}`;
+                if (modules[key]) {
+                    newRoute.component = modules[key];
+                }
             }
             if (route.alias) {
                 newRoute.alias = route.alias;
@@ -45,6 +51,7 @@ export function useInitials(routes) {
             return newRoute;
         });
     };
+
 
     return {
         loadLocaleMessages,

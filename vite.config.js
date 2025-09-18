@@ -6,6 +6,7 @@ import ViteNotifier from 'vite-plugin-notifier';
 export default defineConfig({
   resolve: {
     alias: {
+      '@': '/resources/js',
       'vue': 'vue/dist/vue.esm-bundler.js',
     },
   },
