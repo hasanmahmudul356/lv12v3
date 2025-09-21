@@ -184,6 +184,11 @@ class ModuleSeeder extends Seeder
 
     public function insertModule($data, $parent_id = 0)
     {
+        $component = checkComponentFile($data);
+        if (!$component->status){
+            dd("Missing Component : $component->component");
+        }
+
         $module = new Module();
         $module->fill($data);
         $module->meta = isset($data['meta']) ? json_encode($data['meta']) : json_encode([]);

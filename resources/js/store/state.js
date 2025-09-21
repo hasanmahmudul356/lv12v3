@@ -5,9 +5,9 @@ export const state = {
     pageDependencies: {},
     updateId: '',
     authUser: {},
-    appNotifications : {limit : 5, skip : 0, data : [], total : 0},
+    appNotifications : {limit : 5, page : 1, data : [], total : 0},
     appConfigs : {
-        notify_per_minuit : 1
+        notify_per_minuit : 30
     },
     detailsData: {},
     Config: [],

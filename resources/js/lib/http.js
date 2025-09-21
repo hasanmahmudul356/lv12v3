@@ -50,7 +50,6 @@ export function useHttp() {
         }
 
         if (typeof callback === 'function'){
-            console.log(response.data.result);
             callback(response.data.result);
         }
 

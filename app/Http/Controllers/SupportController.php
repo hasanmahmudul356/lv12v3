@@ -168,27 +168,11 @@ class SupportController extends Controller
 
         return returnData(2000, $data);
     }
-    public function appNotification($isInSide = false, $limit = 5, $skip = 0){
-        $limit = request()->input('limit') ? request()->input('limit') : $limit;
-        $skip = request()->input('skip') ? request()->input('skip') : $skip;
-
-        $notificationData = [
-            'total' => DB::table('app_notifications')->where('status', 0)->count(),
-            'data' => AppNotification::where('status', 0)->limit($limit)->skip($skip)->get(),
-            'limit' => $limit,
-            'skip' => $skip,
-        ];
-
-        if ($isInSide){
-            return $notificationData;
-        }
-
-        return returnData(2000, $notificationData);
-    }
 
     public function appDashboard(){
         $dashboard = [];
-        $notifications = $this->appNotification(true);
+        $notificationController = new AppNotificationController();
+        $notifications = $notificationController->index(true);
 
         return returnData(2000, [
             'dashboard' => $dashboard,

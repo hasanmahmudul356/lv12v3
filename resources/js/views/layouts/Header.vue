@@ -21,36 +21,70 @@
         });
     };
 
-    const loadNotifications = async () =>{
+    let notification = ref(false);
+    let intervalId = null;
+
+    const loadNotifications = async (page = null) => {
         const notificationData = appNotifications.value;
-        let data = await httpReq({
-            method : 'get',
-            url : urlGenerate('api/app_notification'),
-            params : {
-                limit:notificationData.limit,
-                skip:notificationData.skip
+
+        const params = {
+            limit: notificationData.limit,
+            page: page ?? notificationData.page
+        };
+        try {
+            const data = await httpReq({
+                method: 'get',
+                url: urlGenerate('api/app_notification'),
+                params
+            });
+            if (data) {
+                assignStore('appNotifications', data);
             }
-        });
-        if (data){
-            assignStore('appNotifications', data)
+        } catch (err) {
+            console.error('Failed to load notifications:', err);
         }
     };
 
-    let intervalId = null;
-    onMounted(()=>{
-        let configValue = appConfigs.value;
+    const startNotificationLoop = () => {
+        stopNotificationLoop();
+        const loop = async () => {
+            let notifyPerMinute = parseInt(appConfigs.value.notify_per_minuit);
+            let intervalMs = Math.floor(60000 / notifyPerMinute);
+
+            await loadNotifications();
+            intervalId = setTimeout(loop, intervalMs);
+        };
+        loop();
+    };
+
+    const stopNotificationLoop = () => {
+        if (intervalId) {
+            clearTimeout(intervalId);
+            intervalId = null;
+        }
+    };
+
+    const openNotification = () => {
+        notification.value = !notification.value;
+        if (notification.value) {
+            appNotifications.value.page = 1;
+            const intervalMs = Math.floor(60000 / parseInt(appConfigs.value.notify_per_minuit));
+            if (intervalMs > 0) startNotificationLoop();
+        }
+    };
+
+    onMounted(() => {
         loadNotifications();
 
-        const intervalMs = parseInt(configValue.notify_per_minuit) * 60 * 1000;
-        if (intervalMs > 0){
-            intervalId = setInterval(async () => {
-                loadNotifications();
-            }, intervalMs);
-        }
+        const intervalMs = Math.floor(60000 / parseInt(appConfigs.value.notify_per_minuit));
+        if (intervalMs > 0) startNotificationLoop(intervalMs);
     });
+
     onBeforeUnmount(() => {
-        if (intervalId) clearInterval(intervalId)
-    })
+        stopNotificationLoop();
+    });
+
+
 
 
 </script>
@@ -88,28 +122,46 @@
                             </ul>
                         </li>
                         <li class="nav-item dropdown dropdown-large">
-                            <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" href="#" data-bs-toggle="dropdown"><span class="alert-count">{{appNotifications.total}}</span>
+                            <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative pointer" :class="notification ? 'show' : ''" @click="openNotification"><span class="alert-count">{{appNotifications.total}}</span>
                                 <i class='bx bx-bell'></i>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-end">
-                                <a href="#">
+                            <div class="dropdown-menu dropdown-menu-end" :class="notification ? 'show' : ''">
+                                <a>
                                     <div class="msg-header">
-                                        <p class="msg-header-title">{{_l('notification')}}s</p>
-                                        <p class="msg-header-badge">{{appNotifications.total}} New</p>
+                                        <p class="msg-header-title" @click="openNotification">{{_l('notification')}}s ({{appNotifications.total}})</p>
+                                        <p class="msg-header-badge">
+                                            <i class="bx bxs-arrow-from-right" @click="loadNotifications(parseInt(appNotifications.page)-1)"></i>
+                                        </p>
+                                        <p class="msg-header-badge">
+                                            <i class="bx bxs-arrow-from-left" @click="loadNotifications(parseInt(appNotifications.page)+1)"></i>
+                                        </p>
+                                        <p class="msg-header-badge text-danger" v-if="notification" @click="openNotification">X</p>
                                     </div>
                                 </a>
                                 <div class="header-notifications-list">
                                     <template v-if="appNotifications.data !== undefined">
-                                        <a class="dropdown-item" v-for="item in appNotifications.data" href="#">
+                                        <a class="dropdown-item" v-for="item in appNotifications.data">
                                             <div class="d-flex align-items-center">
                                                 <div class="user-online">
                                                     <img :src="getImage(null, 'backend/images/avatars/notification.png')" class="msg-avatar" alt="user avatar">
                                                 </div>
-                                                <div class="flex-grow-1">
+                                                <div class="flex-grow-1 pointer" @click="(()=>{
+                                                item.toggle = !item.toggle;
+                                                httpReq({ method: 'get', url: `${urlGenerate('api/app_notification')}/${item.id}`})
+                                                })">
                                                     <h6 class="msg-name">{{item.title}}<span class="msg-time float-end">{{item.created_at}}</span></h6>
-                                                    <p class="msg-info">The standard chunk of lorem</p>
+                                                    <p class="msg-info">{{item.short_text}}</p>
                                                 </div>
                                             </div>
+                                            <template v-if="item.toggle">
+                                                <hr>
+                                                <div>
+                                                    <template v-if="item.link">
+                                                        <router-link :to="item.link">Details</router-link>
+                                                    </template>
+                                                    <p class="msg-info">{{item.notification}}</p>
+                                                </div>
+                                            </template>
                                         </a>
                                     </template>
                                 </div>
