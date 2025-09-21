@@ -67,7 +67,7 @@ class ModuleSeeder extends Seeder
                         'link' => '/roles',
                         'permissions' => array_merge($resourcePermissions, []),
                         'icon' => 'bx bx-radio-circle',
-                        "component" => "views/pages/rbac/Module.vue",
+                        "component" => "views/pages/rbac/RoleList.vue",
                         'meta' => [
                             "dataUrl" => "api/roles",
                         ]
@@ -77,7 +77,7 @@ class ModuleSeeder extends Seeder
                         'link' => '/module_permissions',
                         'permissions' => array_merge($resourcePermissions, []),
                         'icon' => 'bx bx-radio-circle',
-                        "component" => "views/pages/rbac/Module.vue",
+                        "component" => "views/pages/rbac/ModulePermision.vue",
                         'meta' => [
                             "dataUrl" => "api/module_permissions",
                         ]
@@ -87,7 +87,7 @@ class ModuleSeeder extends Seeder
                         'link' => '/role_permissions',
                         'permissions' => array_merge($resourcePermissions, []),
                         'icon' => 'bx bx-radio-circle',
-                        "component" => "views/pages/rbac/Module.vue",
+                        "component" => "views/pages/rbac/rolePermissions.vue",
                         'meta' => [
                             "dataUrl" => "api/role_permissions",
                         ]
