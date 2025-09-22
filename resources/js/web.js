@@ -14,7 +14,7 @@ const { addLocaleToJson, loadLocaleMessages } = useInitials();
 // Router
 
 const router = createRouter({
-    history: createWebHistory('/auth'),
+    history: createWebHistory('/'),
     routes: routes,
     linkActiveClass: 'mm-active',
     linkExactActiveClass: ''

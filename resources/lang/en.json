@@ -56,5 +56,17 @@
     "invisible": "Invisible",
     "total": "Total",
     "showing": "Showing",
-    "per_page": "Per Page"
+    "per_page": "Per Page",
+    "meter_management": "Meter Management",
+    "Name": "Name",
+    "Email": "Email",
+    "Username": "Username",
+    "Phone": "Phone",
+    "Opening Date": "Opening Date",
+    "Actions": "Actions",
+    "Super Admin": "Super Admin",
+    "TMSS ICT": "TMSS ICT",
+    "activities": "Activities",
+    "profile": "Profile",
+    "invoice": "Invoice"
 }

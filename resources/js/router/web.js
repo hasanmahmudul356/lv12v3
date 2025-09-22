@@ -2,13 +2,11 @@ export const routes = [
     {
         path: '/',
         name: 'home',
-        component: () => import('@/views/layouts/AppLayouts.vue'),
-        children: [
-            {
-                path: '',
-                name: 'dashboard',
-                component: () => import('@/views/pages/Dashboard.vue')
-            },
-        ]
+        component: () => import('@/web/Home.vue')
+    },
+    {
+        path: '/about',
+        name: 'about',
+        component: () => import('@/web/Profile.vue')
     }
 ];
