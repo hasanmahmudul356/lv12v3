@@ -28,6 +28,14 @@ export function appStore() {
             store.commit('allMenus', value);
         }
     });
+    const Permissions = computed({
+        get() {
+            return store.getters.Config.permissions;
+        },
+        set(value) {
+            store.commit('Permissions', value);
+        }
+    });
     const formObject = computed({
         get: () => store.state.formObject,
         set: (val) => store.commit('setForm', val)
@@ -58,6 +66,7 @@ export function appStore() {
         formObject,
         dataList,
         allMenus,
+        Permissions,
         useGetters,
         setState,
         formObjectField,

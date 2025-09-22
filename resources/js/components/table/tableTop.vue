@@ -3,6 +3,7 @@
     const props = defineProps({
         formObject: {type: Object, default: () => ({})},
         defaultObject: {type: Object, default: () => ({})},
+        defaultAddButton: {type: Boolean, default: true},
     });
 
     const {_l, openModal, formFilter, getDataList, httpRequest} = {
@@ -35,7 +36,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3 text-end">
+            <div class="col-md-3 text-end" v-if="defaultAddButton">
                 <a @click="openModal({defaultObject : defaultObject})" class="btn btn-outline-secondary radius-30 mt-2 mt-lg-0 text-uppercase"><i class="bx bxs-plus-square"></i>{{_l('add_new')}}</a>
             </div>
         </div>

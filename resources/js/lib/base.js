@@ -13,7 +13,7 @@ export function useBase() {
     const store = useStore();
     const { t } = useI18n();
 
-    let {formObject, assignStore, resetValidation} = {...appStore(), ...useValidator()};
+    let {formObject, assignStore, resetValidation,Permissions} = {...appStore(), ...useValidator()};
 
     const toaster = (type = 'success', message = false, title = false) => {
         if (!message) return;
@@ -37,6 +37,12 @@ export function useBase() {
     const _l = (key, fallback = '') => {
         if (!key) return fallback;
         return t(key) || fallback;
+    };
+
+    const can = (permission) => {
+        if (!permission) return false;
+        if (Permissions.value === undefined || Permissions.value.length === 0) return false;
+        return Permissions.value.includes(permission);
     };
 
     const getImage = (imagePath = null, alternative = false) => {
@@ -171,6 +177,7 @@ export function useBase() {
         getImage,
         openFile,
         toaster,
+        can,
         openModal,
         closeModal,
         handelConfirm,
