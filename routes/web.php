@@ -6,16 +6,27 @@ Route::get('/locale.json', [\App\Http\Controllers\SupportController::class, 'get
 Route::get('/update.json', [\App\Http\Controllers\SupportController::class, 'addLocalization']);
 Route::get('/routes.json', [\App\Http\Controllers\SupportController::class, 'getRoutes']);
 Route::get('/load.json', [\App\Http\Controllers\SupportController::class, 'loadJson']);
-
+//Route::get('/', [\App\Http\Controllers\FrontendController::class, 'index'])->name('home');
 Route::middleware('guest')->group(function () {
-    Route::get('/', function () {
-        return redirect(\route('login'));
-    })->name('login');
-    Route::get('login', [\App\Http\Controllers\Backend\AuthController::class, 'login'])->name('login');
-    Route::post('login', [\App\Http\Controllers\Backend\AuthController::class, 'doLogin'])->name('login.submit');
+    Route::get('/', [\App\Http\Controllers\FrontendController::class, 'index'])->name('index');
+    Route::get('/login', [\App\Http\Controllers\FrontendController::class, 'login'])->name('login');
+    Route::post('/login', [\App\Http\Controllers\FrontendController::class, 'doLogin']);
+    Route::get('/register', [\App\Http\Controllers\FrontendController::class, 'register']);
+    Route::post('/register', [\App\Http\Controllers\FrontendController::class, 'doRegistration']);
+    Route::middleware([\App\Http\Middleware\WebUserMiddleware::class])->group(function () {
+        Route::get('/webUser/profile', [\App\Http\Controllers\FrontendController::class, 'profile']);
+
+    });
+
+    Route::get('admin', [\App\Http\Controllers\Backend\AuthController::class, 'login'])->name('login');
+    Route::post('admin', [\App\Http\Controllers\Backend\AuthController::class, 'doLogin'])->name('login.submit');
+
+//    Route::get('login', [\App\Http\Controllers\FrontendController::class, 'login'])->name('front.login');
+//    Route::get('register', [\App\Http\Controllers\FrontendController::class, 'register'])->name('front.register');
+
 });
 Route::middleware([\App\Http\Middleware\AuthMiddleware::class, \App\Http\Middleware\LogActivity::class])->group(function () {
-    Route::get('/app/{any?}', [\App\Http\Controllers\Backend\DashboardController::class, 'singleApp'])
+    Route::get('/admin/{any?}', [\App\Http\Controllers\Backend\DashboardController::class, 'singleApp'])
         ->where('any', '.*')->name('home');
     Route::get('/auth/{any?}', [\App\Http\Controllers\Backend\DashboardController::class, 'employeeApp'])
         ->where('any', '.*')->name('employee_home');
@@ -29,7 +40,6 @@ Route::middleware([\App\Http\Middleware\AuthMiddleware::class, \App\Http\Middlew
         Route::resource('app_notification', \App\Http\Controllers\AppNotificationController::class);
         Route::get('dashboard', [\App\Http\Controllers\SupportController::class, 'appDashboard']);
         Route::get('activities', [\App\Http\Controllers\SupportController::class, 'userActivities']);
-
 
 
         Route::resource('settings', \App\Http\Controllers\SettingController::class);

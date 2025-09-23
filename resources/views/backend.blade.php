@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="{{assets('backend/images/favicon-32x32.png')}}" type="image/png" />
+    <title>Dashtrans - Bootstrap5 Admin Template</title>
     <link href="{{assets('backend/plugins/simplebar/css/simplebar.css')}}" rel="stylesheet" />
     <link href="{{assets('backend/plugins/perfect-scrollbar/css/perfect-scrollbar.css')}}" rel="stylesheet" />
     <link href="{{assets('backend/plugins/metismenu/css/metisMenu.min.css')}}" rel="stylesheet" />
@@ -27,8 +28,6 @@
             });
         }
     </script>
-
-    <title>Dashtrans - Bootstrap5 Admin Template</title>
 </head>
 
 <body class="{{auth()->user()->theme}}">
