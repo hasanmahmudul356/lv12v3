@@ -17,7 +17,7 @@ const router = createRouter({
     history: createWebHistory('/auth'),
     routes: routes,
     linkActiveClass: 'mm-active',
-    linkExactActiveClass: ''
+    linkExactActiveClass: 'active'
 });
 
 // Plugins
@@ -51,7 +51,7 @@ async function bootstrap() {
             messages: { [locale]: enMessages },
             missing: async (locale, key) => {
                 if (locale === 'en') {
-                    await addLocaleToJson(key);
+                    // await addLocaleToJson(key);
                 }
                 return key; // Return key instead of 'missing:' prefix
             }

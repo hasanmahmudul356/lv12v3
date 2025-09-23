@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 
 class FrontendController extends Controller
 {
+    public function authApp(){
+        return view('frontend');
+    }
     public function index(){
         return view('web.index');
     }

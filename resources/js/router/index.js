@@ -11,7 +11,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
-  history: createWebHistory('/app'),
+  history: createWebHistory('/admin'),
   routes: [],
   linkActiveClass: 'mm-active',
   linkExactActiveClass: ''

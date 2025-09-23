@@ -1,14 +1,30 @@
 export const routes = [
     {
-        path: '/',
-        name: 'home',
-        component: () => import('@/views/layouts/AppLayouts.vue'),
+        path: "/",
+        name: "app",
+        component: () => import('@/web/layouts/webLayouts.vue'),
         children: [
             {
-                path: '',
+                path: '/dashboard',
                 name: 'dashboard',
-                component: () => import('@/views/pages/Dashboard.vue')
+                component: () => import('@/web/Dashboard.vue')
             },
+            {
+                path: '/profile',
+                name: 'profile',
+                component: () => import('@/web/Profile.vue')
+            },
+            {
+                path: '/complains',
+                name: 'complains',
+                component: () => import('@/web/Complains.vue')
+            },
+            {
+                path: '/complain-add',
+                name: 'complains_add',
+                component: () => import('@/web/ComplainAdd.vue')
+            }
         ]
     }
+
 ];
