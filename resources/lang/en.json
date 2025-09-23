@@ -56,5 +56,16 @@
     "invisible": "Invisible",
     "total": "Total",
     "showing": "Showing",
-    "per_page": "Per Page"
+    "per_page": "Per Page",
+    "notifications": "Notifications",
+    "key": "Key",
+    "type": "Type",
+    "setting_type": "Setting Type",
+    "value": "Value",
+    "visibility": "Visibility",
+    "general_setting": "General Setting",
+    "app_name": "App Name",
+    "app_logo": "App Logo",
+    "notification_setting": "Notification Setting",
+    "notify_per_minuit": "Notify Per Minuit"
 }
