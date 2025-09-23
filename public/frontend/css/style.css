@@ -6329,3 +6329,58 @@ select {
 .primary-menu a img {
   max-height: 63px;
 }
+
+
+img.img-thumbnail {
+  padding: 10px;
+  background: #f7f7f7;
+  width: 70% !important;
+  border-radius: 50px;
+}
+
+.page-heading-content {
+  text-transform: uppercase;
+}
+
+hr {
+  margin: 10px;
+}
+
+@media only screen and (max-width: 770px) {
+  .mobile-hidden {
+    display: none;
+  }
+}
+.mobile-block{
+  display: none;
+}
+@media only screen and (max-width: 768px) {
+  .mobile-block {
+    display: block;
+  }
+}
+
+hr {
+  border-top: 2px solid;
+}
+.header-section h2 {
+  font-size: 28px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+ul.my-account-navigation.nav li {
+  border-bottom: 0.5px solid #e5e5e5;
+}
+
+ul.my-account-navigation.nav li:hover {
+  background: #ddd;
+}
+ul.my-account-navigation.nav li:has(a.active) {
+  background: #ddd;
+}
+
+ul.my-account-navigation.nav li a {
+  padding: 10px;
+  font-size: 15px;
+  font-weight: 500;
+}

@@ -68,5 +68,9 @@
     "TMSS ICT": "TMSS ICT",
     "activities": "Activities",
     "profile": "Profile",
-    "invoice": "Invoice"
+    "invoice": "Invoice",
+    "Display Name": "Display Name",
+    "Status": "Status",
+    "Permitted Roles": "Permitted Roles",
+    "Permissions": "Permissions"
 }

@@ -16,11 +16,15 @@ Route::middleware('guest')->group(function () {
     Route::get('register', [\App\Http\Controllers\FrontendController::class, 'register'])->name('front.register');
 
 });
-Route::middleware([\App\Http\Middleware\AuthMiddleware::class, \App\Http\Middleware\LogActivity::class])->group(function () {
+
+Route::middleware([\App\Http\Middleware\WebAuth::class])->group(function (){
+    Route::get('/auth/{any?}', [\App\Http\Controllers\FrontendController::class, 'authApp'])
+        ->where('any', '.*')->name('web_home');
+});
+
+Route::middleware([\App\Http\Middleware\AdminAuth::class, \App\Http\Middleware\LogActivity::class])->group(function () {
     Route::get('/admin/{any?}', [\App\Http\Controllers\Backend\DashboardController::class, 'singleApp'])
         ->where('any', '.*')->name('home');
-    Route::get('/auth/{any?}', [\App\Http\Controllers\Backend\DashboardController::class, 'employeeApp'])
-        ->where('any', '.*')->name('employee_home');
 
     Route::get('logout', [\App\Http\Controllers\Backend\AuthController::class, 'logout'])->name('logout');
 
