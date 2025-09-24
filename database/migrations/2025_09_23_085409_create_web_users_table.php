@@ -18,7 +18,6 @@ return new class extends Migration
             $table->bigInteger('phone')->unique();
             $table->integer('status')->default(1)->comment('1=Active, 0=InActive');
             $table->string('password');
-            $table->_token();
             $table->timestamps();
         });
     }

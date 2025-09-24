@@ -41,7 +41,7 @@ class FrontendController extends Controller
             'phone' => $request->input('phone'),
             'password' => $request->input('password'),
         ];
-        if (Auth::guard('webUser')->attempt($creadiantials)) {
+        if (Auth::guard( 'auth')->attempt($creadiantials)) {
             session()->flash('success', 'Successfully Login');
             return redirect('auth/dashboard');
         }

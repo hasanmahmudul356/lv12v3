@@ -42,9 +42,9 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-        'webUser' => [
+        'auth' => [
             'driver' => 'session',
-            'provider' => 'web_users',
+            'provider' => 'auth',
         ],
     ],
 
@@ -70,7 +70,7 @@ return [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
-        'web_users' => [
+        'auth' => [
             'driver' => 'eloquent',
             'model' => App\Models\WebUser::class,
         ],

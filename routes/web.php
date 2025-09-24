@@ -13,10 +13,6 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [\App\Http\Controllers\FrontendController::class, 'doLogin']);
     Route::get('/register', [\App\Http\Controllers\FrontendController::class, 'register']);
     Route::post('/register', [\App\Http\Controllers\FrontendController::class, 'doRegistration']);
-    Route::middleware([\App\Http\Middleware\WebUserMiddleware::class])->group(function () {
-        Route::get('/auth/dashboard', [\App\Http\Controllers\FrontendController::class, 'profile']);
-
-    });
 
     Route::get('admin', [\App\Http\Controllers\Backend\AuthController::class, 'login'])->name('login');
     Route::post('admin', [\App\Http\Controllers\Backend\AuthController::class, 'doLogin'])->name('login.submit');
