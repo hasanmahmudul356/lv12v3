@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\ComplainUser;
+
 return [
 
     /*
@@ -40,6 +42,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'webUser' => [
+            'driver' => 'session',
+            'provider' => 'web_users',
+        ],
     ],
 
     /*
@@ -63,6 +69,10 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
+        ],
+        'web_users' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\WebUser::class,
         ],
 
         // 'users' => [

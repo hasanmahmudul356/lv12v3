@@ -9,20 +9,30 @@
 
         <!--Comment Form Start-->
         <div class="contact-form col-lg-8 mx-auto">
-            <form id="contact-form" action="https://htmldemo.net/edwards/edwards/assets/php/contact-mail.php" method="post">
+            <form id="contact-form" action="{{url("register")}}" method="post">
+                @csrf
                 <div class="row mbn-10">
                     <div class="col-12 mb-10">
-                        <input type="text" name="name" placeholder="Name">
+                        <input type="text" name="name" placeholder="Name" required>
+                        <span class="text-danger">{{$errors->has('name') ? $errors->first('name') : ''}}</span>
                     </div>
                     <div class="col-12 mb-10">
-                        <input type="email" name="email" placeholder="Email Address">
+                        <input type="email" name="email" placeholder="Email Address" required>
+                        <span class="text-danger">{{$errors->has('email') ? $errors->first('email') : ''}}</span>
                     </div>
                     <div class="col-12 mb-10">
-                        <input type="number" name="phone" placeholder="Phone Number">
+                        <input type="number" name="phone" minlength="11" maxlength="11" placeholder="Phone Number" required>
+                        <span class="text-danger">{{$errors->has('phone') ? $errors->first('phone') : ''}}</span>
                     </div>
                     <div class="col-12 mb-10">
-                        <input type="password" name="password" placeholder="Password">
+                        <input type="password" name="password" placeholder="Password" required>
+                        <span class="text-danger">{{$errors->has('password') ? $errors->first('password') : ''}}</span>
                     </div>
+                    <div class="col-12 mb-10">
+                        <input type="password" name="password_confirmation" placeholder="Confirm Password" required>
+                        <span class="text-danger">{{$errors->has('password_confirmation') ? $errors->first('password_confirmation') : ''}}</span>
+                    </div>
+                    <input type="hidden" name="remember_token" value="some_random_token_here">
                     <div class="col-12 mb-10">
                         <button class="btn btn-primary w-100" type="submit">REGISTER</button>
                     </div>

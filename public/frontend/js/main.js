@@ -1,21 +1,21 @@
 (function ($) {
     "use strict";
-    
+
     /*--
         Commons Variables
     -----------------------------------*/
 	var $window = $(window),
 		$body = $('body'),
 		$mainWrapper = $('.main-wrapper');
-    
+
 	/*Custom script to call Background Image form html data attribute*/
     $('[data-bg-image]').each(function () {
         var $this = $(this),
             $image = $this.data('bg-image');
         $this.css('background-image', 'url(' + $image + ')');
-        
+
     });
-    
+
 	/*--
 		Header Search
     -----------------------------------*/
@@ -32,7 +32,7 @@
 		});
 	}
 	headerSearch();
-    
+
 	/*--
 		Mobile OffCanvas Open
     -----------------------------------*/
@@ -49,7 +49,7 @@
 		});
 	}
 	mobileOffCanvasToggle();
-	
+
 	/*--
         Off Canvas Menu
     -----------------------------------*/
@@ -80,7 +80,7 @@
 		});
 	}
 	mobileOffCanvasMenu();
-	
+
 	/*--
 		Shipping Form Toggle
     -----------------------------------*/
@@ -101,10 +101,10 @@
 	function paymentMethod() {
 		var $methodTrigger = $('[name="payment-method"]'),
 			$activeMethodTrigger = $('[name="payment-method"]:checked');
-		
+
 		$methodTrigger.parent().css('padding-bottom', '0px').siblings('.payment-info').hide();
 		$activeMethodTrigger.parent().css('padding-bottom', '10px').siblings('.payment-info').show();
-		
+
 		$methodTrigger.on('click', function(){
 			var $this = $(this);
 			$this.parent().css('padding-bottom', '10px').siblings('.payment-info').slideDown();
@@ -112,11 +112,11 @@
 		});
 	}
 	paymentMethod();
-    
+
 	/*--
 		Slide Slider Activation
     -----------------------------------*/
-    
+
     // Hero Slider
     $('.hero-slider').slick({
         //autoplay: true,
@@ -135,14 +135,14 @@
     }).on('afterChange', function (event, slick, currentSlide) {
 		new WOW().init();
 	});
-    
+
     // News Media Slider
     $('.news-media-slider').slick({
         autoplay: true,
         prevArrow: '<button class="slick-prev"><i class="fa fa-chevron-left"></i></button>',
         nextArrow: '<button class="slick-next"><i class="fa fa-chevron-right"></i></button>'
     });
-	
+
 	// Single Product Gallery
     $('.single-product-gallery').slick({
         arrows: false,
@@ -150,7 +150,7 @@
 		touchMove: false,
 		asNavFor: '.single-product-thumb'
     });
-	
+
 	// Single Product Thumb
     $('.single-product-thumb').slick({
         arrows: false,
@@ -159,7 +159,7 @@
 		slidesToScroll: 1,
 		focusOnSelect: true
     });
-	
+
 	// Product Slider 4 Column
     $('.product-slider').slick({
         autoplay: true,
@@ -187,7 +187,7 @@
 			}
 		]
     });
-	
+
 	// Testimonial Slider
     $('.testimonial-slider').slick({
         autoplay: true,
@@ -223,7 +223,7 @@
 			}
 		]
     });
-	
+
 	// Partner Slider
     $('.partner-slider').slick({
         autoplay: true,
@@ -251,18 +251,18 @@
 			}
 		]
     });
-	
+
 	/*--
 		Counter Activation
     -----------------------------------*/
 	$('.counter').counterUp({
 		'time': 2000
 	});
-	
+
 	/*--
 		MagnificPopup Activation
     -----------------------------------*/
-	
+
 	// Single Image Popup
 	$('.single-popup').magnificPopup({
 		type: 'image',
@@ -271,9 +271,9 @@
 		image: {
 			verticalFit: true
 		}
-		
+
 	});
-	
+
 	// Gallery Image Popup
 	$('.popup-gallery').magnificPopup({
 		delegate: 'a',
@@ -292,19 +292,19 @@
 			}
 		}
 	});
-	
+
 	// Single Video Popup
 	$('.video-popup').magnificPopup({
 		type: 'iframe',
 		closeOnContentClick: true,
 		mainClass: 'mfp-img-mobile'
 	});
-    
+
 	/*--
 		WOW Activation
     -----------------------------------*/
     new WOW().init();
-	
+
 	/*--
 		Pricing Slider Activation
     -----------------------------------*/
@@ -317,12 +317,12 @@
 		from: 50,
 		to: 440
     });
-    
+
 	/*--
 		Single Product Zoom Actiovation
     -----------------------------------*/
 	$('.product-zoom').zoom();
-    
+
     /*--
         MailChimp
     -----------------------------------*/
@@ -339,9 +339,9 @@
             $('.mailchimp-error').fadeOut(400);
         } else if(resp.result === 'error') {
             $('.mailchimp-error').html('' + resp.msg).fadeIn(900);
-        }  
+        }
     }
-    
+
     /*--
         Scroll To Top
     -----------------------------------*/
@@ -359,50 +359,50 @@
 			$("html, body").animate({ scrollTop: 0}, 'slow');
 		});
 	})();
-    
+
     /*--
-        Ajax Contact Form 
+        Ajax Contact Form
     -----------------------------------*/
-    $(function() {
-        // Get the form.
-        var form = $('#contact-form, #evaluation-form');
-        // Get the messages div.
-        var formMessages = $('.form-message');
-        // Set up an event listener for the contact form.
-        $(form).submit(function(e) {
-            // Stop the browser from submitting the form.
-            e.preventDefault();
-            // Serialize the form data.
-            var formData = $(form).serialize();
-            // Submit the form using AJAX.
-            $.ajax({
-                type: 'POST',
-                url: $(form).attr('action'),
-                data: formData
-            })
-            .done(function(response) {
-                // Make sure that the formMessages div has the 'success' class.
-                formMessages.removeClass('error text-danger d-none').addClass('success text-success d-block');
-                // Set the message text.
-                formMessages.text(response);
-                // Clear the form.
-                $(form).find('input:not([type=submit]), textarea').val('');
-            })
-            .fail(function(data) {
-                // Make sure that the formMessages div has the 'error' class.
-                formMessages.removeClass('success text-success d-none').addClass('error text-danger d-block');
-                // Set the message text.
-                if (data.responseText !== '') {
-                    formMessages.text(data.responseText);
-                } else {
-                    formMessages.text('Oops! An error occured and your message could not be sent.');
-                }
-            });
-        });
-    });
-	
+    // $(function() {
+    //     // Get the form.
+    //     var form = $('#contact-form, #evaluation-form');
+    //     // Get the messages div.
+    //     var formMessages = $('.form-message');
+    //     // Set up an event listener for the contact form.
+    //     $(form).submit(function(e) {
+    //         // Stop the browser from submitting the form.
+    //         e.preventDefault();
+    //         // Serialize the form data.
+    //         var formData = $(form).serialize();
+    //         // Submit the form using AJAX.
+    //         $.ajax({
+    //             type: 'POST',
+    //             url: $(form).attr('action'),
+    //             data: formData
+    //         })
+    //         .done(function(response) {
+    //             // Make sure that the formMessages div has the 'success' class.
+    //             formMessages.removeClass('error text-danger d-none').addClass('success text-success d-block');
+    //             // Set the message text.
+    //             formMessages.text(response);
+    //             // Clear the form.
+    //             $(form).find('input:not([type=submit]), textarea').val('');
+    //         })
+    //         .fail(function(data) {
+    //             // Make sure that the formMessages div has the 'error' class.
+    //             formMessages.removeClass('success text-success d-none').addClass('error text-danger d-block');
+    //             // Set the message text.
+    //             if (data.responseText !== '') {
+    //                 formMessages.text(data.responseText);
+    //             } else {
+    //                 formMessages.text('Oops! An error occured and your message could not be sent.');
+    //             }
+    //         });
+    //     });
+    // });
+
 	/*--
-		Contact Map Activation 
+		Contact Map Activation
     -----------------------------------*/
 	if ($('#contact-map').length) {
 		var myCenter = new google.maps.LatLng(42.0258352, -93.6613958);
@@ -602,6 +602,6 @@
 		}
 		google.maps.event.addDomListener(window, 'load', initialize);
 	}
-    
-    
+
+
 })(jQuery);

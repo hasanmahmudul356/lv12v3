@@ -9,7 +9,7 @@
 
             <!--Hot Questions Accordion Start-->
             <div id="hot-questions-accordion" class="accordion text-center">
-                <div class="card">
+                <div class="card">                                              profile
                     <div class="card-header">
                         <a data-bs-toggle="collapse" href="#application-process-one">Submit Complaint (with option to hide your information)</a>
                     </div>

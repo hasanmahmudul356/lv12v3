@@ -56,8 +56,6 @@
     "invisible": "Invisible",
     "total": "Total",
     "showing": "Showing",
-    "per_page": "Per Page",
-
     "notifications": "Notifications",
     "key": "Key",
     "type": "Type",
@@ -69,6 +67,7 @@
     "app_logo": "App Logo",
     "notification_setting": "Notification Setting",
     "notify_per_minuit": "Notify Per Minuit",
+    "per_page": "Per Page",
 
     "meter_management": "Meter Management",
     "Name": "Name",
@@ -81,6 +80,7 @@
     "TMSS ICT": "TMSS ICT",
     "activities": "Activities",
     "profile": "Profile",
+
     "invoice": "Invoice",
     "Display Name": "Display Name",
     "Status": "Status",
@@ -88,3 +88,4 @@
     "Permissions": "Permissions"
 
 }
+
