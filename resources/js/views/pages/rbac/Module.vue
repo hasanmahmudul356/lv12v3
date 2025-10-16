@@ -9,7 +9,7 @@
     const store  = useStore();
     const router  = useRouter();
 
-    const {_l, useGetters, getDataList, submitForm, editData, deleteRecord, getDependency,changeStatus, openModal, handleSelectAll, statusBadge, deleteAllRecords} = {
+    const {_l, useGetters, getDataList,copiedItem,copyText, submitForm, editData, deleteRecord, getDependency,changeStatus, openModal, handleSelectAll, statusBadge, deleteAllRecords} = {
         ...appStore(),
         ...useHttp(),
         ...useBase()
@@ -44,7 +44,11 @@
                     <td class="checkbox">
                         <input :checked="item.checked" @change="handleSelectAll($event, [item])" class="form-check-input me-3 pointer" type="checkbox"/></td>
                     <td>{{ _l(item.name) }}</td>
-                    <td>{{ item.name }}</td>
+<!--                    <td class="pointer" @click="copyText(item.name)">-->
+<!--                        <span v-if="copiedItem === item.name" class="badge bg-success rounded-pill px-3" >Copied</span>-->
+<!--                        <span v-else>{{ item.name }}</span>-->
+<!--                    </td>-->
+                    <td class="pointer"  >{{ item.name }}</td>
                     <td><a @click="changeStatus({obj:item})" class="pointer" v-html="statusBadge(item.status)"></a></td>
                     <td><a @click="changeStatus({obj:item, column:'is_visible'})" class="pointer" v-html="statusBadge(item.is_visible, 'visible', 'invisible')"></a></td>
                     <td>

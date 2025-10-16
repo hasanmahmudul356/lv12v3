@@ -6,7 +6,7 @@ import {appStore, useValidator} from "@/lib";
 import {useStore} from 'vuex';
 
 import { useI18n } from 'vue-i18n'
-
+import { ref } from 'vue'
 
 export function useBase() {
     const toast = useToast();
@@ -171,6 +171,41 @@ export function useBase() {
     const clickFile = (inputId) => {
         $(`#${inputId}`).click();
     };
+const copiedItem = ref(null);
+    const copyText = async (inputText) => {
+        try {
+            if (!inputText) return "N/A";
+            await navigator.clipboard.writeText(inputText);
+            copiedItem.value = inputText
+
+            setTimeout(() => {
+                copiedItem.value = null
+            }, 2000);
+        } catch (err) {
+            console.error('Failed to copy text: ', err);
+            return `<span class="badge rounded-pill p-2 text-uppercase px-3">Failed</span>`;
+        }
+    };
+
+    const dateFormat= (inputDate) =>{
+        if (!inputDate) return "N/A";
+        const date = new Date(inputDate);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        return `${day}-${month}-${year}`;
+    };
+    const dateTimeFormat= (inputDate) =>{
+        if (!inputDate) return "N/A";
+        const date = new Date(inputDate);
+        return date.toLocaleString();
+    };
+    const characterLimit = (inputText, limit) => {
+        if (typeof inputText !== "string") return "";
+        return inputText.length > limit
+            ? inputText.slice(0, limit) + "..."
+            : inputText;
+    };
 
     return {
         _l,
@@ -183,6 +218,11 @@ export function useBase() {
         handelConfirm,
         handleSelectAll,
         statusBadge,
-        clickFile
+        clickFile,
+        copyText,
+        copiedItem,
+        dateFormat,
+        dateTimeFormat,
+        characterLimit
     };
 }

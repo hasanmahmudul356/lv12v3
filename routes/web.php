@@ -8,9 +8,10 @@ Route::get('/routes.json', [\App\Http\Controllers\SupportController::class, 'get
 Route::get('/load.json', [\App\Http\Controllers\SupportController::class, 'loadJson']);
 
 Route::middleware('guest')->group(function () {
-    Route::get('/', function () {
-        return redirect(\route('login'));
-    })->name('login');
+//    Route::get('/', function () {
+//        return redirect(\route('login'));
+//    })->name('login');
+    Route::get('/', [\App\Http\Controllers\Backend\AuthController::class, 'login'])->name('login');
     Route::get('login', [\App\Http\Controllers\Backend\AuthController::class, 'login'])->name('login');
     Route::post('login', [\App\Http\Controllers\Backend\AuthController::class, 'doLogin'])->name('login.submit');
 });

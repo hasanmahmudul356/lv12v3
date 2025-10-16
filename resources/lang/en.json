@@ -55,5 +55,7 @@
     "app_name": "App Name",
     "app_logo": "App Logo",
     "notification_setting": "Notification Setting",
-    "notify_per_minuit": "Notify Per Minuit"
+    "notify_per_minuit": "Notify Per Minuit",
+    "superadmin": "Superadmin",
+    "inactive": "Inactive"
 }
